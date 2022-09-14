@@ -1,5 +1,5 @@
 # Dependencies
-OpenGL, GLEW, GLFW, GLM 
+GLEW 2.1.0, GLFW 3.3.8, GLM 0.9.9.8
 
 ## Additional infos:
    - GLEW GLUT and GLM should be in folder C:\GL
