@@ -7,6 +7,9 @@
     <Filter Include="src\PlumPie">
       <UniqueIdentifier>{f570742c-ab18-47e8-85e0-99b9c4f0cf82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GLFW Wrappers">
+      <UniqueIdentifier>{9317eb66-b5a9-4ba4-a14c-34eba6c636a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -15,10 +18,16 @@
     <ClCompile Include="src\PlumPie\plumpie.cpp">
       <Filter>src\PlumPie</Filter>
     </ClCompile>
+    <ClCompile Include="src\GLFW Wrappers\Window.cpp">
+      <Filter>src\GLFW Wrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PlumPie\plumpie.hpp">
       <Filter>src\PlumPie</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLFW Wrappers\Window.hpp">
+      <Filter>src\GLFW Wrappers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
