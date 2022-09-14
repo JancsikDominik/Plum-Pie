@@ -1,2 +1,2 @@
-# Plum-Pie
-3d rendering
+# Dependencies
+OpenGL
