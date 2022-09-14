@@ -18,16 +18,22 @@
     <ClCompile Include="src\PlumPie\plumpie.cpp">
       <Filter>src\PlumPie</Filter>
     </ClCompile>
-    <ClCompile Include="src\GLFW Wrappers\Window.cpp">
+    <ClCompile Include="src\GLFWWrappers\Window.cpp">
       <Filter>src\GLFW Wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\3DObjects\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PlumPie\plumpie.hpp">
       <Filter>src\PlumPie</Filter>
     </ClInclude>
-    <ClInclude Include="src\GLFW Wrappers\Window.hpp">
+    <ClInclude Include="src\GLFWWrappers\Window.hpp">
       <Filter>src\GLFW Wrappers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\Renderer.hpp" />
+    <ClInclude Include="src\3DObjects\Vertex.hpp" />
+    <ClInclude Include="src\3DObjects\Mesh.hpp" />
+    <ClInclude Include="src\Types.hpp" />
   </ItemGroup>
 </Project>

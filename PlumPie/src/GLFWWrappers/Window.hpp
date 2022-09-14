@@ -17,11 +17,16 @@ namespace Plum::GLFW
 			Window& operator=(Window& other) = delete;
 			Window& operator=(Window&& other) noexcept;
 
-			[[nodiscard]] const char** GetRequiredExtensions() const;
-			[[nodiscard]] bool ShouldClose() const;
+			const char** GetRequiredExtensions() const;
+			bool ShouldClose() const;
 			void SetFullscreen();
 			void MakeContextCurrent() const;
 			void SwapBuffers() const;
+
+			void SetVsync(const bool isEnabled);
+			bool IsVsync() const { return mIsVsyncOn; }
+
+			void Resize(int newWidth, int newHeight);
 
 		private:
 			// methods
@@ -44,6 +49,7 @@ namespace Plum::GLFW
 			int mHeight;
 			glm::vec2 mPos = glm::vec2(1280, 960);
 			bool mFullscreen = false;
+			bool mIsVsyncOn = true;
 		};
 }
 

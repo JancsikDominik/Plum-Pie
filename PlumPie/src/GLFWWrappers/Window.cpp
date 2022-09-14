@@ -14,6 +14,7 @@ namespace Plum::GLFW
 				CreateWindow();
 				SetWindowSizeCallback();
 				SetKeyCallback();
+				SetVsync(true);
 		}
 
 		Window::~Window()
@@ -103,6 +104,19 @@ namespace Plum::GLFW
 		void Window::SwapBuffers() const
 		{
 			glfwSwapBuffers(mWindow);
+		}
+
+		void Window::SetVsync(const bool isEnabled)
+		{
+			mIsVsyncOn = isEnabled;
+			glfwSwapInterval(isEnabled ? 1 : 0);
+		}
+
+		void Window::Resize(int newWidth, int newHeight)
+		{
+			glViewport(0, 0, newWidth, newHeight);
+			mWidth  = newWidth;
+			mHeight = newHeight;
 		}
 
 		void Window::InitGLFW() const
