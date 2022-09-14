@@ -1,2 +1,2 @@
 # Dependencies
-OpenGL
+OpenGL, GLEW, GLUT, GLM 

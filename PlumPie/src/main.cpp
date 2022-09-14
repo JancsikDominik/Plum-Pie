@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "PlumPie/plumpie.hpp"
 
 int main()
