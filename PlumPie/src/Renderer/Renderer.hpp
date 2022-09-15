@@ -2,12 +2,15 @@
 #define PLUMPIE_RENDERE
 
 #include <GL/glew.h>
-#include "../GLFWWrappers/Window.hpp"
-#include "../3DObjects/Vertex.hpp"
-#include "../3DObjects/Mesh.hpp"
-#include "../Types.hpp"
 #include <memory>
-#include <vector>
+
+#include "GLFWWrappers/Window.hpp"
+#include "3DObjects/Vertex.hpp"
+#include "3DObjects/Mesh.hpp"
+
+#include "Types.hpp"
+#include "VAO.hpp"
+#include "VBO.hpp"
 
 
 namespace Plum
@@ -23,11 +26,11 @@ namespace Plum
 
 	private:
 		std::unique_ptr<GLFW::Window> mWindow;
+		std::unique_ptr<VAO> mVAO;
+		std::unique_ptr<VBO> mVBO;
 		Color mClearColor;
 		bool mIsCullfaceEnabled;
 		bool mIsDepthTestEnabled;
-		ushort mVAOId = 0;
-		ushort mVBOId = 0;
 		ushort mProgramId = 0;
 		static constexpr ushort mPosId = 0;
 		static constexpr ushort mColorId = 1;

@@ -1,4 +1,4 @@
-#include "../GLFWWrappers/Window.hpp"
+#include "GLFWWrappers/Window.hpp"
 #include "plumpie.hpp"
 
 namespace Plum

@@ -12,6 +12,9 @@ namespace Plum
 		SetCullFace(mIsCullfaceEnabled);
 		SetDepthTest(mIsDepthTestEnabled);
 
+		mVAO = std::make_unique<VAO>();
+		mVBO = std::make_unique<VBO>();
+
 		mProgramId = glCreateProgram();
 	}
 
@@ -35,22 +38,17 @@ namespace Plum
 
 	void Renderer::Render(const Mesh& meshesToRender)
 	{
-		// reserving a VAO
-		glGenVertexArrays(1, &mVAOId);
-		// binding VAO
-		glBindVertexArray(mVAOId);
-		// reserving a VBO
-		glGenBuffers(1, &mVBOId);
-		glBindBuffer(GL_ARRAY_BUFFER, mVBOId);
+		mVAO->Bind();
+		mVBO->Bind();
 
 		const std::vector<Vertex>& vertecies = meshesToRender.GetVertecies();
 		if (vertecies.empty()) // invalid state
 			return;
 
 		// loading buffer with data
-		glBufferData(GL_ARRAY_BUFFER, vertecies.size() * sizeof(Vertex), vertecies.data(), GL_STATIC_DRAW);
-		glEnableVertexAttribArray(mPosId); // position
-		glVertexAttribPointer(mPosId, mComponentCnt, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+		mVBO->LoadBufferData(BindingTarget::ARRAY_BUFFER, vertecies, DrawType::STATIC);
+		mVBO->SetUpAttributeAtIndex(mPosId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, 0);
+		mVBO->SetUpAttributeAtIndex(mColorId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, 0);
 		glEnableVertexAttribArray(mColorId); // color
 		glVertexAttribPointer(mColorId, mComponentCnt, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>((sizeof(glm::vec3))));
 

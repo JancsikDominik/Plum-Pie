@@ -23,6 +23,8 @@
     </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\3DObjects\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\VBO.cpp" />
+    <ClCompile Include="src\Renderer\VAO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\PlumPie\plumpie.hpp">
@@ -35,5 +37,7 @@
     <ClInclude Include="src\3DObjects\Vertex.hpp" />
     <ClInclude Include="src\3DObjects\Mesh.hpp" />
     <ClInclude Include="src\Types.hpp" />
+    <ClInclude Include="src\Renderer\VBO.hpp" />
+    <ClInclude Include="src\Renderer\VAO.hpp" />
   </ItemGroup>
 </Project>
