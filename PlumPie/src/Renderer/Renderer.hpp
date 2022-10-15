@@ -9,8 +9,9 @@
 #include "3DObjects/Mesh.hpp"
 
 #include "Types.hpp"
-#include "VAO.hpp"
-#include "VBO.hpp"
+#include "VertexBufferObjectManager.hpp"
+#include "VertexArrayObject.hpp"
+#include "Program.hpp"
 
 
 namespace Plum
@@ -22,19 +23,15 @@ namespace Plum
 		void SetClearColor(Color clearColor);
 		void SetCullFace(bool enable);
 		void SetDepthTest(bool enable);
-		void Render(const Mesh& meshToRender);
+		void Render(const Mesh& meshToRender, const Program& program);
 
 	private:
-		std::unique_ptr<GLFW::Window> mWindow;
-		std::unique_ptr<VAO> mVAO;
-		std::unique_ptr<VBO> mVBO;
 		Color mClearColor;
 		bool mIsCullfaceEnabled;
 		bool mIsDepthTestEnabled;
-		ushort mProgramId = 0;
-		static constexpr ushort mPosId = 0;
-		static constexpr ushort mColorId = 1;
-		static constexpr ushort mComponentCnt = 3;
+		static constexpr uint mPosId = 0;
+		static constexpr uint mColorId = 1;
+		static constexpr uint mComponentCnt = 3;
 	};
 	
 }

@@ -5,7 +5,8 @@
 
 namespace Plum
 {
-	typedef GLuint ushort;
+	typedef GLuint uint;
+	typedef GLenum plumenum;
 }
 
 #endif

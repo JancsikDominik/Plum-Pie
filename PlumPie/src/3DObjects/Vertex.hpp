@@ -17,6 +17,21 @@ namespace Plum
 
 	struct Vertex
 	{
+		Vertex(glm::vec3 pos, Color color)
+			: pos{ pos }, color{ color }
+		{
+		}
+
+		Vertex(glm::vec3 pos)
+			:pos{ pos }, color {}
+		{
+		}
+
+		Vertex()
+			:pos{}, color{}
+		{
+		}
+
 		glm::vec3 pos;
 		Color color;
 	};

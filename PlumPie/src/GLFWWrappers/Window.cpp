@@ -4,17 +4,10 @@
 
 namespace Plum::GLFW
 {
-		Window::Window(const int width, const int height, const char* title)
-			: mTitle(title)
-			, mWidth(width)
-			, mHeight(height)
+		Window::Window()
 		{
-				InitGLFW();
-				mMonitor = glfwGetPrimaryMonitor();
-				CreateWindow();
-				SetWindowSizeCallback();
-				SetKeyCallback();
-				SetVsync(true);
+			InitGLFW();
+			SetVsync(true);
 		}
 
 		Window::~Window()
@@ -27,17 +20,11 @@ namespace Plum::GLFW
 		{
 			this->mWindow = other.mWindow;
 			this->mMonitor = other.mMonitor;
-			this->mTitle = other.mTitle;
-			this->mWidth = other.mWidth;
-			this->mHeight = other.mHeight;
 			this->mPos = other.mPos;
 			this->mFullscreen = other.mFullscreen;
 
 			other.mWindow = nullptr;
 			other.mMonitor = nullptr;
-			other.mTitle = nullptr;
-			other.mWidth = 0;
-			other.mHeight = 0;
 			other.mPos = glm::vec2(0);
 		}
 
@@ -45,17 +32,11 @@ namespace Plum::GLFW
 		{
 			this->mWindow = other.mWindow;
 			this->mMonitor = other.mMonitor;
-			this->mTitle = other.mTitle;
-			this->mWidth = other.mWidth;
-			this->mHeight = other.mHeight;
 			this->mPos = other.mPos;
 			this->mFullscreen = other.mFullscreen;
 
 			other.mWindow = nullptr;
 			other.mMonitor = nullptr;
-			other.mTitle = nullptr;
-			other.mWidth = 0;
-			other.mHeight = 0;
 			other.mPos = glm::vec2(0);
 			return *this;
 		}
@@ -78,15 +59,14 @@ namespace Plum::GLFW
 				mPos.x = static_cast<float>(x);
 				mPos.y = static_cast<float>(y);
 
-				glfwGetWindowSize(mWindow, &mWidth, &mHeight);
 				glfwSetWindowMonitor(mWindow, mMonitor, 0, 0, vidMode->width, vidMode->height, vidMode->refreshRate);
 				glfwSetWindowSize(mWindow, vidMode->width, vidMode->height);
 				mFullscreen = !mFullscreen;
 			}
 			else 
 			{
-				glfwSetWindowMonitor(mWindow, nullptr, static_cast<int>(mPos.x), static_cast<int>(mPos.y), mWidth, mHeight, 0);
-				glfwSetWindowSize(mWindow, mWidth, mHeight);
+				glfwSetWindowMonitor(mWindow, nullptr, static_cast<int>(mPos.x), static_cast<int>(mPos.y), 640, 480, 0);
+				glfwSetWindowSize(mWindow, 640, 480);
 				mFullscreen = !mFullscreen;
 			}
 		}
@@ -115,8 +95,6 @@ namespace Plum::GLFW
 		void Window::Resize(int newWidth, int newHeight)
 		{
 			glViewport(0, 0, newWidth, newHeight);
-			mWidth  = newWidth;
-			mHeight = newHeight;
 		}
 
 		void Window::InitGLFW() const
@@ -125,17 +103,6 @@ namespace Plum::GLFW
 			{
 				throw std::runtime_error("Failed to initialize GLFW!");
 			}
-		}
-
-		void Window::CreateWindow()
-		{
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			mWindow = glfwCreateWindow(mWidth, mHeight, mTitle, nullptr, nullptr);
-
-			if (!mWindow) 
-				throw std::runtime_error("Could not create GLFW window!");
-
-			glfwSetWindowUserPointer(mWindow, this);
 		}
 
 		void Window::SetWindowSizeCallback() const

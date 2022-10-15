@@ -12,6 +12,7 @@ namespace Plum
 	public:
 		const std::vector<Vertex>& GetVertecies() const;
 		void AddVertex(const Vertex& newVert);
+		void AddVertecies(const std::vector<Vertex>& vertecies);
 
 	private:
 		std::vector<Vertex> mVertecies;

@@ -1,5 +1,10 @@
+#include "PlumPie/plumpie.hpp"
 
 int main()
 {
-	return 0;
+    Plum::PlumPie pie;
+
+    pie.Run();
+
+    return 0;
 }

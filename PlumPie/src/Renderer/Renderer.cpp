@@ -11,11 +11,6 @@ namespace Plum
 
 		SetCullFace(mIsCullfaceEnabled);
 		SetDepthTest(mIsDepthTestEnabled);
-
-		mVAO = std::make_unique<VAO>();
-		mVBO = std::make_unique<VBO>();
-
-		mProgramId = glCreateProgram();
 	}
 
 	void Renderer::SetClearColor(Color clearColor)
@@ -36,37 +31,27 @@ namespace Plum
 		mIsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 	}
 
-	void Renderer::Render(const Mesh& meshesToRender)
+	void Renderer::Render(const Mesh& meshToRender, const Program& program)
 	{
-		mVAO->Bind();
-		mVBO->Bind();
+		glClear(GL_COLOR_BUFFER_BIT);
 
-		const std::vector<Vertex>& vertecies = meshesToRender.GetVertecies();
+
+		const std::vector<Vertex>& vertecies = meshToRender.GetVertecies();
 		if (vertecies.empty()) // invalid state
 			return;
 
+		program.Use();
+
 		// loading buffer with data
-		mVBO->LoadBufferData(BindingTarget::ARRAY_BUFFER, vertecies, DrawType::STATIC);
-		mVBO->SetUpAttributeAtIndex(mPosId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, 0);
-		mVBO->SetUpAttributeAtIndex(mColorId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, 0);
-		glEnableVertexAttribArray(mColorId); // color
-		glVertexAttribPointer(mColorId, mComponentCnt, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>((sizeof(glm::vec3))));
+		//mVAO->LoadBufferData(BindingTarget::ARRAY_BUFFER, vertecies, DrawType::STATIC);
+		//mVAO->SetUpAttributeAtIndex(mPosId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, 0);
+		//mVAO->SetUpAttributeAtIndex(mColorId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, sizeof(glm::vec3));
 
-		// unbinding loaded VAO
-		glBindVertexArray(0);
-		// unbinding loaded VBO
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// releasing after setup
 
-		// TODO: Load shaders (shader class, shared_ptr<Shader> fragmentShader, vertexShader)
+		//mVAO->Release();
+		//mVBO->Release();
 
-		// TODO: Make the shader class take care of most of these things (eg. fragmentShader->AttachTo(mProgramId), or fragmantShader->LinkWithProgram(m_programID);)
-		// glAttachShader(mProgramId, fragmentShaderId)
-		// glAttachShader(mProgramId, vertexShaderId)
-		// glBindAttribLocation(mProgramId, mPosId, "vs_in_pos");
-		// glBindAttribLocation(mProgramId, mColorId, "vs_in_col");
-		// glLinkProgram(mProgramId);
-		// glDeleteShader(fragmentShaderId); // mark them for deletion after load (they will only be deleted when we detach the shaders from the program)
-		// glDeleteShader(vertexShaderId);
 
 		// TODO: The actual rendering
 		// glUseProgram(mProgramId);
@@ -74,5 +59,7 @@ namespace Plum
 		// glDrawArrays(GL_TRIANGLE_FAN, 0, vertecies.size());
 		// glBindVertexArray(0);
 		// glUseProgram(0);
+
+		program.StopUsing();
 	}
 }
