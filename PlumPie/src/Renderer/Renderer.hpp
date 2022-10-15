@@ -1,15 +1,9 @@
 #ifndef PLUMPIE_RENDERE
 #define PLUMPIE_RENDERE
 
-#include <GL/glew.h>
-#include <memory>
-
-#include "GLFWWrappers/Window.hpp"
 #include "3DObjects/Vertex.hpp"
 #include "3DObjects/Mesh.hpp"
-
 #include "Types.hpp"
-#include "VertexBufferObjectManager.hpp"
 #include "VertexArrayObject.hpp"
 #include "Program.hpp"
 

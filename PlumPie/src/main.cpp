@@ -1,4 +1,4 @@
-#include <iostream>
+#include <GL/glew.h>
 
 #include "AppBase/AppBase.hpp"
 #include "Renderer/Renderer.hpp"
@@ -24,52 +24,52 @@ namespace Plum
     public:
         virtual void Render() override;
         virtual void Run() override;
+        virtual void StartUp() override;
+    private:
+        Renderer renderer;
+        Mesh triangle;
     };
 
     void App::Render()
     {
-        Renderer renderer;
-        const Mesh& triangle = MakeTriangle();
+        renderer.Render(triangle);
+    }
 
+    void App::Run()
+    {
+        glfwMakeContextCurrent(m_Window->glfwWindowPtr);
+
+        InitGlew();
+        StartUp();
+
+        while (!m_Window->ShouldClose())
+        {
+            renderer.Render(triangle);
+            m_Window->SwapBuffers();
+            glfwWaitEvents();
+        }
+    }
+
+    void App::StartUp()
+    {
         const std::string vertexShaderSourcePath = "D:\\projects\\Plum-Pie\\AppBase\\src\\vertex_shader.glsl";
         auto* vertexShader = new Shader(vertexShaderSourcePath, GL_VERTEX_SHADER);
 
         Program program;
         program.AttachShader(vertexShader);
-
         delete vertexShader;
 
         renderer.UseProgram(program);
+
+        triangle = MakeTriangle();
+
+        VertexArrayObject vao;
+        vao.LoadBufferData(ARRAY_BUFFER, triangle.GetVertecies(), STATIC);
+        vao.Bind();
+
+        renderer.SetClearColor(Color(0, 0.4f, 0));
     }
 
-    void App::Run()
-    {
-        using namespace GLFW;
-        Window* window;
-        try
-        {
-            window = new Window{};
-        }
-        catch (...)
-        {
-            glfwTerminate();
-            return;
-        }
-
-        window->mWindow = glfwCreateWindow(640, 480, "asd", nullptr, nullptr);
-
-        glfwMakeContextCurrent(window->mWindow);
-
-        if (glewInit() != GLEW_OK)
-            std::cout << "Error" << std::endl;
-
-        while (!window->ShouldClose())
-        {
-            Render();
-        }
-
-        glfwTerminate();
-    }
 }
 
 

@@ -4,8 +4,6 @@ namespace Plum
 {
 	Renderer::Renderer()
 	{
-		SetClearColor(Color(0, 0.4f, 0));
-
 		mIsCullfaceEnabled = true;
 		mIsDepthTestEnabled = true;
 

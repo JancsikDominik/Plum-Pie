@@ -27,7 +27,7 @@ namespace Plum::GLFW
 			bool IsVsync() const { return mIsVsyncOn; }
 
 			void Resize(int newWidth, int newHeight);
-			GLFWwindow* mWindow = nullptr;
+			GLFWwindow* glfwWindowPtr = nullptr;
 
 		private:
 			// methods

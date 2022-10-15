@@ -24,6 +24,7 @@
     <ClCompile Include="src\Renderer\VertexBufferObjectManager.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\Program.cpp" />
+    <ClCompile Include="src\AppBase\AppBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">

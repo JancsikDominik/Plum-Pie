@@ -1,15 +1,24 @@
 #ifndef PLUMPIE_HPP
 #define PLUMPIE_HPP
 
+namespace Plum::GLFW { class Window; }
+
 namespace Plum
 {
 
 class AppBase
 {
 public:
-	virtual ~AppBase() = default;
+	AppBase();
+	virtual ~AppBase();
 	virtual void Render() = 0;
 	virtual void Run() = 0;
+	virtual void StartUp() = 0;
+
+protected:
+	void InitGlew() const;
+
+	GLFW::Window* m_Window;
 };
 	
 }

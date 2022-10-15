@@ -45,7 +45,7 @@ namespace Plum
 		void Release() const;
 
 		template <class T>
-		void SetUpAttributeAtIndex(uint i, uint componentCount, plumenum type, bool normalized, std::vector<T> vec, int index);
+		void SetUpAttributeAtIndex(uint i, uint componentCount, GLenum type, bool normalized, std::vector<T> vec, int index);
 
 		template<class T>
 		void LoadBufferData(BindingTarget target, std::vector<T> vertecies, DrawType type) const;
