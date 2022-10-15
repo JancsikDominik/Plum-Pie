@@ -24,7 +24,6 @@
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\GLFWWrappers\Window.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\PlumPie\plumpie.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\VertexBufferObjectManager.cpp" />
     <ClCompile Include="src\Renderer\VertexArrayObject.cpp" />
@@ -36,7 +35,7 @@
     <ClInclude Include="src\Types.hpp" />
     <ClInclude Include="src\Renderer\Renderer.hpp" />
     <ClInclude Include="src\GLFWWrappers\Window.hpp" />
-    <ClInclude Include="src\PlumPie\plumpie.hpp" />
+    <ClInclude Include="src\AppBase\AppBase.hpp" />
     <ClInclude Include="src\3DObjects\Vertex.hpp" />
     <ClInclude Include="src\Renderer\VertexArrayObject.hpp" />
     <ClInclude Include="src\Renderer\VertexBufferObjectManager.hpp" />

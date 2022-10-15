@@ -23,9 +23,12 @@ namespace Plum
 		void SetClearColor(Color clearColor);
 		void SetCullFace(bool enable);
 		void SetDepthTest(bool enable);
-		void Render(const Mesh& meshToRender, const Program& program);
+		void UseProgram(Program& program);
+		void StopUsingCurrentProgram();
+		void Render(const Mesh& meshToRender);
 
 	private:
+		Program* mProgram = nullptr;
 		Color mClearColor;
 		bool mIsCullfaceEnabled;
 		bool mIsDepthTestEnabled;

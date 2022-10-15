@@ -31,35 +31,26 @@ namespace Plum
 		mIsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 	}
 
-	void Renderer::Render(const Mesh& meshToRender, const Program& program)
+	void Renderer::UseProgram(Program& program)
+	{
+
+		mProgram = &program;
+		mProgram->Use();
+	}
+
+	void Renderer::StopUsingCurrentProgram()
+	{
+		if(mProgram != nullptr)
+		{
+			mProgram->StopUsing();
+			mProgram = nullptr;
+		}
+	}
+
+	void Renderer::Render(const Mesh& meshToRender)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
-		const std::vector<Vertex>& vertecies = meshToRender.GetVertecies();
-		if (vertecies.empty()) // invalid state
-			return;
-
-		program.Use();
-
-		// loading buffer with data
-		//mVAO->LoadBufferData(BindingTarget::ARRAY_BUFFER, vertecies, DrawType::STATIC);
-		//mVAO->SetUpAttributeAtIndex(mPosId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, 0);
-		//mVAO->SetUpAttributeAtIndex(mColorId, mComponentCnt, GL_FLOAT, GL_FALSE, vertecies, sizeof(glm::vec3));
-
-		// releasing after setup
-
-		//mVAO->Release();
-		//mVBO->Release();
-
-
-		// TODO: The actual rendering
-		// glUseProgram(mProgramId);
-		// glBindVertexArray(mVAOId);
-		// glDrawArrays(GL_TRIANGLE_FAN, 0, vertecies.size());
-		// glBindVertexArray(0);
-		// glUseProgram(0);
-
-		program.StopUsing();
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 }

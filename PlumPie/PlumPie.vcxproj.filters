@@ -15,9 +15,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\PlumPie\plumpie.cpp">
-      <Filter>src\PlumPie</Filter>
-    </ClCompile>
     <ClCompile Include="src\GLFWWrappers\Window.cpp">
       <Filter>src\GLFW Wrappers</Filter>
     </ClCompile>
@@ -29,7 +26,7 @@
     <ClCompile Include="src\Renderer\Program.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\PlumPie\plumpie.hpp">
+    <ClInclude Include="src\AppBase\AppBase.hpp">
       <Filter>src\PlumPie</Filter>
     </ClInclude>
     <ClInclude Include="src\GLFWWrappers\Window.hpp">
