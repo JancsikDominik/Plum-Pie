@@ -75,7 +75,7 @@ namespace Plum
 
 int main()
 {
-    Plum::App app;
+	Plum::App app;
     app.Run();
     return 0;
 }
