@@ -44,5 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\vertex_shader.glsl" />
+    <None Include="src\fragment_shader.glsl" />
   </ItemGroup>
 </Project>

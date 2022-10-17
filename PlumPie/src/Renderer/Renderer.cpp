@@ -47,8 +47,7 @@ namespace Plum
 
 	void Renderer::Render(const Mesh& meshToRender)
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	}
 }

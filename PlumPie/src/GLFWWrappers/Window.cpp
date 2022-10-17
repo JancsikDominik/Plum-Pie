@@ -7,6 +7,7 @@ namespace Plum::GLFW
 		Window::Window()
 		{
 			InitGLFW();
+			CreateWindow();
 			SetVsync(true);
 		}
 
@@ -102,6 +103,17 @@ namespace Plum::GLFW
 			if (!glfwInit()) 
 			{
 				throw std::runtime_error("Failed to initialize GLFW!");
+			}
+		}
+
+		void Window::CreateWindow()
+		{
+			glfwWindowPtr = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+
+			if (!glfwWindowPtr)
+			{
+				glfwTerminate();
+				abort();
 			}
 		}
 

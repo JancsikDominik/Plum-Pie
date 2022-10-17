@@ -42,6 +42,7 @@
     <ClInclude Include="src\Renderer\VertexBufferObjectManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\fragment_shader.glsl" />
     <None Include="src\vertex_shader.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

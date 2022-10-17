@@ -28,10 +28,7 @@ namespace Plum
 
 		glLinkProgram(mProgramId);
 
-		for (auto& shader : shaders)
-		{
-			shader->Detach(mProgramId);
-		}
+		glBindFragDataLocation(mProgramId, 0, "outColor");
 	}
 
 	void Program::Use() const

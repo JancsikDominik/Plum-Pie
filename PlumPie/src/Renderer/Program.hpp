@@ -22,6 +22,9 @@ public:
 	void Use() const;
 	void StopUsing() const;
 
+	// TODO: find a better way to make a ShaderProgram
+	uint GetProgramId() const { return mProgramId; }
+
 private:
 	std::unordered_map<std::string, GLint>	mUniformLocations;
 	uint									mProgramId = 0;
