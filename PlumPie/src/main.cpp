@@ -51,46 +51,46 @@ namespace Plum
 
     void App::StartUp()
     {
-        const std::string vertexShaderSourcePath = "D:\\projects\\Plum-Pie\\AppBase\\src\\vertex_shader.glsl";
-        const std::string fregemntShaderPath = "D:\\projects\\Plum-Pie\\AppBase\\src\\fragment_shader.glsl";
-        auto* vertexShader = new Shader(vertexShaderSourcePath, GL_VERTEX_SHADER);
-        auto* fragShader = new Shader(fregemntShaderPath, GL_VERTEX_SHADER);
+        //const std::string vertexShaderSourcePath = "D:\\projects\\Plum-Pie\\AppBase\\src\\vertex_shader.glsl";
+        //const std::string fregemntShaderPath = "D:\\projects\\Plum-Pie\\AppBase\\src\\fragment_shader.glsl";
+        //auto* vertexShader = new Shader(vertexShaderSourcePath, GL_VERTEX_SHADER);
+        //auto* fragShader = new Shader(fregemntShaderPath, GL_FRAGMENT_SHADER);
 
-        Program program;
-        program.AttachShaders({ vertexShader, fragShader });
-        delete vertexShader;
-        delete fragShader;
+        //Program program;
+        //program.AttachShaders({ vertexShader, fragShader });
+        //delete vertexShader;
+        //delete fragShader;
 
-        renderer.UseProgram(program);
+        //renderer.UseProgram(program);
 
-        const auto& vert = MakeTriangle();
+        //const auto& vert = MakeTriangle();
 
-        GLuint const indicies[] = {
-              0, 1, 2
-        };
+        //GLuint const indicies[] = {
+        //      0, 1, 2
+        //};
 
-        GLuint VAO;
-        glGenVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
+        //GLuint VAO;
+        //glGenVertexArrays(1, &VAO);
+        //glBindVertexArray(VAO);
 
-        GLuint VBO;
-        glGenBuffers(1, &VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vert), vert.data(), GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        //GLuint VBO;
+        //glGenBuffers(1, &VBO);
+        //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        //glBufferData(GL_ARRAY_BUFFER, sizeof(vert), vert.data(), GL_STATIC_DRAW);
+        //glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        GLuint EBO;
-        glGenBuffers(1, &EBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
+        //GLuint EBO;
+        //glGenBuffers(1, &EBO);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
 
-        GLint PositionAttribute = glGetAttribLocation(program.GetProgramId(), "position");
-        glEnableVertexAttribArray(PositionAttribute);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        //GLint PositionAttribute = glGetAttribLocation(program.GetProgramID(), "position");
+        //glEnableVertexAttribArray(PositionAttribute);
+        //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        //glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        //glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        renderer.SetClearColor(Color(0, 0.4f, 0));
+        //renderer.SetClearColor(Color(0, 0.4f, 0));
     }
 
 }
@@ -109,12 +109,6 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
-
-	const char* vertPath = "D:\projects\Plum-Pie\PlumPie\src\vertex_shader.glsl";
-	const char* fragPath = "D:\projects\Plum-Pie\PlumPie\src\fragment_shader.glsl";
-
-    Plum::Shader vertexShader{ vertPath, GL_VERTEX_SHADER };
-    Plum::Shader fragShader{ fragPath, GL_VERTEX_SHADER };
 
 	GLfloat const Vertices[] = {
 		0.0f, 0.5f,
@@ -141,29 +135,18 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Elements), Elements, GL_STATIC_DRAW);
 
-	GLint Compiled;
-	GLuint VertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(VertexShader, 1, &VertexShaderSource, NULL);
-	glCompileShader(VertexShader);
-	glGetShaderiv(VertexShader, GL_COMPILE_STATUS, &Compiled);
+    Plum::Shader vertexShader("D:/projects/Plum-Pie/PlumPie/src/vertex_shader.glsl", GL_VERTEX_SHADER);
+    Plum::Shader fragmentShader("D:/projects/Plum-Pie/PlumPie/src/fragment_shader.glsl", GL_FRAGMENT_SHADER);
 
-	GLuint FragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(FragmentShader, 1, &FragmentShaderSource, NULL);
-	glCompileShader(FragmentShader);
-	glGetShaderiv(FragmentShader, GL_COMPILE_STATUS, &Compiled);
+    Plum::Program shaderProgram;
+    shaderProgram.AttachShaders({ vertexShader, fragmentShader });
+    shaderProgram.Use();
 
-	GLuint ShaderProgram = glCreateProgram();
-	glAttachShader(ShaderProgram, VertexShader);
-	glAttachShader(ShaderProgram, FragmentShader);
-	glBindFragDataLocation(ShaderProgram, 0, "outColor");
-	glLinkProgram(ShaderProgram);
-	glUseProgram(ShaderProgram);
-
-	GLint PositionAttribute = glGetAttribLocation(ShaderProgram, "position");
-	glEnableVertexAttribArray(PositionAttribute);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GLint PositionAttribute = glGetAttribLocation(shaderProgram.GetProgramID(), "position");
+    glEnableVertexAttribArray(PositionAttribute);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	while (!window.ShouldClose())
 	{
@@ -173,13 +156,6 @@ int main()
 		window.SwapBuffers();
 		glfwPollEvents();
 	}
-
-	glDeleteProgram(ShaderProgram);
-	glDeleteShader(FragmentShader);
-	glDeleteShader(VertexShader);
-	glDeleteBuffers(1, &EBO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
 
 	glfwTerminate();
 

@@ -31,8 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer\Program.hpp" />
-    <ClInclude Include="src\Renderer\Shader.hpp" />
     <ClInclude Include="src\3DObjects\Mesh.hpp" />
+    <ClInclude Include="src\Renderer\Shader.hpp" />
     <ClInclude Include="src\Types.hpp" />
     <ClInclude Include="src\Renderer\Renderer.hpp" />
     <ClInclude Include="src\GLFWWrappers\Window.hpp" />

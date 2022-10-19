@@ -16,18 +16,18 @@ public:
 	Program();
 	~Program();
 
-	void AttachShader(Shader* shader) const;
-	void AttachShaders(const std::vector<Shader*>& shaders) const;
+	void AttachShader(const Shader& shader) const;
+	void AttachShaders(const std::vector<Shader>& shaders) const;
 
 	void Use() const;
 	void StopUsing() const;
 
 	// TODO: find a better way to make a ShaderProgram
-	uint GetProgramId() const { return mProgramId; }
+	uint GetProgramID() const { return m_ProgramID; }
 
 private:
 	std::unordered_map<std::string, GLint>	mUniformLocations;
-	uint									mProgramId = 0;
+	uint									m_ProgramID = 0;
 };
 	
 }
