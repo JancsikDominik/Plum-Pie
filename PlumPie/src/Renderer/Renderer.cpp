@@ -4,44 +4,44 @@ namespace Plum
 {
 	Renderer::Renderer()
 	{
-		mIsCullfaceEnabled = true;
-		mIsDepthTestEnabled = true;
+		m_IsCullfaceEnabled = true;
+		m_IsDepthTestEnabled = true;
 
-		SetCullFace(mIsCullfaceEnabled);
-		SetDepthTest(mIsDepthTestEnabled);
+		SetCullFace(m_IsCullfaceEnabled);
+		SetDepthTest(m_IsDepthTestEnabled);
 	}
 
 	void Renderer::SetClearColor(Color clearColor)
 	{
-		mClearColor = clearColor;
-		glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+		m_ClearColor = clearColor;
+		glClearColor(m_ClearColor.r, m_ClearColor.g, m_ClearColor.b, m_ClearColor.a);
 	}
 
 	void Renderer::SetCullFace(bool enable)
 	{
-		mIsCullfaceEnabled = enable;
-		mIsCullfaceEnabled ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+		m_IsCullfaceEnabled = enable;
+		m_IsCullfaceEnabled ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 	}
 
 	void Renderer::SetDepthTest(bool enable)
 	{
-		mIsDepthTestEnabled = enable;
-		mIsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+		m_IsDepthTestEnabled = enable;
+		m_IsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 	}
 
 	void Renderer::UseProgram(Program& program)
 	{
 
-		mProgram = &program;
-		mProgram->Use();
+		m_Program = &program;
+		m_Program->Use();
 	}
 
 	void Renderer::StopUsingCurrentProgram()
 	{
-		if(mProgram != nullptr)
+		if(m_Program != nullptr)
 		{
-			mProgram->StopUsing();
-			mProgram = nullptr;
+			m_Program->StopUsing();
+			m_Program = nullptr;
 		}
 	}
 

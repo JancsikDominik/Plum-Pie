@@ -22,13 +22,10 @@ namespace Plum
 		void Render(const Mesh& meshToRender);
 
 	private:
-		Program* mProgram = nullptr;
-		Color mClearColor;
-		bool mIsCullfaceEnabled;
-		bool mIsDepthTestEnabled;
-		static constexpr uint mPosId = 0;
-		static constexpr uint mColorId = 1;
-		static constexpr uint mComponentCnt = 3;
+		Program* m_Program = nullptr;
+		Color m_ClearColor;
+		bool m_IsCullfaceEnabled;
+		bool m_IsDepthTestEnabled;
 	};
 	
 }

@@ -37,60 +37,19 @@ namespace Plum
     void App::Run()
     {
         glfwMakeContextCurrent(m_Window->glfwWindowPtr);
-
         InitGlew();
         StartUp();
-
         while (!m_Window->ShouldClose())
         {
             renderer.Render(triangle);
             m_Window->SwapBuffers();
-            glfwWaitEvents();
+            glfwPollEvents();
         }
     }
 
     void App::StartUp()
     {
-        //const std::string vertexShaderSourcePath = "D:\\projects\\Plum-Pie\\AppBase\\src\\vertex_shader.glsl";
-        //const std::string fregemntShaderPath = "D:\\projects\\Plum-Pie\\AppBase\\src\\fragment_shader.glsl";
-        //auto* vertexShader = new Shader(vertexShaderSourcePath, GL_VERTEX_SHADER);
-        //auto* fragShader = new Shader(fregemntShaderPath, GL_FRAGMENT_SHADER);
 
-        //Program program;
-        //program.AttachShaders({ vertexShader, fragShader });
-        //delete vertexShader;
-        //delete fragShader;
-
-        //renderer.UseProgram(program);
-
-        //const auto& vert = MakeTriangle();
-
-        //GLuint const indicies[] = {
-        //      0, 1, 2
-        //};
-
-        //GLuint VAO;
-        //glGenVertexArrays(1, &VAO);
-        //glBindVertexArray(VAO);
-
-        //GLuint VBO;
-        //glGenBuffers(1, &VBO);
-        //glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        //glBufferData(GL_ARRAY_BUFFER, sizeof(vert), vert.data(), GL_STATIC_DRAW);
-        //glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        //GLuint EBO;
-        //glGenBuffers(1, &EBO);
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
-
-        //GLint PositionAttribute = glGetAttribLocation(program.GetProgramID(), "position");
-        //glEnableVertexAttribArray(PositionAttribute);
-        //glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        //glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
-        //glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        //renderer.SetClearColor(Color(0, 0.4f, 0));
     }
 
 }
@@ -119,6 +78,8 @@ int main()
 	GLuint const Elements[] = {
 		0, 1, 2
 	};
+
+    Plum::Renderer renderer;
 
 	GLuint VAO;
 	glGenVertexArrays(1, &VAO);

@@ -14,6 +14,7 @@ public:
 	virtual void Render() = 0;
 	virtual void Run() = 0;
 	virtual void StartUp() = 0;
+	virtual void Update() = 0;
 
 protected:
 	void InitGlew() const;

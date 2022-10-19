@@ -26,7 +26,7 @@ public:
 	uint GetProgramID() const { return m_ProgramID; }
 
 private:
-	std::unordered_map<std::string, GLint>	mUniformLocations;
+	std::unordered_map<std::string, GLint>	m_UniformLocations;
 	uint									m_ProgramID = 0;
 };
 	

@@ -15,7 +15,7 @@ namespace Plum
 		void AddVertecies(const std::vector<Vertex>& vertecies);
 
 	private:
-		std::vector<Vertex> mVertecies;
+		std::vector<Vertex> m_Vertecies;
 	};
 }
 
