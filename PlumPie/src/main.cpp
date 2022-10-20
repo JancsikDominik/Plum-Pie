@@ -151,8 +151,12 @@ int main()
 	while (!window.ShouldClose())
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        GLfloat attrib[] = { (float)sin(glfwGetTime()) * 0.5f,
+                             (float)cos(glfwGetTime()) * 0.6f,
+                             0.0f, 0.0f };
 
+        glVertexAttrib4fv(1, attrib);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 		window.SwapBuffers();
 		glfwPollEvents();
 	}
