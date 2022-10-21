@@ -57,44 +57,42 @@ namespace Plum
 
 int main()
 {
-	Plum::GLFW::Window window;
+    Plum::GLFW::Window window;
 
-	glfwMakeContextCurrent(window.glfwWindowPtr);
+    glfwMakeContextCurrent(window.glfwWindowPtr);
 
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
-	{
-		std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
-		glfwTerminate();
-		return -1;
-	}
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
+    {
+        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+        glfwTerminate();
+        return -1;
+    }
 
-	GLfloat const Vertices[] = {
-		0.0f, 0.5f,
-		0.5f, -0.5f,
-		-0.5f, -0.5f
-	};
+    GLfloat const Vertices[] = {
+        0.0f, 0.5f,
+        0.5f, -0.5f,
+        -0.5f, -0.5f
+    };
 
-	GLuint const Elements[] = {
-		0, 1, 2
-	};
+    GLuint const Elements[] = {
+        0, 1, 2
+    };
 
-    Plum::Renderer renderer;
+    GLuint VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
 
-	GLuint VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+    GLuint VBO;
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	GLuint EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Elements), Elements, GL_STATIC_DRAW);
+    GLuint EBO;
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Elements), Elements, GL_STATIC_DRAW);
 
     Plum::Shader vertexShader("D:/projects/Plum-Pie/PlumPie/src/vertex_shader.glsl", GL_VERTEX_SHADER);
     Plum::Shader fragmentShader("D:/projects/Plum-Pie/PlumPie/src/fragment_shader.glsl", GL_FRAGMENT_SHADER);
@@ -109,20 +107,20 @@ int main()
     glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	while (!window.ShouldClose())
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    while (!window.ShouldClose())
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         GLfloat attrib[] = { (float)sin(glfwGetTime()) * 0.5f,
                              (float)cos(glfwGetTime()) * 0.6f,
                              0.0f, 0.0f };
 
         glVertexAttrib4fv(1, attrib);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-		window.SwapBuffers();
-		glfwPollEvents();
-	}
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        window.SwapBuffers();
+        glfwPollEvents();
+    }
 
-	glfwTerminate();
+    glfwTerminate();
 
     return 0;
 }
