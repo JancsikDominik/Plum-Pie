@@ -4,41 +4,38 @@
 
 namespace Plum::GLFW
 {
-		Window::Window()
+		Window::Window(unsigned sizeX, unsigned sizeY)
 		{
 			InitGLFW();
-			CreateWindow();
+			CreateWindow(sizeX, sizeY);
 			SetVsync(true);
+			glfwMakeContextCurrent(m_glfwWindowPtr);
 		}
 
 		Window::~Window()
 		{
-			glfwDestroyWindow(glfwWindowPtr);
+			glfwDestroyWindow(m_glfwWindowPtr);
 			glfwTerminate();
 		}
 
 		Window::Window(Window&& other) noexcept
 		{
-			this->glfwWindowPtr = other.glfwWindowPtr;
-			this->mMonitor = other.mMonitor;
-			this->mPos = other.mPos;
-			this->mFullscreen = other.mFullscreen;
+			this->m_glfwWindowPtr = other.m_glfwWindowPtr;
+			this->m_Monitor = other.m_Monitor;
+			this->m_IsFullscreen = other.m_IsFullscreen;
 
-			other.glfwWindowPtr = nullptr;
-			other.mMonitor = nullptr;
-			other.mPos = glm::vec2(0);
+			other.m_glfwWindowPtr = nullptr;
+			other.m_Monitor = nullptr;
 		}
 
 		Window& Window::operator=(Window&& other) noexcept
 		{
-			this->glfwWindowPtr = other.glfwWindowPtr;
-			this->mMonitor = other.mMonitor;
-			this->mPos = other.mPos;
-			this->mFullscreen = other.mFullscreen;
+			this->m_glfwWindowPtr = other.m_glfwWindowPtr;
+			this->m_Monitor = other.m_Monitor;
+			this->m_IsFullscreen = other.m_IsFullscreen;
 
-			other.glfwWindowPtr = nullptr;
-			other.mMonitor = nullptr;
-			other.mPos = glm::vec2(0);
+			other.m_glfwWindowPtr = nullptr;
+			other.m_Monitor = nullptr;
 			return *this;
 		}
 
@@ -51,45 +48,42 @@ namespace Plum::GLFW
 
 		void Window::SetFullscreen()
 		{
-			if (!mFullscreen) 
+			if (!m_IsFullscreen) 
 			{
-				const GLFWvidmode* vidMode = glfwGetVideoMode(mMonitor);
+				const GLFWvidmode* vidMode = glfwGetVideoMode(m_Monitor);
 				int x, y;
-				glfwGetWindowPos(glfwWindowPtr, &x, &y);
+				glfwGetWindowPos(m_glfwWindowPtr, &x, &y);
 
-				mPos.x = static_cast<float>(x);
-				mPos.y = static_cast<float>(y);
-
-				glfwSetWindowMonitor(glfwWindowPtr, mMonitor, 0, 0, vidMode->width, vidMode->height, vidMode->refreshRate);
-				glfwSetWindowSize(glfwWindowPtr, vidMode->width, vidMode->height);
-				mFullscreen = !mFullscreen;
+				glfwSetWindowMonitor(m_glfwWindowPtr, m_Monitor, 0, 0, vidMode->width, vidMode->height, vidMode->refreshRate);
+				glfwSetWindowSize(m_glfwWindowPtr, vidMode->width, vidMode->height);
+				m_IsFullscreen = !m_IsFullscreen;
 			}
 			else 
 			{
-				glfwSetWindowMonitor(glfwWindowPtr, nullptr, static_cast<int>(mPos.x), static_cast<int>(mPos.y), 640, 480, 0);
-				glfwSetWindowSize(glfwWindowPtr, 640, 480);
-				mFullscreen = !mFullscreen;
+				//glfwSetWindowMonitor(m_glfwWindowPtr, nullptr, static_cast<int>(mPos.x), static_cast<int>(mPos.y), 640, 480, 0);
+				glfwSetWindowSize(m_glfwWindowPtr, 640, 480);
+				m_IsFullscreen = !m_IsFullscreen;
 			}
 		}
 
 		void Window::MakeContextCurrent() const
 		{
-			glfwMakeContextCurrent(glfwWindowPtr);
+			glfwMakeContextCurrent(m_glfwWindowPtr);
 		}
 
 		bool Window::ShouldClose() const
 		{
-			return glfwWindowShouldClose(glfwWindowPtr);
+			return glfwWindowShouldClose(m_glfwWindowPtr);
 		}
 
 		void Window::SwapBuffers() const
 		{
-			glfwSwapBuffers(glfwWindowPtr);
+			glfwSwapBuffers(m_glfwWindowPtr);
 		}
 
 		void Window::SetVsync(const bool isEnabled)
 		{
-			mIsVsyncOn = isEnabled;
+			m_IsVsyncOn = isEnabled;
 			glfwSwapInterval(isEnabled ? 1 : 0);
 		}
 
@@ -106,11 +100,11 @@ namespace Plum::GLFW
 			}
 		}
 
-		void Window::CreateWindow()
+		void Window::CreateWindow(unsigned sizeX, unsigned sizeY)
 		{
-			glfwWindowPtr = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+			m_glfwWindowPtr = glfwCreateWindow(sizeX, sizeY, "Hello World", NULL, NULL);
 
-			if (!glfwWindowPtr)
+			if (!m_glfwWindowPtr)
 			{
 				glfwTerminate();
 				abort();
@@ -119,7 +113,7 @@ namespace Plum::GLFW
 
 		void Window::SetWindowSizeCallback() const
 		{
-			glfwSetWindowSizeCallback(glfwWindowPtr, StaticWindowSizeCallback);
+			glfwSetWindowSizeCallback(m_glfwWindowPtr, StaticWindowSizeCallback);
 		}
 
 		void Window::StaticWindowSizeCallback(GLFWwindow* window, const int width, const int height)
@@ -130,12 +124,12 @@ namespace Plum::GLFW
 
 		void Window::WindowSizeCallback(int width, int height) const
 		{
-			glfwSetWindowSize(glfwWindowPtr, width, height);
+			glfwSetWindowSize(m_glfwWindowPtr, width, height);
 		}
 
 		void Window::SetKeyCallback() const
 		{
-			glfwSetKeyCallback(glfwWindowPtr, StaticKeyCallback);
+			glfwSetKeyCallback(m_glfwWindowPtr, StaticKeyCallback);
 		}
 
 		void Window::StaticKeyCallback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods)
@@ -147,7 +141,7 @@ namespace Plum::GLFW
 		void Window::KeyCallback(const int key, const int scancode, const int action, const int mods)
 		{
 			if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-				glfwSetWindowShouldClose(glfwWindowPtr, true);
+				glfwSetWindowShouldClose(m_glfwWindowPtr, true);
 			if (key == GLFW_KEY_F11 && action == GLFW_RELEASE)
 				SetFullscreen();
 		}

@@ -20,18 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AppBase\AppBase.cpp" />
-    <ClCompile Include="src\Renderer\Program.cpp" />
+    <ClCompile Include="src\Core\ShaderProgram.cpp" />
     <ClCompile Include="src\3DObjects\Mesh.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Core\Renderer.cpp" />
     <ClCompile Include="src\GLFWWrappers\Window.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Core\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Renderer\Program.hpp" />
+    <ClInclude Include="src\Core\ShaderProgram.hpp" />
     <ClInclude Include="src\3DObjects\Mesh.hpp" />
-    <ClInclude Include="src\Renderer\Shader.hpp" />
-    <ClInclude Include="src\Renderer\Renderer.hpp" />
+    <ClInclude Include="src\Core\Shader.hpp" />
+    <ClInclude Include="src\Core\Renderer.hpp" />
     <ClInclude Include="src\GLFWWrappers\Window.hpp" />
     <ClInclude Include="src\AppBase\AppBase.hpp" />
     <ClInclude Include="src\3DObjects\Vertex.hpp" />

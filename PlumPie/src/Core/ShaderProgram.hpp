@@ -3,16 +3,16 @@
 
 #include <unordered_map>
 #include <vector>
-#include "Shader.hpp"
+#include "Core/Shader.hpp"
 
 namespace Plum
 {
 
-class Program
+class ShaderProgram
 {
 public:
-	Program();
-	~Program();
+	ShaderProgram();
+	~ShaderProgram();
 
 	void AttachShader(const Shader& shader) const;
 	void AttachShaders(const std::vector<Shader>& shaders) const;

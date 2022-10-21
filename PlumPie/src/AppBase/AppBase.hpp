@@ -11,15 +11,16 @@ class AppBase
 public:
 	AppBase();
 	virtual ~AppBase();
+	void Run();
+
+protected:
 	virtual void Render() = 0;
-	virtual void Run() = 0;
 	virtual void StartUp() = 0;
 	virtual void Update() = 0;
 
-protected:
-	void InitGlew() const;
-
 	GLFW::Window* m_Window;
+private:
+	void InitGlew() const;
 };
 	
 }

@@ -9,7 +9,7 @@ namespace Plum::GLFW
 		class Window
 		{
 		public:
-			Window();
+			Window(unsigned sizeX = 1280, unsigned sizeY = 960);
 			Window(Window& other) = delete;
 			Window(Window&& other) noexcept;
 			~Window();
@@ -24,15 +24,13 @@ namespace Plum::GLFW
 			void SwapBuffers() const;
 
 			void SetVsync(const bool isEnabled);
-			bool IsVsync() const { return mIsVsyncOn; }
+			bool IsVsync() const { return m_IsVsyncOn; }
 
 			void Resize(int newWidth, int newHeight);
-			GLFWwindow* glfwWindowPtr = nullptr;
 
 		private:
-			// methods
 			void InitGLFW() const;
-			void CreateWindow();
+			void CreateWindow(unsigned sizeX, unsigned sizeY);
 
 			void SetWindowSizeCallback() const;
 			void WindowSizeCallback(int width, int height) const;
@@ -43,11 +41,10 @@ namespace Plum::GLFW
 			void KeyCallback(const int key, const int scancode, const int action, const int mods);
 
 			// data
-			
-			GLFWmonitor* mMonitor = nullptr;
-			glm::vec2 mPos = glm::vec2(1280, 960);
-			bool mFullscreen = false;
-			bool mIsVsyncOn = true;
+			GLFWwindow* m_glfwWindowPtr = nullptr;
+			GLFWmonitor* m_Monitor = nullptr;
+			bool m_IsFullscreen = false;
+			bool m_IsVsyncOn = true;
 		};
 }
 

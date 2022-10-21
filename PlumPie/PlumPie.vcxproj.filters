@@ -18,11 +18,11 @@
     <ClCompile Include="src\GLFWWrappers\Window.cpp">
       <Filter>src\GLFW Wrappers</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Core\Renderer.cpp" />
     <ClCompile Include="src\3DObjects\Mesh.cpp" />
-    <ClCompile Include="src\Renderer\Program.cpp" />
+    <ClCompile Include="src\Core\ShaderProgram.cpp" />
     <ClCompile Include="src\AppBase\AppBase.cpp" />
-    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Core\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -31,11 +31,11 @@
     <ClInclude Include="src\GLFWWrappers\Window.hpp">
       <Filter>src\GLFW Wrappers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Renderer.hpp" />
+    <ClInclude Include="src\Core\Renderer.hpp" />
     <ClInclude Include="src\3DObjects\Vertex.hpp" />
     <ClInclude Include="src\3DObjects\Mesh.hpp" />
-    <ClInclude Include="src\Renderer\Program.hpp" />
-    <ClInclude Include="src\Renderer\Shader.hpp" />
+    <ClInclude Include="src\Core\ShaderProgram.hpp" />
+    <ClInclude Include="src\Core\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\vertex_shader.glsl" />

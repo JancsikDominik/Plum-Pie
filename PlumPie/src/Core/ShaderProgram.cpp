@@ -1,25 +1,25 @@
-#include "Program.hpp"
+#include "ShaderProgram.hpp"
 
 namespace Plum
 {
-	Program::Program()
+	ShaderProgram::ShaderProgram()
 	{
 		m_ProgramID = glCreateProgram();
 	}
 
-	Program::~Program()
+	ShaderProgram::~ShaderProgram()
 	{
 		if (m_ProgramID != 0)
 			glDeleteProgram(m_ProgramID);
 	}
 
-	void Program::AttachShader(const Shader& shader) const
+	void ShaderProgram::AttachShader(const Shader& shader) const
 	{
 		glAttachShader(m_ProgramID, shader.GetShaderID());
 		glLinkProgram(m_ProgramID);
 	}
 
-	void Program::AttachShaders(const std::vector<Shader>& shaders) const
+	void ShaderProgram::AttachShaders(const std::vector<Shader>& shaders) const
 	{
 		for(const auto& shader : shaders)
 		{
@@ -31,12 +31,12 @@ namespace Plum
 		glBindFragDataLocation(m_ProgramID, 0, "outColor");
 	}
 
-	void Program::Use() const
+	void ShaderProgram::Use() const
 	{
 		glUseProgram(m_ProgramID);
 	}
 
-	void Program::StopUsing() const
+	void ShaderProgram::StopUsing() const
 	{
 		glUseProgram(0);
 	}

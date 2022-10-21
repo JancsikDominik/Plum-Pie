@@ -9,14 +9,13 @@ Plum::AppBase::AppBase()
     try
     {
         m_Window = new GLFW::Window();
+        InitGlew();
     }
     catch (...)
     {
         glfwTerminate();
         return;
     }
-
-    m_Window->glfwWindowPtr = glfwCreateWindow(640, 480, "asd", nullptr, nullptr);
 }
 
 Plum::AppBase::~AppBase()
@@ -25,8 +24,25 @@ Plum::AppBase::~AppBase()
     glfwTerminate();
 }
 
+void Plum::AppBase::Run()
+{
+    StartUp();
+
+    while (!m_Window->ShouldClose())
+    {
+        Update();
+        Render();
+        m_Window->SwapBuffers();
+        glfwPollEvents();
+    }
+}
+
 void Plum::AppBase::InitGlew() const
 {
-    if (glewInit() != GLEW_OK)
-        std::cout << "Error" << std::endl;
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
+    {
+        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+        glfwTerminate();
+    }
 }
