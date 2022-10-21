@@ -3,8 +3,6 @@
 
 #include <unordered_map>
 #include <vector>
-
-#include "Types.hpp"
 #include "Shader.hpp"
 
 namespace Plum
@@ -23,11 +21,11 @@ public:
 	void StopUsing() const;
 
 	// TODO: find a better way to make a ShaderProgram
-	uint GetProgramID() const { return m_ProgramID; }
+	GLuint GetProgramID() const { return m_ProgramID; }
 
 private:
 	std::unordered_map<std::string, GLint>	m_UniformLocations;
-	uint									m_ProgramID = 0;
+	GLuint									m_ProgramID = 0;
 };
 	
 }

@@ -20,8 +20,6 @@
     </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\3DObjects\Mesh.cpp" />
-    <ClCompile Include="src\Renderer\VertexArrayObject.cpp" />
-    <ClCompile Include="src\Renderer\VertexBufferObjectManager.cpp" />
     <ClCompile Include="src\Renderer\Program.cpp" />
     <ClCompile Include="src\AppBase\AppBase.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
@@ -36,9 +34,6 @@
     <ClInclude Include="src\Renderer\Renderer.hpp" />
     <ClInclude Include="src\3DObjects\Vertex.hpp" />
     <ClInclude Include="src\3DObjects\Mesh.hpp" />
-    <ClInclude Include="src\Types.hpp" />
-    <ClInclude Include="src\Renderer\VertexArrayObject.hpp" />
-    <ClInclude Include="src\Renderer\VertexBufferObjectManager.hpp" />
     <ClInclude Include="src\Renderer\Program.hpp" />
     <ClInclude Include="src\Renderer\Shader.hpp" />
   </ItemGroup>

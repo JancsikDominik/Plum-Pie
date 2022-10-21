@@ -396,3 +396,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# External dependencied
+[Ee]xternal[Dd]ependencies/
+[Ee]xternal_[Dd]ependencies/

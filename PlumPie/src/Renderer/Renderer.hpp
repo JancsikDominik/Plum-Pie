@@ -3,8 +3,6 @@
 
 #include "3DObjects/Vertex.hpp"
 #include "3DObjects/Mesh.hpp"
-#include "Types.hpp"
-#include "VertexArrayObject.hpp"
 #include "Program.hpp"
 
 
