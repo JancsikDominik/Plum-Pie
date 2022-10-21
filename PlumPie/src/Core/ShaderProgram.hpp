@@ -5,7 +5,7 @@
 #include <vector>
 #include "Core/Shader.hpp"
 
-namespace Plum
+namespace Plum::GL
 {
 
 class ShaderProgram

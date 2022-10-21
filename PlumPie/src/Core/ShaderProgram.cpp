@@ -1,6 +1,6 @@
 #include "ShaderProgram.hpp"
 
-namespace Plum
+namespace Plum::GL
 {
 	ShaderProgram::ShaderProgram()
 	{

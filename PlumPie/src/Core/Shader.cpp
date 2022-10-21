@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-namespace Plum
+namespace Plum::GL
 {
 
 Shader::Shader(const char* const path, GLenum type)

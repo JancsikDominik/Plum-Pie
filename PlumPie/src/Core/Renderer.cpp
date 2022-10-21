@@ -29,7 +29,7 @@ namespace Plum
 		m_IsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 	}
 
-	void Renderer::UseProgram(ShaderProgram& program)
+	void Renderer::UseProgram(GL::ShaderProgram& program)
 	{
 
 		m_Program = &program;

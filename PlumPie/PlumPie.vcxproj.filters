@@ -23,6 +23,7 @@
     <ClCompile Include="src\Core\ShaderProgram.cpp" />
     <ClCompile Include="src\AppBase\AppBase.cpp" />
     <ClCompile Include="src\Core\Shader.cpp" />
+    <ClCompile Include="src\Core\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -36,6 +37,7 @@
     <ClInclude Include="src\3DObjects\Mesh.hpp" />
     <ClInclude Include="src\Core\ShaderProgram.hpp" />
     <ClInclude Include="src\Core\Shader.hpp" />
+    <ClInclude Include="src\Core\VertexArrayObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\vertex_shader.glsl" />

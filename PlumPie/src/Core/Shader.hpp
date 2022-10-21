@@ -5,7 +5,7 @@
 #include "glm/vec4.hpp"
 #include <string>
 
-namespace Plum
+namespace Plum::GL
 {
 
 	class Shader

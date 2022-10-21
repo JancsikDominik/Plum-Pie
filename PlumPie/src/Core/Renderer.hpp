@@ -15,12 +15,12 @@ namespace Plum
 		void SetClearColor(Color clearColor);
 		void SetCullFace(bool enable);
 		void SetDepthTest(bool enable);
-		void UseProgram(ShaderProgram& program);
+		void UseProgram(GL::ShaderProgram& program);
 		void StopUsingCurrentProgram();
 		void Render(const Mesh& meshToRender);
 
 	private:
-		ShaderProgram* m_Program = nullptr;
+		GL::ShaderProgram* m_Program = nullptr;
 		Color m_ClearColor;
 		bool m_IsCullfaceEnabled;
 		bool m_IsDepthTestEnabled;
