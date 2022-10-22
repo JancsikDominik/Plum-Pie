@@ -20,8 +20,7 @@ public:
 	void Use() const;
 	void StopUsing() const;
 
-	// TODO: find a better way to make a ShaderProgram
-	GLuint GetProgramID() const { return m_ProgramID; }
+	GLint GetAttributeLocation(const std::string& attributeName);
 
 private:
 	std::unordered_map<std::string, GLint>	m_UniformLocations;

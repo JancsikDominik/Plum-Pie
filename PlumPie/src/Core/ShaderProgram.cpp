@@ -27,8 +27,6 @@ namespace Plum::GL
 		}
 
 		glLinkProgram(m_ProgramID);
-
-		glBindFragDataLocation(m_ProgramID, 0, "outColor");
 	}
 
 	void ShaderProgram::Use() const
@@ -39,5 +37,9 @@ namespace Plum::GL
 	void ShaderProgram::StopUsing() const
 	{
 		glUseProgram(0);
+	}
+	GLint ShaderProgram::GetAttributeLocation(const std::string& attributeName)
+	{
+		return glGetAttribLocation(m_ProgramID, attributeName.c_str());
 	}
 }

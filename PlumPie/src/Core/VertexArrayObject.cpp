@@ -1,4 +1,5 @@
 #include "VertexArrayObject.hpp"
+#include <iostream>
 
 namespace Plum::GL
 {
@@ -15,15 +16,6 @@ namespace Plum::GL
 	void VertexArrayObject::Bind()
 	{
 		glBindVertexArray(m_vaoID);
-	}
-
-	void VertexArrayObject::AttachBuffer(const BufferType type, const size_t size, const void* data, const DrawType mode)
-	{
-		GLuint buffer;
-		glGenBuffers(1, &buffer);
-
-		glBindBuffer(type, buffer);
-		glBufferData(type, size, data, mode);
 	}
 
 	void VertexArrayObject::EnableAttribute(unsigned int index, int size, unsigned int offset, const void* data)
