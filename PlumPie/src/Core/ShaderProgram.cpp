@@ -38,6 +38,7 @@ namespace Plum::GL
 	{
 		glUseProgram(0);
 	}
+
 	GLint ShaderProgram::GetAttributeLocation(const std::string& attributeName)
 	{
 		return glGetAttribLocation(m_ProgramID, attributeName.c_str());

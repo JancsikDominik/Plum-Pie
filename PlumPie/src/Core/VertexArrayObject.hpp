@@ -29,7 +29,7 @@ namespace Plum::GL
 		void EnableAttribute(unsigned int index, int size, unsigned int offset, const void* data);
 
 		template <typename T>
-		void AttachBuffer(const BufferType type, const size_t elemCount, const void* data, const DrawType mode)
+		void AttachBuffer(BufferType type, size_t elemCount, const void* data, DrawType mode)
 		{
 			GLuint buffer;
 			glGenBuffers(1, &buffer);
