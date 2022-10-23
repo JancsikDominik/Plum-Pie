@@ -22,6 +22,7 @@ public:
 	void StopUsing() const;
 
 	GLint GetAttributeLocation(const std::string& attributeName);
+	GLint GetUniformLocation(const std::string& uniformName);
 
 private:
 	std::unordered_map<std::string, GLint>	m_UniformLocations;

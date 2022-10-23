@@ -43,4 +43,9 @@ namespace Plum::GL
 	{
 		return glGetAttribLocation(m_ProgramID, attributeName.c_str());
 	}
+
+	GLint ShaderProgram::GetUniformLocation(const std::string& uniformName)
+	{
+		return glGetUniformLocation(m_ProgramID, uniformName.c_str());
+	}
 }

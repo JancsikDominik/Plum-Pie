@@ -1,4 +1,7 @@
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #include "AppBase/AppBase.hpp"
@@ -33,6 +36,16 @@ namespace Plum
 
     void App::StartUp()
     {
+        // going 3D :)
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+        glm::mat4 view = glm::mat4(1.0f);
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+        glm::mat4 projection;
+        projection = glm::perspective(glm::radians(60.0f), 1280.f / 960.f, 0.1f, 100.0f);
+
         std::vector<int> indices{ 0, 1, 2 };
         
         std::vector<float> vertices = { 0.0f,  0.5f,
@@ -44,6 +57,14 @@ namespace Plum
 
         shaderProgram.AttachShaders({ vertexShader, fragmentShader });
         shaderProgram.Use();
+
+        auto modelLoc = shaderProgram.GetUniformLocation("model");
+        auto viewLoc = shaderProgram.GetUniformLocation("view");
+        auto projectionLoc = shaderProgram.GetUniformLocation("projection");
+
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
         vao.Bind();
         vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);

@@ -19,11 +19,12 @@
       <Filter>src\GLFW Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Renderer.cpp" />
-    <ClCompile Include="src\3DObjects\Mesh.cpp" />
+    <ClCompile Include="src\Graphics\Mesh.cpp" />
     <ClCompile Include="src\Core\ShaderProgram.cpp" />
     <ClCompile Include="src\AppBase\AppBase.cpp" />
     <ClCompile Include="src\Core\Shader.cpp" />
     <ClCompile Include="src\Core\VertexArrayObject.cpp" />
+    <ClCompile Include="src\Core\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -33,11 +34,12 @@
       <Filter>src\GLFW Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Renderer.hpp" />
-    <ClInclude Include="src\3DObjects\Vertex.hpp" />
-    <ClInclude Include="src\3DObjects\Mesh.hpp" />
+    <ClInclude Include="src\Graphics\Vertex.hpp" />
+    <ClInclude Include="src\Graphics\Mesh.hpp" />
     <ClInclude Include="src\Core\ShaderProgram.hpp" />
     <ClInclude Include="src\Core\Shader.hpp" />
     <ClInclude Include="src\Core\VertexArrayObject.hpp" />
+    <ClInclude Include="src\Core\Camera.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\vertex_shader.glsl" />

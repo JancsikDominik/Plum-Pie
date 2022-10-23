@@ -1,8 +1,8 @@
 #ifndef PLUMPIE_RENDERE
 #define PLUMPIE_RENDERE
 
-#include "3DObjects/Vertex.hpp"
-#include "3DObjects/Mesh.hpp"
+#include "Graphics/Vertex.hpp"
+#include "Graphics/Mesh.hpp"
 #include "ShaderProgram.hpp"
 
 
