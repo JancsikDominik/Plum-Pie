@@ -1,5 +1,5 @@
 # Dependencies
 GLEW , GLFW, GLM
 
-## Engine Structure (TODO: make it pretty)
-![Engine structure](https://user-images.githubusercontent.com/71274405/196975822-d3a7b83e-fe13-4920-a18f-19450cf5fb80.png)
+## Engine Structure
+![Engine Structure](https://user-images.githubusercontent.com/71274405/197382653-80643345-1187-4b50-81e6-33f9d19fc8cf.svg)
