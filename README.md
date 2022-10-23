@@ -2,4 +2,4 @@
 GLEW , GLFW, GLM
 
 ## Engine Structure
-![Engine Structure](https://user-images.githubusercontent.com/71274405/197382653-80643345-1187-4b50-81e6-33f9d19fc8cf.svg)
+![rendering engine](https://user-images.githubusercontent.com/71274405/197383595-54238e2a-a48b-4eae-98c8-b27f20f90aa7.svg)
