@@ -17,7 +17,7 @@ namespace Plum
 		void SetDepthTest(bool enable);
 		void UseProgram(GL::ShaderProgram& program);
 		void StopUsingCurrentProgram();
-		void Render(const Mesh& meshToRender);
+		void Render();
 
 	private:
 		GL::ShaderProgram* m_Program = nullptr;

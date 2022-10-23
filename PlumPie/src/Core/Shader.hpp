@@ -7,7 +7,7 @@
 
 namespace Plum::GL
 {
-
+	// raii class for opengl shader
 	class Shader
 	{
 	public:

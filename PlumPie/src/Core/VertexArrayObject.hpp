@@ -19,6 +19,7 @@ namespace Plum::GL
 		STREAM = GL_STREAM_DRAW
 	};
 
+	// raii class for opengl vao
 	class VertexArrayObject
 	{
 	public:

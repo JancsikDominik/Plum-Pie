@@ -33,7 +33,6 @@ namespace Plum
 
     void App::StartUp()
     {
-        glClearColor(0, 0.4, 0, 1);
         std::vector<int> indices{ 0, 1, 2 };
         
         std::vector<float> vertices = { 0.0f,  0.5f,

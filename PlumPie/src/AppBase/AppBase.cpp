@@ -8,7 +8,7 @@ Plum::AppBase::AppBase()
 {
     try
     {
-        m_Window = new GLFW::Window();
+        m_Window = new GLFW::Window("sandbox");
         InitGlew();
     }
     catch (...)

@@ -16,6 +16,7 @@ namespace Plum
 
 	private:
 		std::vector<Vertex> m_Vertecies;
+		std::vector<glm::vec3> m_Normals;
 	};
 }
 

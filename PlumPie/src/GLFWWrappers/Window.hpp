@@ -3,13 +3,15 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
+#include <string>
 
 namespace Plum::GLFW
 {
+		// raii class for glfw window
 		class Window
 		{
 		public:
-			Window(unsigned sizeX = 1280, unsigned sizeY = 960);
+			Window(const std::string& name, unsigned sizeX = 1280, unsigned sizeY = 960);
 			Window(Window& other) = delete;
 			Window(Window&& other) noexcept;
 			~Window();
@@ -20,7 +22,6 @@ namespace Plum::GLFW
 			const char** GetRequiredExtensions() const;
 			bool ShouldClose() const;
 			void SetFullscreen();
-			void MakeContextCurrent() const;
 			void SwapBuffers() const;
 
 			void SetVsync(const bool isEnabled);
@@ -30,7 +31,7 @@ namespace Plum::GLFW
 
 		private:
 			void InitGLFW() const;
-			void CreateWindow(unsigned sizeX, unsigned sizeY);
+			void CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name);
 
 			void SetWindowSizeCallback() const;
 			void WindowSizeCallback(int width, int height) const;

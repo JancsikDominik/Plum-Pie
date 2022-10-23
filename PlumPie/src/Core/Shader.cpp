@@ -71,12 +71,14 @@ void Shader::CompileShader(const char* const sourceCode)
 	GLint result = GL_FALSE;
 	int infoLogLength;
 
+	// geting error message
 	glGetShaderiv(m_ShaderID, GL_COMPILE_STATUS, &result);
 	glGetShaderiv(m_ShaderID, GL_INFO_LOG_LENGTH, &infoLogLength);
 
 	if (GL_FALSE == result)
 	{
-		auto* error = new char[infoLogLength];
+		// using raw pointer so we can pass it as an argument
+		char* error = new char[infoLogLength];
 		glGetShaderInfoLog(m_ShaderID, infoLogLength, nullptr, error);
 
 		std::cerr << "Error: " << error << std::endl;

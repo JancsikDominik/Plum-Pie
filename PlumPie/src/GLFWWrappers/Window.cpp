@@ -4,10 +4,10 @@
 
 namespace Plum::GLFW
 {
-		Window::Window(unsigned sizeX, unsigned sizeY)
+		Window::Window(const std::string& name, unsigned sizeX, unsigned sizeY)
 		{
 			InitGLFW();
-			CreateWindow(sizeX, sizeY);
+			CreateWindow(sizeX, sizeY, name);
 			SetVsync(true);
 			glfwMakeContextCurrent(m_glfwWindowPtr);
 		}
@@ -66,11 +66,6 @@ namespace Plum::GLFW
 			}
 		}
 
-		void Window::MakeContextCurrent() const
-		{
-			glfwMakeContextCurrent(m_glfwWindowPtr);
-		}
-
 		bool Window::ShouldClose() const
 		{
 			return glfwWindowShouldClose(m_glfwWindowPtr);
@@ -100,9 +95,9 @@ namespace Plum::GLFW
 			}
 		}
 
-		void Window::CreateWindow(unsigned sizeX, unsigned sizeY)
+		void Window::CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name)
 		{
-			m_glfwWindowPtr = glfwCreateWindow(sizeX, sizeY, "Hello World", NULL, NULL);
+			m_glfwWindowPtr = glfwCreateWindow(sizeX, sizeY, name.c_str(), NULL, NULL);
 
 			if (!m_glfwWindowPtr)
 			{
