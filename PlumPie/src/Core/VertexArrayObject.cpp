@@ -1,27 +1,27 @@
 #include "VertexArrayObject.hpp"
-#include <iostream>
+#include <Debug/Debug.hpp>
 
 namespace Plum::GL
 {
 	VertexArrayObject::VertexArrayObject()
 	{
-		glGenVertexArrays(1, &m_vaoID);
+		GL_CALL(glGenVertexArrays(1, &m_vaoID));
 	}
 
 	VertexArrayObject::~VertexArrayObject()
 	{
-		glDeleteVertexArrays(1, &m_vaoID);
+		GL_CALL(glDeleteVertexArrays(1, &m_vaoID));
 	}
 
 	void VertexArrayObject::Bind()
 	{
-		glBindVertexArray(m_vaoID);
+		GL_CALL(glBindVertexArray(m_vaoID));
 	}
 
 	void VertexArrayObject::EnableAttribute(unsigned int index, int size, unsigned int offset, const void* data)
 	{
-		glEnableVertexAttribArray(index);
-		glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, offset, data);
+		GL_CALL(glEnableVertexAttribArray(index));
+		GL_CALL(glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, offset, data));
 	}
 
 }

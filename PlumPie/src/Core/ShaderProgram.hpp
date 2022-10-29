@@ -16,7 +16,7 @@ public:
 	~ShaderProgram();
 
 	void AttachShader(const Shader& shader) const;
-	void AttachShaders(const std::vector<Shader>& shaders) const;
+	void AttachShaders(const std::vector<Shader*>& shaders) const;
 
 	void Use() const;
 	void StopUsing() const;

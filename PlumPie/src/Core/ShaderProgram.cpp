@@ -1,42 +1,44 @@
 #include "ShaderProgram.hpp"
 
+#include <Debug/Debug.hpp>
+
 namespace Plum::GL
 {
 	ShaderProgram::ShaderProgram()
 	{
-		m_ProgramID = glCreateProgram();
+		GL_CALL(m_ProgramID = glCreateProgram());
 	}
 
 	ShaderProgram::~ShaderProgram()
 	{
 		if (m_ProgramID != 0)
-			glDeleteProgram(m_ProgramID);
+			GL_CALL(glDeleteProgram(m_ProgramID));
 	}
 
 	void ShaderProgram::AttachShader(const Shader& shader) const
 	{
-		glAttachShader(m_ProgramID, shader.GetShaderID());
-		glLinkProgram(m_ProgramID);
+		GL_CALL(glAttachShader(m_ProgramID, shader.GetShaderID()));
+		GL_CALL(glLinkProgram(m_ProgramID));
 	}
 
-	void ShaderProgram::AttachShaders(const std::vector<Shader>& shaders) const
+	void ShaderProgram::AttachShaders(const std::vector<Shader*>& shaders) const
 	{
 		for(const auto& shader : shaders)
 		{
-			glAttachShader(m_ProgramID, shader.GetShaderID());
+			GL_CALL(glAttachShader(m_ProgramID, shader->GetShaderID()));
 		}
 
-		glLinkProgram(m_ProgramID);
+		GL_CALL(glLinkProgram(m_ProgramID));
 	}
 
 	void ShaderProgram::Use() const
 	{
-		glUseProgram(m_ProgramID);
+		GL_CALL(glUseProgram(m_ProgramID));
 	}
 
 	void ShaderProgram::StopUsing() const
 	{
-		glUseProgram(0);
+		GL_CALL(glUseProgram(0));
 	}
 
 	GLint ShaderProgram::GetAttributeLocation(const std::string& attributeName)

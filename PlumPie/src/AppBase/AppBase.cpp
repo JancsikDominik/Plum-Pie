@@ -26,8 +26,9 @@ Plum::AppBase::~AppBase()
 
 void Plum::AppBase::Run()
 {
-    StartUp();
+    std::cout << "version: " << glGetString(GL_VERSION) << std::endl;
 
+    StartUp();
     while (!m_Window->ShouldClose())
     {
         Update();

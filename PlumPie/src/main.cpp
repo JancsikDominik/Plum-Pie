@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <Debug/Debug.hpp>
 
 #include "AppBase/AppBase.hpp"
 #include "Core/Renderer.hpp"
@@ -24,14 +25,14 @@ namespace Plum
 
     void App::Render()
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        std::vector<float> attrib = { static_cast<float>(sin(glfwGetTime()) * 0.5f),
-                                      static_cast<float>(cos(glfwGetTime()) * 0.6f),
+        GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        std::vector<float> attrib = { static_cast<float>(sin(glfwGetTime())) * 0.5f,
+                                      static_cast<float>(cos(glfwGetTime())) * 0.5f,
                                       0.0f, 
                                       0.0f };
 
-        glVertexAttrib4fv(1, attrib.data());
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        GL_CALL(glVertexAttrib4fv(1, attrib.data()));
+        GL_CALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
     }
 
     void App::StartUp()
@@ -55,16 +56,16 @@ namespace Plum
         GL::Shader vertexShader("D:/projects/Plum-Pie/PlumPie/src/vertex_shader.glsl", GL_VERTEX_SHADER);
         GL::Shader fragmentShader("D:/projects/Plum-Pie/PlumPie/src/fragment_shader.glsl", GL_FRAGMENT_SHADER);
 
-        shaderProgram.AttachShaders({ vertexShader, fragmentShader });
+        shaderProgram.AttachShaders({ &vertexShader, &fragmentShader });
         shaderProgram.Use();
 
         auto modelLoc = shaderProgram.GetUniformLocation("model");
         auto viewLoc = shaderProgram.GetUniformLocation("view");
         auto projectionLoc = shaderProgram.GetUniformLocation("projection");
 
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        GL_CALL(glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)));
+        GL_CALL(glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)));
+        GL_CALL(glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection)));
 
         vao.Bind();
         vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);
