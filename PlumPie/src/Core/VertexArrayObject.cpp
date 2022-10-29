@@ -20,6 +20,8 @@ namespace Plum::GL
 			Release();
 			std::swap(m_vaoID, other.m_vaoID);
 		}
+
+		return *this;
 	}
 
 	void VertexArrayObject::Bind()

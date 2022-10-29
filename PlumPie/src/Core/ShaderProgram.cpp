@@ -11,8 +11,19 @@ namespace Plum::GL
 
 	ShaderProgram::~ShaderProgram()
 	{
-		if (m_ProgramID != 0)
-			GL_CALL(glDeleteProgram(m_ProgramID));
+		Release();
+	}
+
+	ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept
+	{
+		if (this != &other)
+		{
+			Release();
+			std::swap(m_ProgramID, other.m_ProgramID);
+			std::swap(m_UniformLocations, other.m_UniformLocations);
+		}
+
+		return *this;
 	}
 
 	void ShaderProgram::AttachShader(const Shader& shader) const
@@ -49,5 +60,10 @@ namespace Plum::GL
 	GLint ShaderProgram::GetUniformLocation(const std::string& uniformName)
 	{
 		return glGetUniformLocation(m_ProgramID, uniformName.c_str());
+	}
+
+	void ShaderProgram::Release()
+	{
+		GL_CALL(glDeleteProgram(m_ProgramID));
 	}
 }

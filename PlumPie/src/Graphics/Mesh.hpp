@@ -10,7 +10,7 @@ namespace Plum
 	class Mesh
 	{
 	public:
-		const std::vector<Vertex>& GetVertecies() const;
+		[[nodiscard]] const std::vector<Vertex>& GetVertecies() const;
 		void AddVertex(const Vertex& newVert);
 		void AddVertecies(const std::vector<Vertex>& vertecies);
 

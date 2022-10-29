@@ -19,13 +19,13 @@ namespace Plum::GLFW
 			Window& operator=(Window& other) = delete;
 			Window& operator=(Window&& other) noexcept;
 
-			const char** GetRequiredExtensions() const;
-			bool ShouldClose() const;
+			[[nodiscard]] const char** GetRequiredExtensions() const;
+			[[nodiscard]] bool ShouldClose() const;
 			void SetFullscreen();
 			void SwapBuffers() const;
 
 			void SetVsync(const bool isEnabled);
-			bool IsVsync() const { return m_IsVsyncOn; }
+			[[nodiscard]] bool IsVsync() const { return m_IsVsyncOn; }
 
 			void Resize(int newWidth, int newHeight);
 

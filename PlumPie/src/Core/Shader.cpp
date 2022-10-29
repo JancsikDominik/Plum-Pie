@@ -19,7 +19,17 @@ Shader::Shader(const char* const path, GLenum type)
 
 Shader::~Shader()
 {
-	GL_CALL(glDeleteShader(m_ShaderID));
+	Release();
+}
+
+Shader& Shader::operator=(Shader&& other) noexcept
+{
+	if (this != &other)
+	{
+		Release();
+		std::swap(m_ShaderID, other.m_ShaderID);
+	}
+	return *this;
 }
 
 GLuint Shader::GetShaderID() const
@@ -89,4 +99,8 @@ void Shader::CompileShader(const char* const sourceCode)
 	}
 }
 
+void Shader::Release()
+{
+	GL_CALL(glDeleteShader(m_ShaderID));
+}
 }

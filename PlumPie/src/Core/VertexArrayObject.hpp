@@ -29,8 +29,8 @@ namespace Plum::GL
 		VertexArrayObject(const VertexArrayObject&) = delete;
 		VertexArrayObject& operator=(const VertexArrayObject&) = delete;
 
-		VertexArrayObject(VertexArrayObject&& other) noexcept :
-			m_vaoID{ other.m_vaoID }
+		VertexArrayObject(VertexArrayObject&& other) noexcept
+			: m_vaoID{ other.m_vaoID }
 		{
 			other.m_vaoID = 0;
 		}
