@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <vector>
+#include <Debugging/Debug.hpp>
 
 namespace Plum::GL
 {
@@ -25,6 +26,16 @@ namespace Plum::GL
 	public:
 		VertexArrayObject();
 		~VertexArrayObject();
+		VertexArrayObject(const VertexArrayObject&) = delete;
+		VertexArrayObject& operator=(const VertexArrayObject&) = delete;
+
+		VertexArrayObject(VertexArrayObject&& other) noexcept :
+			m_vaoID{ other.m_vaoID }
+		{
+			other.m_vaoID = 0;
+		}
+
+		VertexArrayObject& operator=(VertexArrayObject&& other) noexcept;
 
 		void Bind();
 		void EnableAttribute(unsigned int index, int size, unsigned int offset, const void* data);
@@ -34,12 +45,14 @@ namespace Plum::GL
 		void AttachBuffer(BufferType type, size_t elemCount, const void* data, DrawType mode)
 		{
 			GLuint buffer;
-			glGenBuffers(1, &buffer);
-			glBindBuffer(type, buffer);
-			glBufferData(type, elemCount * sizeof(T), data, mode);
+			GL_CALL(glGenBuffers(1, &buffer));
+			GL_CALL(glBindBuffer(type, buffer));
+			GL_CALL(glBufferData(type, elemCount * sizeof(T), data, mode));
 		}
 
 	private:
+		void Release();
+
 		GLuint m_vaoID;
 	};
 }

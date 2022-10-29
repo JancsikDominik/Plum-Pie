@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-#include <Debug/Debug.hpp>
+#include <Debugging/Debug.hpp>
 
 namespace Plum::GL
 {

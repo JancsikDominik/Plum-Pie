@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-#include <Debug/Debug.hpp>
+#include <Debugging/Debug.hpp>
 
 namespace Plum
 {
