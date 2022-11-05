@@ -53,7 +53,7 @@ namespace Plum::GL
 	private:
 		void Release();
 
-		GLuint m_vaoID;
+		GLuint m_vaoID = 0;
 	};
 }
 

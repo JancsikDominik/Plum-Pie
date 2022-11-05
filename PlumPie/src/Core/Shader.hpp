@@ -15,8 +15,6 @@ namespace Plum::GL
 		~Shader();
 
 		GLuint GetShaderID() const;
-		GLint GetUniformLocation(const std::string& name) const;
-		void SetUnifrom4f(const std::string& name, glm::vec4 vec) const;
 
 	private:
 		std::string LoadSourceFromFile(const char* const path);
