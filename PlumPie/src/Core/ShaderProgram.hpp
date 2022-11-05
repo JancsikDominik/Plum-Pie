@@ -3,6 +3,8 @@
 
 #include <unordered_map>
 #include <vector>
+#include <glm/fwd.hpp>
+
 #include "Core/Shader.hpp"
 
 namespace Plum::GL
@@ -33,6 +35,8 @@ public:
 
 	GLint GetAttributeLocation(const std::string& attributeName);
 	GLint GetUniformLocation(const std::string& uniformName);
+	void SetUnifrom4f(const std::string& name, const glm::vec4& vec);
+	void SetUnifrom4x4Matrix(const std::string& name, const glm::mat4& matrix);
 
 private:
 	void Release();

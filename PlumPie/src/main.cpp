@@ -62,9 +62,9 @@ namespace Plum
         const auto viewLoc = shaderProgram.GetUniformLocation("view");
         const auto projectionLoc = shaderProgram.GetUniformLocation("projection");
 
-        GL_CALL(glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)));
-        GL_CALL(glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)));
-        GL_CALL(glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection)));
+        shaderProgram.SetUnifrom4x4Matrix("model", model);
+        shaderProgram.SetUnifrom4x4Matrix("view", view);
+        shaderProgram.SetUnifrom4x4Matrix("projection", projection);
 
         vao.Bind();
         vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);

@@ -2,7 +2,6 @@
 #define PLUM_SHADER_HPP
 
 #include "GL/glew.h"
-#include "glm/vec4.hpp"
 #include <string>
 
 namespace Plum::GL
@@ -21,12 +20,9 @@ namespace Plum::GL
 		{
 			other.m_ShaderID = 0;
 		}
-
 		Shader& operator=(Shader&& other) noexcept;
 
-		[[nodiscard]] GLuint GetShaderID() const;
-		[[nodiscard]] int GetUniformLocation(const std::string& name) const;
-		void SetUnifrom4f(const std::string& name, glm::vec4 vec) const;
+		GLuint GetShaderID() const;
 
 	private:
 		std::string LoadSourceFromFile(const char* const path);

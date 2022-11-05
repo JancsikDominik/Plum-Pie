@@ -36,20 +36,10 @@ GLuint Shader::GetShaderID() const
 {
 	if(m_ShaderID != 0)
 		return m_ShaderID;
-	else
-		throw std::invalid_argument("shader id can't be 0");
+	
+	throw std::invalid_argument("shader id can't be 0");
 }
 
-GLint Shader::GetUniformLocation(const std::string& name) const
-{
-	return glGetUniformLocation(m_ShaderID, name.c_str());
-}
-
-void Shader::SetUnifrom4f(const std::string& name, glm::vec4 vec) const
-{
-	const auto& location = GetUniformLocation(name);
-	GL_CALL(glUniform4f(location, vec.x, vec.y, vec.z, vec.w));
-}
 
 std::string Shader::LoadSourceFromFile(const char* const path)
 {
@@ -95,7 +85,6 @@ void Shader::CompileShader(const char* const sourceCode)
 		std::cerr << "Error: " << error << std::endl;
 
 		delete[] error;
-
 	}
 }
 
