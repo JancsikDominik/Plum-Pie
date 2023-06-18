@@ -8,7 +8,6 @@
 #include "AppBase/AppBase.hpp"
 #include "Core/Renderer.hpp"
 #include "Core/VertexArrayObject.hpp"
-#include "Debugging/Console.hpp"
 
 namespace Plum
 {
@@ -85,8 +84,6 @@ namespace Plum
 
 int main()
 {
-	Plum::Debug::Console console;
-
     Plum::App app;
     app.Run();
     return 0;

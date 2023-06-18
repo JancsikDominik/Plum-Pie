@@ -1,6 +1,7 @@
 #include "ShaderProgram.hpp"
 
 #include <Debugging/Debug.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Debugging/Console.hpp"
 
@@ -64,7 +65,24 @@ namespace Plum::GL
 
 	GLint ShaderProgram::GetUniformLocation(const std::string& uniformName)
 	{
-		return glGetUniformLocation(m_ProgramID, uniformName.c_str());
+		if (m_UniformLocations.contains(uniformName))
+			return m_UniformLocations[uniformName];
+
+		const GLint newLocation = glGetUniformLocation(m_ProgramID, uniformName.c_str());
+		m_UniformLocations[uniformName] = newLocation;
+		return newLocation;
+	}
+
+	void ShaderProgram::SetUnifrom4f(const std::string& name, const glm::vec4& vec)
+	{
+		const auto& location = GetUniformLocation(name);
+		GL_CALL(glUniform4f(location, vec.x, vec.y, vec.z, vec.w));
+	}
+
+	void ShaderProgram::SetUnifrom4x4Matrix(const std::string& name, const glm::mat4& matrix)
+	{
+		const auto& location = GetUniformLocation(name);
+		GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)));
 	}
 
 	void ShaderProgram::Release()
