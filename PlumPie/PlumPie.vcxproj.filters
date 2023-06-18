@@ -45,6 +45,7 @@
     <ClCompile Include="src\Graphics\Mesh.cpp">
       <Filter>src\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Debugging\Console.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -74,9 +75,6 @@
     <ClInclude Include="src\Graphics\Vertex.hpp">
       <Filter>src\Graphics</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\vertex_shader.glsl" />
-    <None Include="src\fragment_shader.glsl" />
+    <ClInclude Include="src\Debugging\Console.hpp" />
   </ItemGroup>
 </Project>

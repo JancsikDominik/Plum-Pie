@@ -36,11 +36,12 @@ public:
 
 private:
 	void Release();
+	void LinkProgram() const;
 
 	std::unordered_map<std::string, GLint>	m_UniformLocations;
 	GLuint									m_ProgramID = 0;
 };
-	
+
 }
 
 

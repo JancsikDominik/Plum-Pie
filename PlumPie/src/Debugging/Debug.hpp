@@ -2,6 +2,8 @@
 #define PLUM_ASSERT_HPP
 
 #include <iostream>
+#include "Console.hpp"
+
 
 ///========================================================================================
 ///																						  |
@@ -43,22 +45,22 @@ namespace Plum::Debug::Opengl
 			switch(err)
 			{
 			case GL_INVALID_ENUM:
-				std::cerr << "[OpenGL ERROR]: invalid enum, " << stmt << std::endl;
+				Console::LogGLError("invalid enum, %s", stmt);
 				break;
 			case GL_INVALID_VALUE:
-				std::cerr << "[OpenGL ERROR]: invalid value, " << stmt << std::endl;
+				Console::LogGLError("invalid value, %s", stmt);
 				break;
 			case GL_INVALID_OPERATION:
-				std::cerr << "[OpenGL ERROR]: invalid operation, " << stmt << std::endl;
+				Console::LogGLError("invalid operation, %s", stmt);
 				break;
 			case GL_STACK_OVERFLOW:
-				std::cerr << "[OpenGL ERROR]: stack overflow, " << stmt << std::endl;
+				Console::LogGLError("stack overflow, %s", stmt);
 				break;
 			case GL_OUT_OF_MEMORY:
-				std::cerr << "[OpenGL ERROR]: out of memory, " << stmt << std::endl;
+				Console::LogGLError("out of memory, %s", stmt);
 				break;
 			default:
-				std::cerr << "[OpenGL ERROR] : unknown error, " << stmt << std::endl;
+				Console::LogGLError("unknown error, %s", stmt);
 				break;
 			}
 			err = glGetError();

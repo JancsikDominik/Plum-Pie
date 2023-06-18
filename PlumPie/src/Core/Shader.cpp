@@ -3,7 +3,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-#include <Debugging/Debug.hpp>
+#include "Debugging/Debug.hpp"
+#include "Debugging/Console.hpp"
 
 namespace Plum::GL
 {
@@ -56,7 +57,10 @@ std::string Shader::LoadSourceFromFile(const char* const path)
 	std::ifstream fstream(path);
 
 	if (!fstream.is_open())
+	{
+		Debug::Console::LogError("failed to open file %s", path);
 		return "";
+	}
 
 	std::string source;
 

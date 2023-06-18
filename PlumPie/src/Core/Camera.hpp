@@ -9,7 +9,7 @@ namespace Plum
 	{
 	public:
 		Camera();
-		Camera(glm::vec3 eyePos, glm::vec3 targetPos, glm::vec3 upVector);
+		Camera(glm::vec3 eyePos, glm::vec3 upVector, float yaw, float pitch, float roll);
 		~Camera() = default;
 
 		void Update(float deltaTime);
@@ -19,9 +19,14 @@ namespace Plum
 
 		glm::vec3 m_Position;
 		glm::vec3 m_CameraTarget;
+		glm::vec3 m_CameraDirection;
+		glm::vec3 m_CameraRight;
+		glm::vec3 m_CameraUp;
+
+		float yaw, pitch, roll;
 
 		glm::mat4 m_viewMatrix;
 	};
 }
 
-#endif // !PLUM_CAMERA_HPP
+#endif

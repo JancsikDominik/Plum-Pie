@@ -3,21 +3,23 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-#include <Debugging/Debug.hpp>
 
+#include "Debugging/Debug.hpp"
 #include "AppBase/AppBase.hpp"
 #include "Core/Renderer.hpp"
-#include "GLFWWrappers/Window.hpp"
 #include "Core/VertexArrayObject.hpp"
+#include "Debugging/Console.hpp"
 
 namespace Plum
 {
     class App final : public AppBase
     {
+    public:
+
     private:
         virtual void Render() override;
         virtual void StartUp() override;
-        virtual void Update() override;
+        virtual void Update(float time) override;
 
         GL::ShaderProgram shaderProgram;
         GL::VertexArrayObject vao;
@@ -25,13 +27,6 @@ namespace Plum
 
     void App::Render()
     {
-        GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-        const std::vector<float> attrib = { static_cast<float>(sin(glfwGetTime())) * 0.5f,
-											static_cast<float>(cos(glfwGetTime())) * 0.5f,
-											0.0f, 
-											0.0f };
-
-        GL_CALL(glVertexAttrib4fv(1, attrib.data()));
         GL_CALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
     }
 
@@ -52,11 +47,18 @@ namespace Plum
 											  0.5f, -0.5f,
         									 -0.5f, -0.5f };
 
-        GL::Shader vertexShader("D:/projects/Plum-Pie/PlumPie/src/vertex_shader.glsl", GL_VERTEX_SHADER);
-        GL::Shader fragmentShader("D:/projects/Plum-Pie/PlumPie/src/fragment_shader.glsl", GL_FRAGMENT_SHADER);
+        vao.Bind();
+        vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);
+        vao.AttachBuffer<int>(GL::ELEMENT, indices.size(), indices.data(), GL::STATIC);
+
+        // TODO: post build step, copy shaders to correct places
+        GL::Shader vertexShader("./Shaders/vertex_shader.glsl", GL_VERTEX_SHADER);
+        GL::Shader fragmentShader("./Shaders/fragment_shader.glsl", GL_FRAGMENT_SHADER);
 
         shaderProgram.AttachShaders({ &vertexShader, &fragmentShader });
         shaderProgram.Use();
+
+        vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), 2, 0, 0);
 
         const auto modelLoc = shaderProgram.GetUniformLocation("model");
         const auto viewLoc = shaderProgram.GetUniformLocation("view");
@@ -65,16 +67,17 @@ namespace Plum
         GL_CALL(glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)));
         GL_CALL(glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)));
         GL_CALL(glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection)));
-
-        vao.Bind();
-        vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);
-        vao.AttachBuffer<int>(GL::ELEMENT, indices.size(), indices.data(), GL::STATIC);
-        vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), 2, 0, 0);
     }
 
-    void App::Update()
+    void App::Update(float currTimeStamp)
     {
+        GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        const std::vector<float> attrib = { sin(currTimeStamp) * 0.5f,
+                                            cos(currTimeStamp) * 0.5f,
+                                            0.0f,
+                                            0.0f };
 
+        GL_CALL(glVertexAttrib4fv(1, attrib.data()));
     }
 
 }
@@ -82,6 +85,8 @@ namespace Plum
 
 int main()
 {
+	Plum::Debug::Console console;
+
     Plum::App app;
     app.Run();
     return 0;

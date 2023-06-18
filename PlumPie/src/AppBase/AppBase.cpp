@@ -31,7 +31,7 @@ void Plum::AppBase::Run()
     StartUp();
     while (!m_Window->ShouldClose())
     {
-        Update();
+        Update(glfwGetTime());
         Render();
         m_Window->SwapBuffers();
         glfwPollEvents();

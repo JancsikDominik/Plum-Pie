@@ -2,11 +2,13 @@
 
 #include <Debugging/Debug.hpp>
 
+#include "Debugging/Console.hpp"
+
 namespace Plum::GL
 {
 	ShaderProgram::ShaderProgram()
 	{
-		GL_CALL(m_ProgramID = glCreateProgram());
+		m_ProgramID = glCreateProgram();
 	}
 
 	ShaderProgram::~ShaderProgram()
@@ -29,7 +31,8 @@ namespace Plum::GL
 	void ShaderProgram::AttachShader(const Shader& shader) const
 	{
 		GL_CALL(glAttachShader(m_ProgramID, shader.GetShaderID()));
-		GL_CALL(glLinkProgram(m_ProgramID));
+
+		LinkProgram();
 	}
 
 	void ShaderProgram::AttachShaders(const std::vector<Shader*>& shaders) const
@@ -39,7 +42,7 @@ namespace Plum::GL
 			GL_CALL(glAttachShader(m_ProgramID, shader->GetShaderID()));
 		}
 
-		GL_CALL(glLinkProgram(m_ProgramID));
+		LinkProgram();
 	}
 
 	void ShaderProgram::Use() const
@@ -54,7 +57,9 @@ namespace Plum::GL
 
 	GLint ShaderProgram::GetAttributeLocation(const std::string& attributeName)
 	{
-		return glGetAttribLocation(m_ProgramID, attributeName.c_str());
+		GLint ret;
+		GL_CALL(ret = glGetAttribLocation(m_ProgramID, attributeName.c_str()));
+		return ret;
 	}
 
 	GLint ShaderProgram::GetUniformLocation(const std::string& uniformName)
@@ -65,5 +70,23 @@ namespace Plum::GL
 	void ShaderProgram::Release()
 	{
 		GL_CALL(glDeleteProgram(m_ProgramID));
+	}
+
+	void ShaderProgram::LinkProgram() const
+	{
+		GL_CALL(glLinkProgram(m_ProgramID));
+
+		GLint status;
+		GL_CALL(glGetProgramiv(m_ProgramID, GL_LINK_STATUS, &status));
+		if (status == GL_FALSE)
+		{
+			GLint infoLogLength;
+			GL_CALL(glGetProgramiv(m_ProgramID, GL_INFO_LOG_LENGTH, &infoLogLength));
+
+			GLchar* strInfoLog = new GLchar[infoLogLength + 1];
+			GL_CALL(glGetProgramInfoLog(m_ProgramID, infoLogLength, NULL, strInfoLog));
+			Debug::Console::LogError("linker failure : % s\n", strInfoLog);
+			delete[] strInfoLog;
+		}
 	}
 }
