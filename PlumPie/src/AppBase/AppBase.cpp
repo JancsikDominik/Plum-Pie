@@ -43,7 +43,7 @@ void Plum::AppBase::InitGlew() const
     GLenum err = glewInit();
     if (GLEW_OK != err)
     {
-        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+        Debug::Console::LogError("failed to initialize glew");
         glfwTerminate();
     }
 }

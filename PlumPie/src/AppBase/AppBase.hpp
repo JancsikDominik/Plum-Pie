@@ -1,6 +1,8 @@
 #ifndef PLUMPIE_HPP
 #define PLUMPIE_HPP
 
+#include "Debugging/Console.hpp"
+
 namespace Plum::GLFW { class Window; }
 
 namespace Plum
@@ -21,6 +23,8 @@ protected:
 	GLFW::Window* m_Window;
 private:
 	void InitGlew() const;
+
+	Debug::Console m_Console;
 };
 	
 }

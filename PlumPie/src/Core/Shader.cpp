@@ -96,7 +96,7 @@ void Shader::CompileShader(const char* const sourceCode)
 		char* error = new char[infoLogLength];
 		GL_CALL(glGetShaderInfoLog(m_ShaderID, infoLogLength, nullptr, error));
 
-		std::cerr << "Error: " << error << std::endl;
+		Debug::Console::LogError("failed to compile shader: %s", error);
 
 		delete[] error;
 
