@@ -1,6 +1,6 @@
 # Plum pie
 Plum pie is OpenGL rendering engine made by a rookie. My first ever 'big' rendering project.
-Currently the it only works on windows 10 and 11.
+Currently it only works on windows 10 and 11.
 In the future I might make it multi-platform, and/or support Vulkan/DirectX alongside OpenGL.
 
 Beware theat the project is WORK IN PROGRESS, and very bare bones right now.
