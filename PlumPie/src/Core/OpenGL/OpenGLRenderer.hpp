@@ -7,7 +7,7 @@
 #include "GLShaderProgram.hpp"
 
 
-namespace Plum
+namespace Plum::GL
 {
 	class OpenGLRenderer : public Renderer
 	{

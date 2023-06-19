@@ -3,7 +3,7 @@
 #include <Debugging/Debug.hpp>
 #include <GL/glew.h>
 
-namespace Plum
+namespace Plum::GL
 {
 	OpenGLRenderer::OpenGLRenderer()
 	{

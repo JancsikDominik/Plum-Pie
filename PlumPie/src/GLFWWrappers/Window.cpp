@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "Debugging/Console.hpp"
+
 namespace Plum::GLFW
 {
 		Window::Window(const std::string& name, unsigned sizeX, unsigned sizeY)
@@ -91,6 +93,7 @@ namespace Plum::GLFW
 		{
 			if (!glfwInit()) 
 			{
+				Debug::Console::LogError("failed to initialize GLFW");
 				throw std::runtime_error("Failed to initialize GLFW!");
 			}
 		}
@@ -101,6 +104,7 @@ namespace Plum::GLFW
 
 			if (!m_glfwWindowPtr)
 			{
+				Debug::Console::LogError("failed to create window");
 				glfwTerminate();
 				abort();
 			}

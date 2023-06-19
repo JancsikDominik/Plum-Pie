@@ -16,23 +16,17 @@ namespace Plum
 	{
 	public:
 	private:
-		void Render() override;
 		void StartUp() override;
-		void Update(double time) override;
+		void Update(double currTimeStamp) override;
 
 		GL::GLShaderProgram shaderProgram;
 		GL::VertexArrayObject vao;
 	};
 
-
-	void App::Render()
-	{
-		GL_CALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
-	}
-
 	void App::StartUp()
 	{
-		// going 3D :)
+		SetBackendApi(BackendApi::OpenGL);
+
 		auto model = glm::mat4(1.0f);
 		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -53,12 +47,12 @@ namespace Plum
 		vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);
 		vao.AttachBuffer<int>(GL::ELEMENT, indices.size(), indices.data(), GL::STATIC);
 
-		// TODO: post build step, copy shaders to correct places
 		GL::GLShader vertexShader("./Shaders/vertex_shader.glsl", Shader::Type::Vertex);
 		GL::GLShader fragmentShader("./Shaders/fragment_shader.glsl", Shader::Type::Fragment);
 
 		shaderProgram.AttachShaders({&vertexShader, &fragmentShader});
-		shaderProgram.Use();
+
+		m_renderer->UseProgram(shaderProgram);
 
 		vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), 2, 0, 0);
 
@@ -69,6 +63,8 @@ namespace Plum
 		GL_CALL(glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)));
 		GL_CALL(glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)));
 		GL_CALL(glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection)));
+
+		m_renderer->SetClearColor({ 0.1f, 0.3f, 0.4f, 1.f });
 	}
 
 	void App::Update(double currTimeStamp)

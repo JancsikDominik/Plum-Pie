@@ -23,12 +23,12 @@ namespace Plum
 		}
 
 		Vertex(glm::vec3 pos)
-			:pos{ pos }, color {}
+			: pos{ pos }, color {}
 		{
 		}
 
 		Vertex()
-			:pos{}, color{}
+			: pos{}, color{}
 		{
 		}
 
