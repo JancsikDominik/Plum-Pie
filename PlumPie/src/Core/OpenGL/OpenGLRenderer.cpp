@@ -10,8 +10,8 @@ namespace Plum::GL
 		m_IsCullfaceEnabled = true;
 		m_IsDepthTestEnabled = true;
 
-		SetCullFace(m_IsCullfaceEnabled);
-		SetDepthTest(m_IsDepthTestEnabled);
+		OpenGLRenderer::SetCullFace(m_IsCullfaceEnabled);
+		OpenGLRenderer::SetDepthTest(m_IsDepthTestEnabled);
 	}
 
 	void OpenGLRenderer::SetClearColor(Color clearColor)
@@ -32,9 +32,9 @@ namespace Plum::GL
 		m_IsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 	}
 
-	void OpenGLRenderer::UseProgram(ShaderProgram& program)
+	void OpenGLRenderer::SetProgram(ShaderProgram& program)
 	{
-		m_Program = dynamic_cast<GL::GLShaderProgram*>(&program);
+		m_Program = dynamic_cast<GLShaderProgram*>(&program);
 		m_Program->Use();
 	}
 

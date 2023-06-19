@@ -38,11 +38,10 @@ namespace Plum::GL
 		VertexArrayObject& operator=(VertexArrayObject&& other) noexcept;
 
 		void Bind();
-		void EnableAttribute(unsigned int index, int size, unsigned int offset, const void* data);
-
+		void EnableAttribute(unsigned int index, uint64_t size, unsigned int offset, const void* data) const;
 
 		template <typename T>
-		void AttachBuffer(BufferType type, size_t elemCount, const void* data, DrawType mode)
+		void AttachBuffer(BufferType type, size_t elemCount, const void* data, DrawType mode) const
 		{
 			GLuint buffer;
 			GL_CALL(glGenBuffers(1, &buffer));

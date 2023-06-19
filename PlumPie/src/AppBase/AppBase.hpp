@@ -1,6 +1,8 @@
 #ifndef PLUMPIE_HPP
 #define PLUMPIE_HPP
 
+#include <Debugging/Debug.hpp>
+
 #include "Debugging/Console.hpp"
 
 namespace Plum::GLFW { class Window; }

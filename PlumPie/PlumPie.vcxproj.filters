@@ -46,7 +46,6 @@
       <Filter>src\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Debugging\Console.cpp" />
-    <ClCompile Include="src\Core\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">

@@ -89,6 +89,16 @@ namespace Plum::GLFW
 			glViewport(0, 0, newWidth, newHeight);
 		}
 
+		void Window::PollEvents() const
+		{
+			glfwPollEvents();
+		}
+
+		double Window::GetTime() const
+		{
+			return glfwGetTime();
+		}
+
 		void Window::InitGLFW() const
 		{
 			if (!glfwInit()) 

@@ -38,10 +38,12 @@ namespace Plum
 		const std::vector<int> indices{0, 1, 2};
 
 		const std::vector<float> vertices = {
-			 0.0f,  0.5f,
 			 0.5f, -0.5f,
+			 0.0f,  0.5f,
 			-0.5f, -0.5f
 		};
+
+		const std::vector<float> pos = { 0, 0 };
 
 		vao.Bind();
 		vao.AttachBuffer<float>(GL::ARRAY, vertices.size(), vertices.data(), GL::STATIC);
@@ -51,8 +53,7 @@ namespace Plum
 		GL::GLShader fragmentShader("./Shaders/fragment_shader.glsl", Shader::Type::Fragment);
 
 		shaderProgram.AttachShaders({&vertexShader, &fragmentShader});
-
-		m_renderer->UseProgram(shaderProgram);
+		shaderProgram.Use();
 
 		vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), 2, 0, 0);
 
@@ -60,6 +61,7 @@ namespace Plum
 		const auto viewLoc = shaderProgram.GetUniformLocation("view");
 		const auto projectionLoc = shaderProgram.GetUniformLocation("projection");
 
+		// TODO: abstract these
 		GL_CALL(glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)));
 		GL_CALL(glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)));
 		GL_CALL(glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection)));
@@ -78,7 +80,8 @@ namespace Plum
 			0.0f
 		};
 
-		GL_CALL(glVertexAttrib4fv(1, attrib.data()));
+		// TODO: abstract this
+		GL_CALL(glVertexAttrib4fv(shaderProgram.GetAttributeLocation("offset"), attrib.data()));
 	}
 }
 

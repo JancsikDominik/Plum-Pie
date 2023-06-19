@@ -29,6 +29,9 @@ namespace Plum::GLFW
 
 			void Resize(int newWidth, int newHeight);
 
+			void PollEvents() const;
+			double GetTime() const;
+
 		private:
 			void InitGLFW() const;
 			void CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name);

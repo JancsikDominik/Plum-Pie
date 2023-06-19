@@ -29,17 +29,16 @@ Plum::AppBase::~AppBase()
 
 void Plum::AppBase::Run()
 {
-    std::cout << "version: " << glGetString(GL_VERSION) << std::endl;
+    // TODO: print correct version with multiple apis
+    Debug::Console::LogInfo("OpenGL version: %s", glGetString(GL_VERSION));
 
     StartUp();
     while (!m_window->ShouldClose())
     {
-        Update(glfwGetTime());
-
+        Update(m_window->GetTime());
         m_renderer->Render();
         m_window->SwapBuffers();
-
-        glfwPollEvents();
+        m_window->PollEvents();
     }
 }
 

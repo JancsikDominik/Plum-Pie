@@ -29,7 +29,7 @@ namespace Plum::GL
 		GL_CALL(glBindVertexArray(m_vaoID));
 	}
 
-	void VertexArrayObject::EnableAttribute(unsigned int index, int size, unsigned int offset, const void* data)
+	void VertexArrayObject::EnableAttribute(unsigned int index, uint64_t size, unsigned int offset, const void* data) const
 	{
 		GL_CALL(glEnableVertexAttribArray(index));
 		GL_CALL(glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, offset, data));

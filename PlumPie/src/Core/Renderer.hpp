@@ -17,7 +17,7 @@ namespace Plum
 		virtual void SetClearColor(Color clearColor) = 0;
 		virtual void SetCullFace(bool enable) = 0;
 		virtual void SetDepthTest(bool enable) = 0;
-		virtual void UseProgram(ShaderProgram& program) = 0;
+		virtual void SetProgram(ShaderProgram& program) = 0;
 		virtual void StopUsingCurrentProgram() = 0;
 		virtual void SetUniformData(const std::string& name, const std::any& value) = 0;
 

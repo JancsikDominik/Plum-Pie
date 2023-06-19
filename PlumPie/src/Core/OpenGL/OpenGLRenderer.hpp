@@ -16,7 +16,7 @@ namespace Plum::GL
 		void SetClearColor(Color clearColor) override;
 		void SetCullFace(bool enable) override;
 		void SetDepthTest(bool enable) override;
-		void UseProgram(ShaderProgram& program) override;
+		void SetProgram(ShaderProgram& program) override;
 		void StopUsingCurrentProgram() override;
 		void SetViewport(int x, int y, int width, int height) override;
 		void SetUniformData(const std::string& name, const std::any& value) override;
@@ -26,8 +26,8 @@ namespace Plum::GL
 	private:
 		GL::GLShaderProgram* m_Program = nullptr;
 		Color m_ClearColor;
-		bool m_IsCullfaceEnabled;
-		bool m_IsDepthTestEnabled;
+		bool m_IsCullfaceEnabled = true;
+		bool m_IsDepthTestEnabled = true;
 	};
 }
 
