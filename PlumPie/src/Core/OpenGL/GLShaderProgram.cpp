@@ -31,7 +31,7 @@ namespace Plum::GL
 
 	void GLShaderProgram::AttachShader(const Shader* shader) const
 	{
-		const auto& glShader = (GLShader*)shader;
+		const auto& glShader = dynamic_cast<const GLShader*>(shader);
 		if (glShader == nullptr)
 		{
 			Debug::Console::LogGLError("Can't cast shader to GLShader");
@@ -47,7 +47,7 @@ namespace Plum::GL
 	{
 		for(const auto& shader : shaders)
 		{
-			const auto& glShader = (GLShader*)shader;
+			const auto& glShader = dynamic_cast<GLShader*>(shader);
 			if (glShader == nullptr)
 			{
 				Debug::Console::LogGLError("Can't cast shader to GLShader");

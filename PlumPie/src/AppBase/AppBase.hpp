@@ -18,7 +18,7 @@ public:
 protected:
 	virtual void Render() = 0;
 	virtual void StartUp() = 0;
-	virtual void Update(float currTimeStamp) = 0;
+	virtual void Update(double currTimeStamp) = 0;
 
 	GLFW::Window* m_Window;
 private:

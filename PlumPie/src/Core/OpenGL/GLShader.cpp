@@ -108,6 +108,10 @@ int GLShader::GetOpenGLShaderType(Type t)
 		return GL_COMPUTE_SHADER;
 	case Type::Geometry:
 		return GL_GEOMETRY_SHADER;
+	case Type::Tessellation:
+		return GL_TESS_EVALUATION_SHADER;
+
+	/* Shouldn't be possible */
 	default:
 		Debug::Console::LogGLError("unknown shader type");
 		return -1;

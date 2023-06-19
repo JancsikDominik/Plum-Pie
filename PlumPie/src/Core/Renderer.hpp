@@ -1,4 +1,9 @@
 #pragma once
+
+#include <any>
+#include <unordered_map>
+
+#include "ShaderProgram.hpp"
 #include "Graphics/Vertex.hpp"
 
 namespace Plum
@@ -8,17 +13,21 @@ namespace Plum
 	public:
 		virtual ~Renderer() = default;
 
+		virtual void SetViewport(int x, int y, int width, int height) = 0;
 		virtual void SetClearColor(Color clearColor) = 0;
 		virtual void SetCullFace(bool enable) = 0;
 		virtual void SetDepthTest(bool enable) = 0;
-		virtual void UseProgram(/*ShaderProgram& program*/) = 0;
+		virtual void UseProgram(ShaderProgram& program) = 0;
 		virtual void StopUsingCurrentProgram() = 0;
+		virtual void SetUniformData(const std::string& name, const std::any& value) = 0;
+
+		// TODO: Textures
+		// virtual void SetTexture(Texture& texture) = 0;
+
+		virtual void Clear() = 0;
 		virtual void Render() = 0;
 
-	private:
-		// GL::ShaderProgram* m_Program = nullptr;
-		Color m_ClearColor;
-		bool m_IsCullfaceEnabled;
-		bool m_IsDepthTestEnabled;
+	protected:
+		std::unordered_map<std::string, std::any> m_UniformData;
 	};
 }

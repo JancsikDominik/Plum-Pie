@@ -9,7 +9,7 @@
 namespace Plum::GL
 {
 	// raii class for opengl shader
-	class GLShader : Shader
+	class GLShader : public Shader
 	{
 	public:
 		GLShader(const char* const path, Type type);

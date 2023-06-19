@@ -12,11 +12,12 @@ namespace Plum::GL
 {
 
 // raii class for opengl shaderprogram
-class GLShaderProgram : ShaderProgram
+class GLShaderProgram : public ShaderProgram
 {
 public:
 	GLShaderProgram();
-	~GLShaderProgram();
+	~GLShaderProgram() override;
+
 	GLShaderProgram(const GLShaderProgram&) = delete;
 	GLShaderProgram& operator=(const GLShaderProgram&) = delete;
 

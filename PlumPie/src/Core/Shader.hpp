@@ -13,8 +13,7 @@ namespace Plum
 			Fragment,
 			Geometry,
 			Compute,
-			Tesselation,
-
+			Tessellation
 		};
 
 		virtual ~Shader() = default;

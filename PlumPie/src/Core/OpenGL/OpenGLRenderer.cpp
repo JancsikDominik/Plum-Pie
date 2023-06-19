@@ -32,10 +32,9 @@ namespace Plum
 		m_IsDepthTestEnabled ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 	}
 
-	void OpenGLRenderer::UseProgram(GL::GLShaderProgram& program)
+	void OpenGLRenderer::UseProgram(ShaderProgram& program)
 	{
-
-		m_Program = &program;
+		m_Program = dynamic_cast<GL::GLShaderProgram*>(&program);
 		m_Program->Use();
 	}
 
@@ -48,9 +47,23 @@ namespace Plum
 		}
 	}
 
-	void OpenGLRenderer::Render()
+	void OpenGLRenderer::SetViewport(int x, int y, int width, int height)
+	{
+		GL_CALL(glViewport(x, y, width, height));
+	}
+
+	void OpenGLRenderer::SetUniformData(const std::string& name, const std::any& value)
+	{
+		m_UniformData[name] = value;
+	}
+
+	void OpenGLRenderer::Clear()
 	{
 		GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+	}
+
+	void OpenGLRenderer::Render()
+	{
 		GL_CALL(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0));
 	}
 }
