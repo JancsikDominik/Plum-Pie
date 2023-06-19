@@ -1,4 +1,4 @@
-#include "Shader.hpp"
+#include "GLShader.hpp"
 
 #include <fstream>
 #include <string>
@@ -9,21 +9,21 @@
 namespace Plum::GL
 {
 
-Shader::Shader(const char* const path, GLenum type)
+GLShader::GLShader(const char* const path, Type type)
 {
-	const std::string& source = LoadSourceFromFile(path);
+	const std::string& source = GLShader::LoadSourceFromFile(path);
 	const char* const sourceAsCStr = source.c_str(); // doing this in two step to avoid dangling pointers
 
-	CreateShader(type);
-	CompileShader(sourceAsCStr);
+	GLShader::CreateShader(type);
+	GLShader::CompileShader(sourceAsCStr);
 }
 
-Shader::~Shader()
+GLShader::~GLShader()
 {
-	Release();
+	GLShader::Release();
 }
 
-Shader& Shader::operator=(Shader&& other) noexcept
+GLShader& GLShader::operator=(GLShader&& other) noexcept
 {
 	if (this != &other)
 	{
@@ -33,7 +33,7 @@ Shader& Shader::operator=(Shader&& other) noexcept
 	return *this;
 }
 
-GLuint Shader::GetShaderID() const
+GLuint GLShader::GetShaderID() const
 {
 	if(m_ShaderID != 0)
 		return m_ShaderID;
@@ -42,7 +42,7 @@ GLuint Shader::GetShaderID() const
 }
 
 
-std::string Shader::LoadSourceFromFile(const char* const path)
+std::string GLShader::LoadSourceFromFile(const char* const path)
 {
 	std::ifstream fstream(path);
 
@@ -63,12 +63,12 @@ std::string Shader::LoadSourceFromFile(const char* const path)
 	return source;
 }
 
-void Shader::CreateShader(GLenum type)
+void GLShader::CreateShader(Type type)
 {
-	GL_CALL(m_ShaderID = glCreateShader(type));
+	GL_CALL(m_ShaderID = glCreateShader(GetOpenGLShaderType(type)));
 }
 
-void Shader::CompileShader(const char* const sourceCode)
+void GLShader::CompileShader(const char* const sourceCode)
 {
 	GL_CALL(glShaderSource(m_ShaderID, 1, &sourceCode, 0));
 	GL_CALL(glCompileShader(m_ShaderID));
@@ -92,8 +92,26 @@ void Shader::CompileShader(const char* const sourceCode)
 	}
 }
 
-void Shader::Release()
+void GLShader::Release()
 {
 	GL_CALL(glDeleteShader(m_ShaderID));
 }
+int GLShader::GetOpenGLShaderType(Type t)
+{
+	switch(t)
+	{
+	case Type::Fragment:
+		return GL_FRAGMENT_SHADER;
+	case Type::Vertex:
+		return GL_VERTEX_SHADER;
+	case Type::Compute:
+		return GL_COMPUTE_SHADER;
+	case Type::Geometry:
+		return GL_GEOMETRY_SHADER;
+	default:
+		Debug::Console::LogGLError("unknown shader type");
+		return -1;
+	}
+}
+
 }

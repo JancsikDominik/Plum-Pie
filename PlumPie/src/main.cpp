@@ -6,8 +6,8 @@
 
 #include "Debugging/Debug.hpp"
 #include "AppBase/AppBase.hpp"
-#include "Core/Renderer.hpp"
-#include "Core/VertexArrayObject.hpp"
+#include "Core/OpenGL/OpenGLRenderer.hpp"
+#include "Core/OpenGL/VertexArrayObject.hpp"
 
 namespace Plum
 {
@@ -16,11 +16,11 @@ namespace Plum
     public:
 
     private:
-        virtual void Render() override;
-        virtual void StartUp() override;
-        virtual void Update(float time) override;
+        void Render() override;
+        void StartUp() override;
+        void Update(float time) override;
 
-        GL::ShaderProgram shaderProgram;
+        GL::GLShaderProgram shaderProgram;
         GL::VertexArrayObject vao;
     };
 
@@ -51,8 +51,8 @@ namespace Plum
         vao.AttachBuffer<int>(GL::ELEMENT, indices.size(), indices.data(), GL::STATIC);
 
         // TODO: post build step, copy shaders to correct places
-        GL::Shader vertexShader("./Shaders/vertex_shader.glsl", GL_VERTEX_SHADER);
-        GL::Shader fragmentShader("./Shaders/fragment_shader.glsl", GL_FRAGMENT_SHADER);
+        GL::GLShader vertexShader("./Shaders/vertex_shader.glsl", Shader::Type::Vertex);
+        GL::GLShader fragmentShader("./Shaders/fragment_shader.glsl", Shader::Type::Fragment);
 
         shaderProgram.AttachShaders({ &vertexShader, &fragmentShader });
         shaderProgram.Use();

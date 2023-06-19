@@ -1,4 +1,4 @@
-#include "ShaderProgram.hpp"
+#include "GLShaderProgram.hpp"
 
 #include <Debugging/Debug.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -7,17 +7,17 @@
 
 namespace Plum::GL
 {
-	ShaderProgram::ShaderProgram()
+	GLShaderProgram::GLShaderProgram()
 	{
 		m_ProgramID = glCreateProgram();
 	}
 
-	ShaderProgram::~ShaderProgram()
+	GLShaderProgram::~GLShaderProgram()
 	{
 		Release();
 	}
 
-	ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept
+	GLShaderProgram& GLShaderProgram::operator=(GLShaderProgram&& other) noexcept
 	{
 		if (this != &other)
 		{
@@ -29,41 +29,56 @@ namespace Plum::GL
 		return *this;
 	}
 
-	void ShaderProgram::AttachShader(const Shader& shader) const
+	void GLShaderProgram::AttachShader(const Shader* shader) const
 	{
-		GL_CALL(glAttachShader(m_ProgramID, shader.GetShaderID()));
+		const auto& glShader = (GLShader*)shader;
+		if (glShader == nullptr)
+		{
+			Debug::Console::LogGLError("Can't cast shader to GLShader");
+			return;
+		}
+
+		GL_CALL(glAttachShader(m_ProgramID, glShader->GetShaderID()));
 
 		LinkProgram();
 	}
 
-	void ShaderProgram::AttachShaders(const std::vector<Shader*>& shaders) const
+	void GLShaderProgram::AttachShaders(const std::vector<Shader*>& shaders) const
 	{
 		for(const auto& shader : shaders)
 		{
-			GL_CALL(glAttachShader(m_ProgramID, shader->GetShaderID()));
+			const auto& glShader = (GLShader*)shader;
+			if (glShader == nullptr)
+			{
+				Debug::Console::LogGLError("Can't cast shader to GLShader");
+				break;
+			}
+
+
+			GL_CALL(glAttachShader(m_ProgramID, glShader->GetShaderID()));
 		}
 
 		LinkProgram();
 	}
 
-	void ShaderProgram::Use() const
+	void GLShaderProgram::Use() const
 	{
 		GL_CALL(glUseProgram(m_ProgramID));
 	}
 
-	void ShaderProgram::StopUsing() const
+	void GLShaderProgram::StopUsing() const
 	{
 		GL_CALL(glUseProgram(0));
 	}
 
-	GLint ShaderProgram::GetAttributeLocation(const std::string& attributeName)
+	GLint GLShaderProgram::GetAttributeLocation(const std::string& attributeName)
 	{
 		GLint ret;
 		GL_CALL(ret = glGetAttribLocation(m_ProgramID, attributeName.c_str()));
 		return ret;
 	}
 
-	GLint ShaderProgram::GetUniformLocation(const std::string& uniformName)
+	GLint GLShaderProgram::GetUniformLocation(const std::string& uniformName)
 	{
 		if (m_UniformLocations.contains(uniformName))
 			return m_UniformLocations[uniformName];
@@ -73,24 +88,24 @@ namespace Plum::GL
 		return newLocation;
 	}
 
-	void ShaderProgram::SetUnifrom4f(const std::string& name, const glm::vec4& vec)
+	void GLShaderProgram::SetUnifrom4f(const std::string& name, const glm::vec4& vec)
 	{
 		const auto& location = GetUniformLocation(name);
 		GL_CALL(glUniform4f(location, vec.x, vec.y, vec.z, vec.w));
 	}
 
-	void ShaderProgram::SetUnifrom4x4Matrix(const std::string& name, const glm::mat4& matrix)
+	void GLShaderProgram::SetUnifrom4x4Matrix(const std::string& name, const glm::mat4& matrix)
 	{
 		const auto& location = GetUniformLocation(name);
 		GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)));
 	}
 
-	void ShaderProgram::Release()
+	void GLShaderProgram::Release()
 	{
 		GL_CALL(glDeleteProgram(m_ProgramID));
 	}
 
-	void ShaderProgram::LinkProgram() const
+	void GLShaderProgram::LinkProgram() const
 	{
 		GL_CALL(glLinkProgram(m_ProgramID));
 
