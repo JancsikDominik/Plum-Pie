@@ -75,17 +75,16 @@ namespace Plum
 
 	void App::Update(double currTimeStamp)
 	{
-		GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+		m_renderer->Clear();
 
-		const std::vector<float> attrib = {
+		const glm::vec4 offset = {
 			static_cast<float>(sin(currTimeStamp) * 0.5f),
 			static_cast<float>(cos(currTimeStamp) * 0.5f),
 			0.0f,
 			0.0f
 		};
 
-		// TODO: abstract this
-		GL_CALL(glVertexAttrib4fv(shaderProgram.GetAttributeLocation("offset"), attrib.data()));
+		shaderProgram.SetUniform("offset", offset);
 	}
 }
 

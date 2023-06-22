@@ -16,6 +16,12 @@
     <Filter Include="src\Graphics">
       <UniqueIdentifier>{833aac70-1b9d-43e7-8762-f480f273d522}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Debugging">
+      <UniqueIdentifier>{d78f0695-4ba8-487a-aee2-6402b4e9e032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core\OpenGL">
+      <UniqueIdentifier>{65c8b09b-4f92-4b0c-a4be-d6437ce54503}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -30,22 +36,24 @@
     <ClCompile Include="src\Core\Camera.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\OpenGL\OpenGLRenderer.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\OpenGL\GLShader.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\OpenGL\GLShaderProgram.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\OpenGL\VertexArrayObject.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\Graphics\Mesh.cpp">
       <Filter>src\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Debugging\Console.cpp" />
+    <ClCompile Include="src\Debugging\Console.cpp">
+      <Filter>src\Debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\OpenGL\GLShader.cpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\OpenGL\GLShaderProgram.cpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\OpenGL\OpenGLRenderer.cpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\OpenGL\VertexArrayObject.cpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -57,27 +65,35 @@
     <ClInclude Include="src\Core\Camera.hpp">
       <Filter>src\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\OpenGL\OpenGLRenderer.hpp">
-      <Filter>src\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\OpenGL\GLShader.hpp">
-      <Filter>src\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\OpenGL\GLShaderProgram.hpp">
-      <Filter>src\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\OpenGL\VertexArrayObject.hpp">
-      <Filter>src\Core</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics\Mesh.hpp">
       <Filter>src\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Vertex.hpp">
       <Filter>src\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Debugging\Console.hpp" />
-    <ClInclude Include="src\Core\Renderer.hpp" />
-    <ClInclude Include="src\Core\ShaderProgram.hpp" />
-    <ClInclude Include="src\Core\Shader.hpp" />
+    <ClInclude Include="src\Debugging\Console.hpp">
+      <Filter>src\Debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\OpenGL\GLShader.hpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\OpenGL\GLShaderProgram.hpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\OpenGL\OpenGLRenderer.hpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\OpenGL\VertexArrayObject.hpp">
+      <Filter>src\Core\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ShaderProgram.hpp">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Renderer.hpp">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Shader.hpp">
+      <Filter>src\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
