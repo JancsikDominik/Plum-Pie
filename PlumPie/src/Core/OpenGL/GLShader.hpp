@@ -1,7 +1,7 @@
 #ifndef PLUM_SHADER_HPP
 #define PLUM_SHADER_HPP
 
-#include "GL/glew.h"
+#include "glew.h"
 #include <string>
 
 #include "Core/Shader.hpp"

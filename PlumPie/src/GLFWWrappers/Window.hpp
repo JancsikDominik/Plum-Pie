@@ -25,12 +25,14 @@ namespace Plum::GLFW
 			void SwapBuffers() const;
 
 			void SetVsync(const bool isEnabled);
-			[[nodiscard]] bool IsVsync() const { return m_IsVsyncOn; }
+			[[nodiscard]] bool IsVsync() const { return m_isVsyncOn; }
 
 			void Resize(int newWidth, int newHeight);
 
+			void SetCurrentContext(bool thisThread) const;
+
 			void PollEvents() const;
-			double GetTime() const;
+			[[nodiscard]] double GetTime() const;
 
 		private:
 			void InitGLFW() const;
@@ -46,9 +48,9 @@ namespace Plum::GLFW
 
 			// data
 			GLFWwindow* m_glfwWindowPtr = nullptr;
-			GLFWmonitor* m_Monitor = nullptr;
-			bool m_IsFullscreen = false;
-			bool m_IsVsyncOn = true;
+			GLFWmonitor* m_monitor = nullptr;
+			bool m_isFullscreen = false;
+			bool m_isVsyncOn = true;
 		};
 }
 

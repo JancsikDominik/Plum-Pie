@@ -1,7 +1,7 @@
 #ifndef PLUM_GL_BUFFER_HPP
 #define PLUM_GL_BUFFER_HPP
 
-#include <GL/glew.h>
+#include <glew.h>
 #include <vector>
 #include <Debugging/Debug.hpp>
 

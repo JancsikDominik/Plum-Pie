@@ -154,14 +154,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>PLUM_DEBUG;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\ext\GL\GLEWbin\include;..\ext\GL\GLFWbin\include;$(ProjectDir)\src;..\ext\GL\GLMbin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ext\OpenGL\GLEWbin\include;..\ext\OpenGL\GLFWbin\include;..\ext\OpenGL\GLMbin;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\ext\GL\GLFWbin\lib-vc2022;..\ext\GL\GLEWbin\lib\Release\x64;..\ext\GL\GLUTbin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ext\OpenGL\GLFWbin\lib-vc2022;..\ext\OpenGL\GLEWbin\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glfw3dll.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -180,14 +180,14 @@ xcopy "$(ProjectDir)src\Shaders\*.glsl" "$(SolutionDir)bin\$(Platform)\$(Configu
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\ext\GL\GLEWbin\include;..\ext\GL\GLFWbin\include;$(ProjectDir)\src;..\ext\GL\GLMbin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ext\OpenGL\GLEWbin\include;..\ext\OpenGL\GLFWbin\include;..\ext\OpenGL\GLMbin;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\ext\GL\GLFWbin\lib-vc2022;..\ext\GL\GLEWbin\lib\Release\x64;..\ext\GL\GLUTbin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ext\OpenGL\GLFWbin\lib-vc2022;..\ext\OpenGL\GLEWbin\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glfw3dll.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SUBSYSTEM:windows
 /ENTRY:mainCRTStartup %(AdditionalOptions)</AdditionalOptions>

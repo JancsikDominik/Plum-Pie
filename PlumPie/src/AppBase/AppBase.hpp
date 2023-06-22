@@ -16,8 +16,9 @@ class AppBase
 public:
 	enum class BackendApi
 	{
+		Unknown,
 		OpenGL,
-		Vulkan // MAYBE? or DirectX12
+		// Vulkan // MAYBE? or DirectX12
 	};
 
 	AppBase();
@@ -52,7 +53,9 @@ protected:
 
 private:
 	void InitGlew() const;
+	void PrintRenderingAPIVersion() const;
 
+	BackendApi m_renderingAPI;
 	Debug::Console m_console;
 };
 	

@@ -1,7 +1,7 @@
 #include "OpenGLRenderer.hpp"
 
 #include <Debugging/Debug.hpp>
-#include <GL/glew.h>
+#include <glew.h>
 
 namespace Plum::GL
 {

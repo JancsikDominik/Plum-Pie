@@ -2,6 +2,7 @@
 #define PLUM_ASSERT_HPP
 
 #include <iostream>
+#include <GLFW/glfw3.h>
 #include "Console.hpp"
 
 
@@ -38,6 +39,14 @@ namespace Plum::Debug::Opengl
 
 	inline static bool CheckOpenGLError(const char* stmt)
 	{
+		// kinda a junkie fix, but couldn't think about a better way
+		// if there is no opengl context this function gets into an infinite loop
+		if (glfwGetCurrentContext() == nullptr)
+		{
+			Console::LogGLError("no opengl context");
+			return false;
+		}
+
 		bool errorOccured = false;
 		GLenum err = glGetError();
 		while (err != GL_NO_ERROR)

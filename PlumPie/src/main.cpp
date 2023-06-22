@@ -1,4 +1,9 @@
-#include <GL/glew.h>
+/****************************************************************************
+		THIS FILE IS USED FOR TESTING PURPOSES THE ENGINE IS NOT FINISHED,
+					THERE IS NO PROPER "ENTRY POINT" YET
+*****************************************************************************/
+
+#include <glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -61,10 +66,9 @@ namespace Plum
 		const auto viewLoc = shaderProgram.GetUniformLocation("view");
 		const auto projectionLoc = shaderProgram.GetUniformLocation("projection");
 
-		// TODO: abstract these
-		GL_CALL(glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)));
-		GL_CALL(glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)));
-		GL_CALL(glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection)));
+		shaderProgram.SetUniformMatrix("model", model, false);
+		shaderProgram.SetUniformMatrix("view", view, false);
+		shaderProgram.SetUniformMatrix("projection", projection, false);
 
 		m_renderer->SetClearColor({ 0.1f, 0.3f, 0.4f, 1.f });
 	}

@@ -88,18 +88,6 @@ namespace Plum::GL
 		return newLocation;
 	}
 
-	void GLShaderProgram::SetUnifrom4f(const std::string& name, const glm::vec4& vec)
-	{
-		const auto& location = GetUniformLocation(name);
-		GL_CALL(glUniform4f(location, vec.x, vec.y, vec.z, vec.w));
-	}
-
-	void GLShaderProgram::SetUnifrom4x4Matrix(const std::string& name, const glm::mat4& matrix)
-	{
-		const auto& location = GetUniformLocation(name);
-		GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)));
-	}
-
 	void GLShaderProgram::Release()
 	{
 		GL_CALL(glDeleteProgram(m_ProgramID));
