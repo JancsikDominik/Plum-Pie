@@ -5,19 +5,30 @@
 #include <vector>
 #include <Debugging/Debug.hpp>
 
+#include "Formats.hpp"
+
 namespace Plum::GL
 {
-	enum BufferType : int
+	enum class BufferType : int
 	{
-		ARRAY = GL_ARRAY_BUFFER,
-		ELEMENT = GL_ELEMENT_ARRAY_BUFFER
+		Array = GL_ARRAY_BUFFER,
+		Element = GL_ELEMENT_ARRAY_BUFFER
 	};
 
-	enum DrawType : int 
+	enum class DrawType : int 
 	{
-		DYNAMIC = GL_DYNAMIC_DRAW,
-		STATIC = GL_STATIC_DRAW,
-		STREAM = GL_STREAM_DRAW
+		Dynamic = GL_DYNAMIC_DRAW,
+		Static = GL_STATIC_DRAW,
+		Stream = GL_STREAM_DRAW
+	};
+
+	template <typename T>
+	struct AttributeLayout
+	{
+		int count = 1;
+		uint64_t offset = 0;
+		bool normalized = false;
+		GLTypes type;
 	};
 
 	// raii class for opengl vao
@@ -38,15 +49,21 @@ namespace Plum::GL
 		VertexArrayObject& operator=(VertexArrayObject&& other) noexcept;
 
 		void Bind();
-		void EnableAttribute(unsigned int index, GLint size, unsigned int offset, const void* data) const;
+
+		template <typename T>
+		void EnableAttribute(uint32_t index, const AttributeLayout<T>& layout) const
+		{
+			GL_CALL(glEnableVertexAttribArray(index));
+			GL_CALL(glVertexAttribPointer(index, layout.count, (int)layout.type, layout.normalized, sizeof(T), reinterpret_cast<const void*>(layout.offset)));
+		}
 
 		template <typename T>
 		void AttachBuffer(BufferType type, size_t elemCount, const void* data, DrawType mode) const
 		{
 			GLuint buffer;
 			GL_CALL(glGenBuffers(1, &buffer));
-			GL_CALL(glBindBuffer(type, buffer));
-			GL_CALL(glBufferData(type, elemCount * sizeof(T), data, mode));
+			GL_CALL(glBindBuffer((int)type, buffer));
+			GL_CALL(glBufferData((int)type, elemCount * sizeof(T), data, (int)mode));
 		}
 
 	private:

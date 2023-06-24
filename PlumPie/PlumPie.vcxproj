@@ -31,6 +31,7 @@
     <ClCompile Include="src\Core\OpenGL\GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\OpenGL\Formats.hpp" />
     <ClInclude Include="src\Core\Shader.hpp" />
     <ClInclude Include="src\Core\ShaderProgram.hpp" />
     <ClInclude Include="src\Core\Renderer.hpp" />
