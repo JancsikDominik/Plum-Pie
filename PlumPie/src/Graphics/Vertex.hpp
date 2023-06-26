@@ -2,6 +2,7 @@
 #define PLUM_VERTEX_HPP
 
 #include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 namespace Plum
 {
@@ -12,28 +13,23 @@ namespace Plum
 		{
 		}
 
+		// TODO: to HSL
+		// TODO: to rgba (0-255)
+		// TODO: to rgba (0-1)
+
 		float r, g, b, a;
 	};
 
 	struct Vertex
 	{
-		Vertex(glm::vec3 pos, Color color)
-			: pos{ pos }, color{ color }
-		{
-		}
-
-		Vertex(glm::vec3 pos)
-			: pos{ pos }, color {}
-		{
-		}
-
-		Vertex()
-			: pos{}, color{}
+		Vertex(glm::vec3 pos, glm::vec3 normal = {0, 1, 0}, glm::vec2 uv = {0, 0})
+			: pos {pos}, normal {normal}, uv {uv}
 		{
 		}
 
 		glm::vec3 pos;
-		Color color;
+		glm::vec3 normal;
+		glm::vec2 uv;
 	};
 	
 }

@@ -9,23 +9,28 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-#include "Debugging/Debug.hpp"
 #include "AppBase/AppBase.hpp"
 #include "Core/OpenGL/OpenGLRenderer.hpp"
 #include "Core/OpenGL/VertexArrayObject.hpp"
 #include "Core/OpenGL/GLShaderProgram.hpp"
+#include "Graphics/Camera.hpp"
 
 namespace Plum
 {
 	class App final : public AppBase
 	{
 	public:
-	private:
 		void StartUp() override;
 		void Update(double currTimeStamp) override;
 
+		void OnKeyEvent(/*const KeyEvent& keyevent*/) override {}
+		void OnMouseEvent(/*const MouseEvent& mouseevent*/) override {}
+		void OnResize(uint32_t width, uint32_t height) override {}
+
+	private:
 		GL::GLShaderProgram shaderProgram;
 		GL::VertexArrayObject vao;
+		Camera camera{ 1280, 960 };
 	};
 
 	void App::StartUp()
@@ -35,10 +40,7 @@ namespace Plum
 		auto model = glm::mat4(1.0f);
 		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-		auto view = glm::mat4(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-		glm::mat4 projection = glm::perspective(glm::radians(60.0f), 1280.f / 960.f, 0.1f, 100.0f);
+		camera.SetPosition({0, 0, -3});
 
 		const std::vector<int> indices{ 0, 1, 2 };
 
@@ -47,8 +49,6 @@ namespace Plum
 			 glm::vec2( 0.0f,  0.5f),
 			 glm::vec2(-0.5f, -0.5f)
 		};
-
-		const std::vector<float> pos = { 0, 0 };
 
 		vao.Bind();
 		vao.AttachBuffer<glm::vec2>(GL::BufferType::Array, vertices.size(), vertices.data(), GL::DrawType::Static);
@@ -60,22 +60,18 @@ namespace Plum
 		shaderProgram.AttachShaders({&vertexShader, &fragmentShader});
 		shaderProgram.Use();
 
-		const auto attrLayout = GL::AttributeLayout<glm::vec2>(2, 0, false, GL::GLTypes::Float);
+		constexpr auto attrLayout = GL::AttributeLayout<glm::vec2>(2, 0, false, GL::GLTypes::Float);
 		vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), attrLayout);
 
-		const auto modelLoc = shaderProgram.GetUniformLocation("model");
-		const auto viewLoc = shaderProgram.GetUniformLocation("view");
-		const auto projectionLoc = shaderProgram.GetUniformLocation("projection");
-
 		shaderProgram.SetUniformMatrix("model", model, false);
-		shaderProgram.SetUniformMatrix("view", view, false);
-		shaderProgram.SetUniformMatrix("projection", projection, false);
+		shaderProgram.SetUniformMatrix("viewProj", camera.GetViewProjection(), false);
 
 		m_renderer->SetClearColor({ 0.1f, 0.3f, 0.4f, 1.f });
 	}
 
 	void App::Update(double currTimeStamp)
 	{
+		camera.Update();
 		m_renderer->Clear();
 
 		const glm::vec4 offset = {

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Camera.cpp" />
+    <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="src\Core\OpenGL\VertexArrayObject.cpp" />
     <ClCompile Include="src\AppBase\AppBase.cpp" />
     <ClCompile Include="src\Core\OpenGL\GLShaderProgram.cpp" />
@@ -35,7 +35,7 @@
     <ClInclude Include="src\Core\Shader.hpp" />
     <ClInclude Include="src\Core\ShaderProgram.hpp" />
     <ClInclude Include="src\Core\Renderer.hpp" />
-    <ClInclude Include="src\Core\Camera.hpp" />
+    <ClInclude Include="src\Graphics\Camera.hpp" />
     <ClInclude Include="src\Core\OpenGL\VertexArrayObject.hpp" />
     <ClInclude Include="src\Core\OpenGL\GLShaderProgram.hpp" />
     <ClInclude Include="src\Debugging\Console.hpp" />

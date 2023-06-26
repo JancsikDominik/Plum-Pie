@@ -48,6 +48,23 @@ protected:
 	 */
 	virtual void Update(double currTimeStamp) = 0;
 
+	/**
+	 * \brief Runs when keyboard key pressed
+	 */
+	virtual void OnKeyEvent(/*const KeyEvent& keyevent*/) = 0;
+
+	/**
+	 * \brief runs when mouse click happened/mouse moved
+	 */
+	virtual void OnMouseEvent(/*const MouseEvent& mouseevent*/) = 0;
+
+	/**
+	 * \brief runs when window has been resized
+	 * \param width new width of the window
+	 * \param height new height of the window
+	 */
+	virtual void OnResize(uint32_t width, uint32_t height) = 0;
+
 	Renderer* m_renderer;
 	GLFW::Window* m_window;
 
