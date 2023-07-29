@@ -5,6 +5,8 @@
 #include <glm/vec2.hpp>
 #include <string>
 
+#include "Keyboard.hpp"
+
 namespace Plum::GLFW
 {
 		// raii class for glfw window
@@ -35,16 +37,30 @@ namespace Plum::GLFW
 			[[nodiscard]] double GetTime() const;
 
 		private:
+			void SetCallbacks();
+
 			void InitGLFW() const;
 			void CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name);
 
 			void SetWindowSizeCallback() const;
 			void WindowSizeCallback(int width, int height) const;
-			static void StaticWindowSizeCallback(GLFWwindow* window, const int width, const int height);
+			static void StaticWindowSizeCallback(GLFWwindow* window, int width, int height);
 
 			void SetKeyCallback() const;
-			static void StaticKeyCallback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods);
-			void KeyCallback(const int key, const int scancode, const int action, const int mods);
+			static void StaticKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+			void KeyCallback(Keyboard::Key key, int scancode, Keyboard::Action action, uint32_t mods);
+
+			void SetCursorPosCallback() const;
+			void CursorPosCallback(double xpos, double ypos) const;
+			static void StaticCursorPosCallback(GLFWwindow* window, double xpos, double ypos);
+
+			void SetMouseButtonCallback() const;
+			void MouseButtonCallback(int button, int action, int mods) const;
+			static void StaticMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
+			void SetMouseScrollCallback() const;
+			void MouseScrollCallback(double xoffset, double yoffset) const;
+			static void StaticMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 			// data
 			GLFWwindow* m_glfwWindowPtr = nullptr;

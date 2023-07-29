@@ -1,13 +1,16 @@
 #include <glew.h>
 #include <iostream>
+#include <thread>
 
 #include "AppBase.hpp"
 #include "GLFWWrappers/Window.hpp"
 #include "Core/OpenGL/OpenGLRenderer.hpp"
-#include <thread>
 
 Plum::AppBase::AppBase()
-    : m_renderer{ nullptr }
+    : KeyEventObserver()
+    , ResizeEventObserver()
+    , MouseEventObserver()
+    , m_renderer{ nullptr }
 {
     try
     {

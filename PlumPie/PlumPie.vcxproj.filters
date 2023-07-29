@@ -54,6 +54,9 @@
     <ClCompile Include="src\Core\OpenGL\VertexArrayObject.cpp">
       <Filter>src\Core\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\GLFWWrappers\KeyEvent.cpp" />
+    <ClCompile Include="src\GLFWWrappers\ResizeEvent.cpp" />
+    <ClCompile Include="src\GLFWWrappers\MouseEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -96,5 +99,12 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\OpenGL\Formats.hpp" />
+    <ClInclude Include="src\Core\EventSystem\Event.hpp" />
+    <ClInclude Include="src\Core\EventSystem\EventManager.hpp" />
+    <ClInclude Include="src\GLFWWrappers\KeyEvent.hpp" />
+    <ClInclude Include="src\GLFWWrappers\Keyboard.hpp" />
+    <ClInclude Include="src\GLFWWrappers\ResizeEvent.hpp" />
+    <ClInclude Include="src\GLFWWrappers\MouseEvent.hpp" />
+    <ClInclude Include="src\GLFWWrappers\Mouse.hpp" />
   </ItemGroup>
 </Project>

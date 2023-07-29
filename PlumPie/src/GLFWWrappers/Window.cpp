@@ -1,8 +1,11 @@
-#include "Window.hpp"
 #include <stdexcept>
 #include <string>
 
+#include "Window.hpp"
 #include "Debugging/Console.hpp"
+#include "KeyEvent.hpp"
+#include "ResizeEvent.hpp"
+#include "MouseEvent.hpp"
 
 namespace Plum::GLFW
 {
@@ -12,6 +15,7 @@ namespace Plum::GLFW
 			CreateWindow(sizeX, sizeY, name);
 			SetVsync(false);
 			SetCurrentContext(true);
+			SetCallbacks();
 		}
 
 		Window::~Window()
@@ -107,6 +111,15 @@ namespace Plum::GLFW
 			return glfwGetTime();
 		}
 
+		void Window::SetCallbacks()
+		{
+			SetWindowSizeCallback();
+			SetKeyCallback();
+			SetCursorPosCallback();
+			SetMouseButtonCallback();
+			SetMouseScrollCallback();
+		}
+
 		void Window::InitGLFW() const
 		{
 			if (!glfwInit()) 
@@ -133,7 +146,7 @@ namespace Plum::GLFW
 			glfwSetWindowSizeCallback(m_glfwWindowPtr, StaticWindowSizeCallback);
 		}
 
-		void Window::StaticWindowSizeCallback(GLFWwindow* window, const int width, const int height)
+		void Window::StaticWindowSizeCallback(GLFWwindow* window, int width, int height)
 		{
 			const auto actualWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 			actualWindow->WindowSizeCallback(width, height);
@@ -141,7 +154,8 @@ namespace Plum::GLFW
 
 		void Window::WindowSizeCallback(int width, int height) const
 		{
-			glfwSetWindowSize(m_glfwWindowPtr, width, height);
+			ResizeEvent resizeEvent(width, height);
+			resizeEvent.NotifyObservers();
 		}
 
 		void Window::SetKeyCallback() const
@@ -149,17 +163,71 @@ namespace Plum::GLFW
 			glfwSetKeyCallback(m_glfwWindowPtr, StaticKeyCallback);
 		}
 
-		void Window::StaticKeyCallback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods)
+		void Window::StaticKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			const auto actualWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
-			actualWindow->KeyCallback(key, scancode, action, mods);
+			actualWindow->KeyCallback((Keyboard::Key)key, scancode, (Keyboard::Action)action, mods);
 		}
 
-		void Window::KeyCallback(const int key, const int scancode, const int action, const int mods)
+		void Window::KeyCallback(Keyboard::Key key, int scancode, Keyboard::Action action, uint32_t mods)
 		{
-			if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+			if (key == Keyboard::Key::Escape && action == Keyboard::Action::Press)
 				glfwSetWindowShouldClose(m_glfwWindowPtr, true);
-			if (key == GLFW_KEY_F11 && action == GLFW_RELEASE)
+			if (key == Keyboard::Key::F11 && action == Keyboard::Action::Press)
 				SetFullscreen();
+
+			KeyEvent keyEvent(key, action, mods);
+			keyEvent.NotifyObservers();
+		}
+
+		void Window::SetCursorPosCallback() const
+		{
+			glfwSetCursorPosCallback(m_glfwWindowPtr, StaticCursorPosCallback);
+		}
+
+		void Window::CursorPosCallback(double xpos, double ypos) const
+		{
+			MouseEvent mouseEvent(Mouse::EventType::Move, glm::vec2(xpos, ypos));
+			mouseEvent.NotifyObservers();
+		}
+
+		void Window::StaticCursorPosCallback(GLFWwindow* window, double xpos, double ypos)
+		{
+			const auto actualWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+			actualWindow->CursorPosCallback(xpos, ypos);
+		}
+
+		void Window::SetMouseButtonCallback() const
+		{
+			glfwSetMouseButtonCallback(m_glfwWindowPtr, StaticMouseButtonCallback);
+		}
+
+		void Window::MouseButtonCallback(int button, int action, int mods) const
+		{
+			MouseEvent mouseEvent(Mouse::EventType::ButtonPress, (Mouse::ButtonAction)action, (Mouse::Button)button, mods);
+			mouseEvent.NotifyObservers();
+		}
+
+		void Window::StaticMouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+		{
+			const auto actualWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+			actualWindow->MouseButtonCallback(button, action, mods);
+		}
+
+		void Window::SetMouseScrollCallback() const
+		{
+			glfwSetScrollCallback(m_glfwWindowPtr, StaticMouseScrollCallback);
+		}
+		
+		void Window::MouseScrollCallback(double xoffset, double yoffset) const
+		{
+			MouseEvent mouseEvent(Mouse::EventType::Scroll, {-1, -1}, Mouse::ButtonAction::Invalid, Mouse::Button::Unknown, 0, glm::vec2{xoffset, yoffset});
+			mouseEvent.NotifyObservers();
+		}
+		
+		void Window::StaticMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+		{
+			const auto actualWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+			actualWindow->MouseScrollCallback(xoffset, yoffset);
 		}
 }

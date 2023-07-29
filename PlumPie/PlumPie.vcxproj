@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GLFWWrappers\MouseEvent.cpp" />
+    <ClCompile Include="src\GLFWWrappers\KeyEvent.cpp" />
+    <ClCompile Include="src\GLFWWrappers\ResizeEvent.cpp" />
     <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="src\Core\OpenGL\VertexArrayObject.cpp" />
     <ClCompile Include="src\AppBase\AppBase.cpp" />
@@ -31,10 +34,17 @@
     <ClCompile Include="src\Core\OpenGL\GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GLFWWrappers\Mouse.hpp" />
+    <ClInclude Include="src\GLFWWrappers\MouseEvent.hpp" />
+    <ClInclude Include="src\Core\EventSystem\EventManager.hpp" />
+    <ClInclude Include="src\Core\EventSystem\Event.hpp" />
     <ClInclude Include="src\Core\OpenGL\Formats.hpp" />
     <ClInclude Include="src\Core\Shader.hpp" />
     <ClInclude Include="src\Core\ShaderProgram.hpp" />
     <ClInclude Include="src\Core\Renderer.hpp" />
+    <ClInclude Include="src\GLFWWrappers\Keyboard.hpp" />
+    <ClInclude Include="src\GLFWWrappers\KeyEvent.hpp" />
+    <ClInclude Include="src\GLFWWrappers\ResizeEvent.hpp" />
     <ClInclude Include="src\Graphics\Camera.hpp" />
     <ClInclude Include="src\Core\OpenGL\VertexArrayObject.hpp" />
     <ClInclude Include="src\Core\OpenGL\GLShaderProgram.hpp" />

@@ -1,9 +1,12 @@
 #ifndef PLUMPIE_HPP
 #define PLUMPIE_HPP
 
-#include <Debugging/Debug.hpp>
-
+#include "Debugging/Debug.hpp"
 #include "Debugging/Console.hpp"
+
+#include "GLFWWrappers/KeyEvent.hpp"
+#include "GLFWWrappers/ResizeEvent.hpp"
+#include "GLFWWrappers/MouseEvent.hpp"
 
 namespace Plum::GLFW { class Window; }
 namespace Plum { class Renderer; }
@@ -11,7 +14,9 @@ namespace Plum { class Renderer; }
 namespace Plum
 {
 
-class AppBase
+class AppBase : public KeyEventObserver,
+			    public ResizeEventObserver,
+				public MouseEventObserver
 {
 public:
 	enum class BackendApi
@@ -51,12 +56,12 @@ protected:
 	/**
 	 * \brief Runs when keyboard key pressed
 	 */
-	virtual void OnKeyEvent(/*const KeyEvent& keyevent*/) = 0;
+	virtual void OnKeyEvent(const KeyEvent& keyevent) = 0;
 
 	/**
 	 * \brief runs when mouse click happened/mouse moved
 	 */
-	virtual void OnMouseEvent(/*const MouseEvent& mouseevent*/) = 0;
+	virtual void OnMouseEvent(const MouseEvent& mouseevent) = 0;
 
 	/**
 	 * \brief runs when window has been resized

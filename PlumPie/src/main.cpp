@@ -23,8 +23,23 @@ namespace Plum
 		void StartUp() override;
 		void Update(double currTimeStamp) override;
 
-		void OnKeyEvent(/*const KeyEvent& keyevent*/) override {}
-		void OnMouseEvent(/*const MouseEvent& mouseevent*/) override {}
+		void OnKeyEvent(const KeyEvent& keyevent) override {}
+		void OnMouseEvent(const MouseEvent& mouseEvent) override
+		{
+			switch (mouseEvent.type)
+			{
+			case Mouse::EventType::Move:
+				Debug::Console::Log("new mouse pos: %f %f", mouseEvent.pos.x, mouseEvent.pos.y);
+				break;
+			case Mouse::EventType::ButtonPress:
+				Debug::Console::Log("mouse btn pressed: %d", mouseEvent.button);
+				Debug::Console::Log("mouse btn action: %d", mouseEvent.action);
+				Debug::Console::Log("mouse btn modifiers: %d", mouseEvent.modifiers);
+				break;
+			case Mouse::EventType::Scroll:
+				Debug::Console::Log("offset: %f %f", mouseEvent.scrollOffset.x, mouseEvent.scrollOffset.y);
+			}
+		}
 		void OnResize(uint32_t width, uint32_t height) override {}
 
 	private:
