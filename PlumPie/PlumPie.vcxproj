@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\OpenGL\GLTexture.cpp" />
     <ClCompile Include="src\GLFWWrappers\MouseEvent.cpp" />
     <ClCompile Include="src\GLFWWrappers\KeyEvent.cpp" />
     <ClCompile Include="src\GLFWWrappers\ResizeEvent.cpp" />
@@ -34,6 +35,8 @@
     <ClCompile Include="src\Core\OpenGL\GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\OpenGL\GLTexture.hpp" />
+    <ClInclude Include="src\Core\Texture.hpp" />
     <ClInclude Include="src\GLFWWrappers\Mouse.hpp" />
     <ClInclude Include="src\GLFWWrappers\MouseEvent.hpp" />
     <ClInclude Include="src\Core\EventSystem\EventManager.hpp" />

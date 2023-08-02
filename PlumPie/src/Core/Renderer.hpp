@@ -28,6 +28,6 @@ namespace Plum
 		virtual void Render() = 0;
 
 	protected:
-		std::unordered_map<std::string, std::any> m_UniformData;
+		std::unordered_map<std::string, std::any> m_uniformData;
 	};
 }

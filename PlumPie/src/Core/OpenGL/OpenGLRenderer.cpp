@@ -54,7 +54,7 @@ namespace Plum::GL
 
 	void OpenGLRenderer::SetUniformData(const std::string& name, const std::any& value)
 	{
-		m_UniformData[name] = value;
+		m_uniformData[name] = value;
 	}
 
 	void OpenGLRenderer::Clear()

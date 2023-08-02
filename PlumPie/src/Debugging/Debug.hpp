@@ -27,7 +27,6 @@
 						       printf("Assertion failed (%s): \nfunction %s \nfile %s \nline %d.\n", STR(x), __PRETTY_FUNCTION__, __FILE__, __LINE__);			\
 							   __debugbreak();																													\
 						   }
-
 #endif
 
 namespace Plum::Debug::Opengl
@@ -83,7 +82,7 @@ namespace Plum::Debug::Opengl
 #ifdef PLUM_DEBUG
 	#define GL_CALL(stmt) do {																	 \
             stmt;																				 \
-            if(Plum::Debug::Opengl::CheckOpenGLError(#stmt)) __debugbreak(); \
+            if(Plum::Debug::Opengl::CheckOpenGLError(#stmt)) __debugbreak();					 \
         } while (0)
 #else
 	#define GL_CALL(stmt) stmt
