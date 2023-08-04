@@ -3,6 +3,7 @@
 #include <glew.h>
 
 #include "Core/Texture.hpp"
+#include "STBWrappers/Image.hpp"
 
 namespace Plum
 {
@@ -12,13 +13,14 @@ namespace Plum
 	public:
         GLTexture();
         GLTexture(TextureTarget t);
-        // TODO: GLTexture(const std::filesystem::path& pathToTexture, TextureTarget t, TextureFormat format);
+        GLTexture(Image image);
+        GLTexture(const std::filesystem::path& pathToTexture, TextureTarget t, TextureFormat format);
 
         ~GLTexture();
 
         
         bool Bind(size_t textureSlot) override;
-        void SetData(unsigned char* data, int width, int height) override;
+        void SetData(const Image& img) override;
 
         void SetMinFilter(TextureFilter filter) override;
         void SetMagFilter(TextureFilter filter) override;

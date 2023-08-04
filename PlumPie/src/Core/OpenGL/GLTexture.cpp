@@ -30,7 +30,7 @@ namespace Plum
         ReleaseTexture();
     }
 
-    void GLTexture::SetData(unsigned char* data, int width, int height)
+    void GLTexture::SetData(const Image& img)
     {
     }
 
@@ -149,6 +149,7 @@ namespace Plum
 
     GLenum GLTexture::GetOpenGLTextureTarget()
     {
+        // TODO: is this the best way to do this?
         switch (m_textureTarget)
         {
         case TextureTarget::Tex1D:
@@ -180,6 +181,7 @@ namespace Plum
 
     GLenum GLTexture::GetOpenGLTextureFormat()
     {
+        // TODO: is this the best way to do this?
         switch (m_format)
         {
         case TextureFormat::RGBA:

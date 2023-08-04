@@ -1,5 +1,7 @@
 #pragma once
-#include <Graphics/Vertex.hpp>
+
+#include "Graphics/Vertex.hpp"
+#include "STBWrappers/Image.hpp"
 
 namespace Plum
 {
@@ -57,7 +59,7 @@ namespace Plum
 
         virtual ~Texture() = default;
         virtual bool Bind(size_t textureSlot) = 0;
-        virtual void SetData(unsigned char* data, int width, int height) = 0;
+        virtual void SetData(const Image& img) = 0;
        
         virtual void SetMinFilter(TextureFilter filter) = 0;
         virtual void SetMagFilter(TextureFilter filter) = 0;

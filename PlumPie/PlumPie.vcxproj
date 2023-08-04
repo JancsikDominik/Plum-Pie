@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\STBWrappers\Image.cpp" />
+    <ClCompile Include="src\STBWrappers\stb.cpp" />
     <ClCompile Include="src\Core\OpenGL\GLTexture.cpp" />
     <ClCompile Include="src\GLFWWrappers\MouseEvent.cpp" />
     <ClCompile Include="src\GLFWWrappers\KeyEvent.cpp" />
@@ -35,6 +37,7 @@
     <ClCompile Include="src\Core\OpenGL\GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\STBWrappers\Image.hpp" />
     <ClInclude Include="src\Core\OpenGL\GLTexture.hpp" />
     <ClInclude Include="src\Core\Texture.hpp" />
     <ClInclude Include="src\GLFWWrappers\Mouse.hpp" />
@@ -168,7 +171,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>PLUM_DEBUG;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\ext\OpenGL\GLEWbin\include;..\ext\OpenGL\GLFWbin\include;..\ext\OpenGL\GLMbin;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ext\OpenGL\GLEWbin\include;..\ext\OpenGL\GLFWbin\include;..\ext\stb\include;..\ext\OpenGL\GLMbin;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -194,7 +197,7 @@ xcopy "$(ProjectDir)src\Shaders\*.glsl" "$(SolutionDir)bin\$(Platform)\$(Configu
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\ext\OpenGL\GLEWbin\include;..\ext\OpenGL\GLFWbin\include;..\ext\OpenGL\GLMbin;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ext\OpenGL\GLEWbin\include;..\ext\OpenGL\GLFWbin\include;..\ext\stb\include;..\ext\OpenGL\GLMbin;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

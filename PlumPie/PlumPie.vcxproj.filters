@@ -58,6 +58,8 @@
     <ClCompile Include="src\GLFWWrappers\ResizeEvent.cpp" />
     <ClCompile Include="src\GLFWWrappers\MouseEvent.cpp" />
     <ClCompile Include="src\Core\OpenGL\GLTexture.cpp" />
+    <ClCompile Include="src\STBWrappers\stb.cpp" />
+    <ClCompile Include="src\STBWrappers\Image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AppBase\AppBase.hpp">
@@ -109,5 +111,6 @@
     <ClInclude Include="src\GLFWWrappers\Mouse.hpp" />
     <ClInclude Include="src\Core\Texture.hpp" />
     <ClInclude Include="src\Core\OpenGL\GLTexture.hpp" />
+    <ClInclude Include="src\STBWrappers\Image.hpp" />
   </ItemGroup>
 </Project>
