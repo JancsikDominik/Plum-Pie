@@ -14,6 +14,7 @@
 #include "Core/OpenGL/VertexArrayObject.hpp"
 #include "Core/OpenGL/GLShaderProgram.hpp"
 #include "Graphics/Camera.hpp"
+#include "Core/OpenGL/GLTexture.hpp"
 
 namespace Plum
 {
@@ -45,9 +46,9 @@ namespace Plum
 		const std::vector<int> indices{ 0, 1, 2 };
 
 		const std::vector<glm::vec2> vertices = {
-			 glm::vec2( 0.5f, -0.5f),
-			 glm::vec2( 0.0f,  0.5f),
-			 glm::vec2(-0.5f, -0.5f)
+			 glm::vec2( 0.5f, -0.5f), glm::vec2(1.f,  0.f),
+			 glm::vec2( 0.0f,  0.5f), glm::vec2(0.5f, 1.f),
+			 glm::vec2(-0.5f, -0.5f), glm::vec2(0.f,  0.f)
 		};
 
 		vao.Bind();
@@ -60,11 +61,25 @@ namespace Plum
 		shaderProgram.AttachShaders({&vertexShader, &fragmentShader});
 		m_renderer->SetProgram(shaderProgram);
 
-		constexpr auto attrLayout = GL::AttributeLayout<glm::vec2>(2, 0, false, GL::GLTypes::Float);
-		vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), attrLayout);
+		constexpr auto posLayout = GL::AttributeLayout<glm::vec2>(2, 0, 2, false, GL::GLTypes::Float);
+		vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), posLayout);
+
+		constexpr auto uvLayout = GL::AttributeLayout<glm::vec2>(2, sizeof(glm::vec2), 2, false, GL::GLTypes::Float);
+		vao.EnableAttribute(shaderProgram.GetAttributeLocation("in_uv"), uvLayout);
 
 		shaderProgram.SetUniformMatrix("model", model, false);
 		shaderProgram.SetUniformMatrix("viewProj", camera.GetViewProjection(), false);
+
+		GLTexture texture("./texture.png", TextureTarget::Tex2D, TextureFormat::RGBA);
+		texture.Bind();
+		texture.GenerateMipMaps();
+		texture.SetMinFilter(TextureFilter::Linear);
+		texture.SetMagFilter(TextureFilter::Nearest);
+		texture.SetWrapS(TextureWrapping::Repeat);
+		texture.SetWrapT(TextureWrapping::Repeat);
+		texture.Use(0);
+
+		shaderProgram.SetUniform<int>("tex", 0);
 
 		m_renderer->SetClearColor({ 0.1f, 0.3f, 0.4f, 1.f });
 	}

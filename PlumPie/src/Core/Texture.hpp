@@ -58,7 +58,7 @@ namespace Plum
         }
 
         virtual ~Texture() = default;
-        virtual bool Bind(size_t textureSlot) = 0;
+        virtual bool Bind() = 0;
         virtual void SetData(const Image& img) = 0;
        
         virtual void SetMinFilter(TextureFilter filter) = 0;
@@ -83,6 +83,6 @@ namespace Plum
         }
 
     protected:
-        TextureTarget m_textureTarget;
+        TextureTarget m_textureTarget = TextureTarget::Tex2D;
     };
 }

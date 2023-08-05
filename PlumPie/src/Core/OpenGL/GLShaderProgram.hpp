@@ -75,18 +75,16 @@ inline void GLShaderProgram::SetUniform(const std::string& name, const T& value)
 	SetUniform(location, value);
 }
 
-template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value>::type
-SetUniform(int location, const T& value)
+template <>
+inline void GLShaderProgram::SetUniform(int location, const int& value)
 {
-	if (std::is_same<T, int>::value || std::is_same<T, unsigned int>::value)
-	{
-		GL_CALL(glUniform1i(location, value));
-	}
-	else
-	{
-		GL_CALL(glUniform1f(location, value));
-	}
+	GL_CALL(glUniform1i(location, value));
+}
+
+template <>
+inline void GLShaderProgram::SetUniform(int location, const float& value)
+{
+	GL_CALL(glUniform1f(location, value));
 }
 
 template<>

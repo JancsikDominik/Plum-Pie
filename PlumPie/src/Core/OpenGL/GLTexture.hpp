@@ -13,13 +13,16 @@ namespace Plum
 	public:
         GLTexture();
         GLTexture(TextureTarget t);
-        GLTexture(Image image);
+        GLTexture(Image image, TextureTarget t, TextureFormat format);
         GLTexture(const std::filesystem::path& pathToTexture, TextureTarget t, TextureFormat format);
 
         ~GLTexture();
 
         
-        bool Bind(size_t textureSlot) override;
+        bool Bind() override;
+        void Unbind();
+        void Use(size_t textureSlot);
+
         void SetData(const Image& img) override;
 
         void SetMinFilter(TextureFilter filter) override;
@@ -44,6 +47,8 @@ namespace Plum
 
         void CreateTexture();
         void ReleaseTexture();
+
+        bool Activate(size_t textureSlot);
 
         GLuint m_textureID = 0;
         TextureFormat m_format = TextureFormat::Undefined;

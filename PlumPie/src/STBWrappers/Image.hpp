@@ -24,7 +24,7 @@ namespace Plum
         Color GetColorAt(size_t i, size_t j) const;
 
         bool LoadImage(const std::filesystem::path& filePath);
-        void InitRawData(size_t width, size_t height, size_t channels);
+        void InitRawData(int width, int height, int channels);
         void SetColorAt(Color c, size_t i, size_t j);
         
         // TODO: save image

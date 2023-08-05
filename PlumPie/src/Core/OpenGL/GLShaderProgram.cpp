@@ -75,6 +75,7 @@ namespace Plum::GL
 	{
 		GLint ret;
 		GL_CALL(ret = glGetAttribLocation(m_ProgramID, attributeName.c_str()));
+		PLUM_ASSERT(ret != -1);
 		return ret;
 	}
 

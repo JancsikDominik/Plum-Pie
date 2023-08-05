@@ -3,21 +3,64 @@
 
 namespace Plum
 {
-    bool GLTexture::Bind(size_t textureSlot)
+    bool GLTexture::Bind()
     {
-        constexpr GLenum openglTextureSlot0 = GL_TEXTURE0;
-        if (textureSlot > GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1)
-            return false;
-
         GL_CALL(glBindTexture(GetOpenGLTextureTarget(), m_textureID));
-        GL_CALL(glActiveTexture(openglTextureSlot0 + textureSlot));
         return true;
+    }
+
+    void GLTexture::Unbind()
+    {
+        GL_CALL(glBindTexture(GetOpenGLTextureTarget(), 0));
+    }
+
+    void GLTexture::Use(size_t textureSlot)
+    {
+        Activate(textureSlot);
+        Bind();
     }
 
     GLTexture::GLTexture(TextureTarget t)
         : Texture(t)
     {
         CreateTexture();
+    }
+
+    GLTexture::GLTexture(Image image, TextureTarget t, TextureFormat format)
+        : Texture(t)
+    {
+        SetFormat(format);
+        CreateTexture();
+        Bind();
+        GL_CALL(glTexImage2D(GetOpenGLTextureTarget(), 
+                             0, 
+                             GetOpenGLTextureFormat(), 
+                             image.GetWidth(), 
+                             image.GetHeight(), 
+                             0, 
+                             GetOpenGLTextureFormat(),
+                             GL_UNSIGNED_BYTE, 
+                             image.GetRawData()));
+        Unbind();
+    }
+
+    GLTexture::GLTexture(const std::filesystem::path& pathToTexture, TextureTarget t, TextureFormat format)
+        : Texture(t)
+    {
+        SetFormat(format);
+        Image image(pathToTexture);
+        CreateTexture();
+        Bind();
+        GL_CALL(glTexImage2D(GetOpenGLTextureTarget(),
+                             0,
+                             GetOpenGLTextureFormat(),
+                             image.GetWidth(),
+                             image.GetHeight(),
+                             0,
+                             GetOpenGLTextureFormat(),
+                             GL_UNSIGNED_BYTE,
+                             image.GetRawData()));
+        Unbind();
     }
 
     GLTexture::GLTexture()
@@ -30,8 +73,17 @@ namespace Plum
         ReleaseTexture();
     }
 
-    void GLTexture::SetData(const Image& img)
+    void GLTexture::SetData(const Image& image)
     {
+        GL_CALL(glTexImage2D(GetOpenGLTextureTarget(),
+                             0,
+                             GetOpenGLTextureFormat(),
+                             image.GetWidth(),
+                             image.GetHeight(),
+                             0,
+                             GetOpenGLTextureFormat(),
+                             GL_UNSIGNED_BYTE,
+                             image.GetRawData()));
     }
 
     void GLTexture::SetMinFilter(TextureFilter filter)
@@ -39,22 +91,22 @@ namespace Plum
         switch (filter)
         {
         case TextureFilter::NearestMipMapNearest:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST));
             break;
         case TextureFilter::LinearMipMapNearest:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST));
             break;
         case TextureFilter::NearestMipMapLinear:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR));
             break;
         case TextureFilter::LinearMipMapLinear:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
             break;
         case TextureFilter::Nearest:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_NEAREST));
             break;
         case TextureFilter::Linear:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_LINEAR));
             break;
         default:
             Debug::Console::LogError("Unsupported texture filter type for min filter: %d", filter);
@@ -66,10 +118,10 @@ namespace Plum
         switch (filter)
         {
         case TextureFilter::Nearest:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_NEAREST));
             break;
         case TextureFilter::Linear:
-            GL_CALL(glTexParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+            GL_CALL(glTexParameteri(GetOpenGLTextureTarget(), GL_TEXTURE_MIN_FILTER, GL_LINEAR));
             break;
         default:
             Debug::Console::LogError("Unsupported texture filter type for mag filter: %d", filter);
@@ -205,7 +257,17 @@ namespace Plum
 
     void GLTexture::ReleaseTexture()
     {
-        GL_CALL(glBindTexture(m_textureID, 0));
+        Unbind();
         GL_CALL(glDeleteTextures(1, &m_textureID));
+    }
+    
+    bool GLTexture::Activate(size_t textureSlot)
+    {
+        constexpr GLenum openglTextureSlot0 = GL_TEXTURE0;
+        if (textureSlot > GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1)
+            return false;
+
+        GL_CALL(glActiveTexture(openglTextureSlot0 + textureSlot));
+        return true;
     }
 }

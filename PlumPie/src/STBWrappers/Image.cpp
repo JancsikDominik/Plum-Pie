@@ -12,19 +12,21 @@ namespace Plum
 
     bool Image::LoadImage(const std::filesystem::path& filePath)
     {
+        stbi_set_flip_vertically_on_load(true);
+
         const auto& Deleter = [](unsigned char* imageData) -> void {
             if (imageData != nullptr)
                 stbi_image_free(imageData);
         };
 
         m_data = std::unique_ptr<unsigned char, std::function<void(unsigned char*)>>(
-            stbi_load(filePath.string().c_str(), &m_width, &m_height, &m_channels, 4), Deleter
+            stbi_load(filePath.string().c_str(), &m_width, &m_height, &m_channels, STBI_rgb_alpha), Deleter
         );
 
         return m_data != nullptr;
-    }
-
-    void Image::InitRawData(size_t width, size_t height, size_t channels)
+    } 
+ 
+    void Image::InitRawData(int width, int height, int channels)
     {
         const auto& Deleter = [](unsigned char* ptr) -> void { 
             delete ptr; 
@@ -42,10 +44,10 @@ namespace Plum
         if (m_data != nullptr && i < m_width && j < m_height)
         {
             size_t index = (j * m_width + i) * m_channels;
-            m_data.get()[index] = m_channels >= 1 ? c.r * 255 : 0;
-            m_data.get()[index + 1] = m_channels >= 2 ? c.g * 255 : 0;
-            m_data.get()[index + 2] = m_channels >= 3 ? c.b * 255 : 0;
-            m_data.get()[index + 2] = m_channels >= 4 ? c.a * 255 : 255;
+            m_data.get()[index] = m_channels >= 1 ? static_cast<unsigned char>(c.r * 255) : 0;
+            m_data.get()[index + 1] = m_channels >= 2 ? static_cast<unsigned char>(c.g * 255) : 0;
+            m_data.get()[index + 2] = m_channels >= 3 ? static_cast<unsigned char>(c.b * 255) : 0;
+            m_data.get()[index + 2] = m_channels >= 4 ? static_cast<unsigned char>(c.a * 255) : 255;
         }
     }
 

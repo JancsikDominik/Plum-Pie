@@ -27,6 +27,7 @@ namespace Plum::GL
 	{
 		int count = 1;
 		uint64_t offset = 0;
+		int stride = 1;
 		bool normalized = false;
 		GLTypes type;
 	};
@@ -54,7 +55,7 @@ namespace Plum::GL
 		void EnableAttribute(uint32_t index, const AttributeLayout<T>& layout) const
 		{
 			GL_CALL(glEnableVertexAttribArray(index));
-			GL_CALL(glVertexAttribPointer(index, layout.count, (int)layout.type, layout.normalized, sizeof(T), reinterpret_cast<const void*>(layout.offset)));
+			GL_CALL(glVertexAttribPointer(index, layout.count, (int)layout.type, layout.normalized, sizeof(T) * layout.stride, reinterpret_cast<const void*>(layout.offset)));
 		}
 
 		template <typename T>
