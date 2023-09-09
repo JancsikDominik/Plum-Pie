@@ -61,6 +61,7 @@ namespace Plum
 		shaderProgram.AttachShaders({&vertexShader, &fragmentShader});
 		m_renderer->SetProgram(shaderProgram);
 
+		// TODO: is there a better way to do this?
 		constexpr auto posLayout = GL::AttributeLayout<glm::vec2>(2, 0, 2, false, GL::GLTypes::Float);
 		vao.EnableAttribute(shaderProgram.GetAttributeLocation("position"), posLayout);
 
@@ -78,6 +79,7 @@ namespace Plum
 		texture->SetWrapS(TextureWrapping::Repeat);
 		texture->SetWrapT(TextureWrapping::Repeat);
 
+		// TODO: shaderprogram.AttachTexture(name, slot);
 		shaderProgram.SetUniform<int>("tex", 0);
 
 		m_renderer->SetClearColor({ 0.1f, 0.3f, 0.4f, 1.f });

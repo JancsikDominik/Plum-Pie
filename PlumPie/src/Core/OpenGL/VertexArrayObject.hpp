@@ -58,6 +58,7 @@ namespace Plum::GL
 			GL_CALL(glVertexAttribPointer(index, layout.count, (int)layout.type, layout.normalized, sizeof(T) * layout.stride, reinterpret_cast<const void*>(layout.offset)));
 		}
 
+		// TODO: AttachBuffer(GL::Buffer buffer) const
 		template <typename T>
 		void AttachBuffer(BufferType type, size_t elemCount, const void* data, DrawType mode) const
 		{

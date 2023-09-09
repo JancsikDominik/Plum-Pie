@@ -20,6 +20,9 @@ namespace Plum
     public:
         using Ref = std::shared_ptr<Observer>;
 
+        /**
+         * \brief call this constructor or manually add the observer when creating a custom observer
+         */
         Observer()
         {
             EventManager::AddObserver<decltype(this)>(this);
