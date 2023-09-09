@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stb_image.h>
 #include <filesystem>
 #include <functional>
 
@@ -12,7 +11,7 @@ namespace Plum
 	{
     public:
         Image() = default;
-        Image(const std::filesystem::path& filePath);
+        Image(const std::filesystem::path& filePath, uint32_t numberOfChannels);
 
         virtual ~Image() = default;
 
@@ -23,7 +22,7 @@ namespace Plum
         unsigned char* GetRawData() const;
         Color GetColorAt(size_t i, size_t j) const;
 
-        bool LoadImage(const std::filesystem::path& filePath);
+        bool LoadImage(const std::filesystem::path& filePath, uint32_t numberOfChannels);
         void InitRawData(int width, int height, int channels);
         void SetColorAt(Color c, size_t i, size_t j);
         

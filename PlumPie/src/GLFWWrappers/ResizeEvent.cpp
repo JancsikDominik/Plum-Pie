@@ -9,14 +9,3 @@ void Plum::ResizeEvent::NotifyObservers()
 {
 	EventManager::NotifyObservers<ResizeEvent>(this);
 }
-
-
-Plum::ResizeEventObserver::ResizeEventObserver()
-{
-	EventManager::AddObserver<ResizeEvent>(this);
-}
-
-Plum::ResizeEventObserver::~ResizeEventObserver()
-{
-	EventManager::RemoveObserver<ResizeEvent>(this);
-}

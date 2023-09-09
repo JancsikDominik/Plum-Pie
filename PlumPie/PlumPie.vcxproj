@@ -37,6 +37,7 @@
     <ClCompile Include="src\Core\OpenGL\GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\PlumPie.hpp" />
     <ClInclude Include="src\STBWrappers\Image.hpp" />
     <ClInclude Include="src\Core\OpenGL\GLTexture.hpp" />
     <ClInclude Include="src\Core\Texture.hpp" />

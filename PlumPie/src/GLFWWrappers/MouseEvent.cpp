@@ -19,17 +19,6 @@ namespace Plum
 		EventManager::NotifyObservers<MouseEvent>(this);
 	}
 
-
-	MouseEventObserver::MouseEventObserver()
-	{
-		EventManager::AddObserver<MouseEvent>(this);
-	}
-
-	MouseEventObserver::~MouseEventObserver()
-	{
-		EventManager::RemoveObserver<MouseEvent>(this);
-	}
-
 	void MouseEventObserver::OnNotify(const Event* e)
 	{
 		const auto& mouseEvent = dynamic_cast<const MouseEvent*>(e);

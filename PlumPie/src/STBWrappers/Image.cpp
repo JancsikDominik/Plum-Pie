@@ -1,18 +1,21 @@
 #include "Image.hpp"
 
+#include <stb_image.h>
 #include "Debugging/Debug.hpp"
 
 namespace Plum
 {
-    Image::Image(const std::filesystem::path& filePath)
+    Image::Image(const std::filesystem::path& filePath, uint32_t numberOfChannels)
     {
-        LoadImage(filePath);
+        LoadImage(filePath, numberOfChannels);
         PLUM_ASSERT(m_data != nullptr);
     }
 
-    bool Image::LoadImage(const std::filesystem::path& filePath)
+    bool Image::LoadImage(const std::filesystem::path& filePath, uint32_t numberOfChannels)
     {
         stbi_set_flip_vertically_on_load(true);
+
+        PLUM_ASSERT(numberOfChannels <= 4);
 
         const auto& Deleter = [](unsigned char* imageData) -> void {
             if (imageData != nullptr)
@@ -20,7 +23,7 @@ namespace Plum
         };
 
         m_data = std::unique_ptr<unsigned char, std::function<void(unsigned char*)>>(
-            stbi_load(filePath.string().c_str(), &m_width, &m_height, &m_channels, STBI_rgb_alpha), Deleter
+            stbi_load(filePath.string().c_str(), &m_width, &m_height, &m_channels, numberOfChannels), Deleter
         );
 
         return m_data != nullptr;
@@ -81,11 +84,11 @@ namespace Plum
             unsigned char b = m_channels >= 3 ? m_data.get()[2] : 0;
             unsigned char a = m_channels >= 4 ? m_data.get()[3] : 255;
 
-            return Color(r / 255.f, g / 255.f, b / 255.f, a / 255.f);
+            return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
         }
         else
         {
-            return Color(0, 0, 0, 0);
+            return {0, 0, 0, 0};
         }
     }
 

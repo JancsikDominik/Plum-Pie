@@ -7,7 +7,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <iostream>
 
 #include "AppBase/AppBase.hpp"
 #include "Core/OpenGL/OpenGLRenderer.hpp"
@@ -31,6 +30,7 @@ namespace Plum
 	private:
 		GL::GLShaderProgram shaderProgram;
 		GL::VertexArrayObject vao;
+		GLTexture::Ref texture;
 		Camera camera{ 1280, 960 };
 	};
 
@@ -70,14 +70,13 @@ namespace Plum
 		shaderProgram.SetUniformMatrix("model", model, false);
 		shaderProgram.SetUniformMatrix("viewProj", camera.GetViewProjection(), false);
 
-		GLTexture texture("./texture.png", TextureTarget::Tex2D, TextureFormat::RGBA);
-		texture.Bind();
-		texture.GenerateMipMaps();
-		texture.SetMinFilter(TextureFilter::Linear);
-		texture.SetMagFilter(TextureFilter::Nearest);
-		texture.SetWrapS(TextureWrapping::Repeat);
-		texture.SetWrapT(TextureWrapping::Repeat);
-		texture.Use(0);
+		texture = std::make_shared<GLTexture>("./texture.png", TextureTarget::Tex2D, TextureFormat::RGBA);
+		texture->Bind();
+		texture->GenerateMipMaps();
+		texture->SetMinFilter(TextureFilter::Linear);
+		texture->SetMagFilter(TextureFilter::Nearest);
+		texture->SetWrapS(TextureWrapping::Repeat);
+		texture->SetWrapT(TextureWrapping::Repeat);
 
 		shaderProgram.SetUniform<int>("tex", 0);
 

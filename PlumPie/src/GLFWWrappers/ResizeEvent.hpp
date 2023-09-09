@@ -22,9 +22,6 @@ namespace Plum
 	class ResizeEventObserver : public Observer
 	{
 	public:
-		ResizeEventObserver();
-		~ResizeEventObserver();
-
 		virtual void OnResize(uint32_t width, uint32_t height) = 0;
 
 	private:

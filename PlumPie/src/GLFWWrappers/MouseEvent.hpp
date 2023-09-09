@@ -1,10 +1,11 @@
 #pragma once
 
+#include <glm/vec2.hpp>
+
 #include "Core/EventSystem/Event.hpp"
 #include "Core/EventSystem/EventManager.hpp"
 
 #include "Mouse.hpp"
-#include <glm/vec2.hpp>
 
 namespace Plum
 {
@@ -39,9 +40,6 @@ namespace Plum
 	class MouseEventObserver : public Observer
 	{
 	public:
-		MouseEventObserver();
-		~MouseEventObserver();
-
 		virtual void OnMouseEvent(const MouseEvent& keyevent) = 0;
 
 	private:

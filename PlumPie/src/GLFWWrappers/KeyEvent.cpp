@@ -12,18 +12,6 @@ namespace Plum
 		EventManager::NotifyObservers<KeyEvent>(this);
 	}
 
-
-
-	KeyEventObserver::KeyEventObserver()
-	{
-		EventManager::AddObserver<KeyEvent>(this);
-	}
-
-	KeyEventObserver::~KeyEventObserver()
-	{
-		EventManager::RemoveObserver<KeyEvent>(this);
-	}
-
 	void KeyEventObserver::OnNotify(const Event* e)
 	{
 		const auto& keyEventPtr = dynamic_cast<const KeyEvent*>(e);

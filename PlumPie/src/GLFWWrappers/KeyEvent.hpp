@@ -23,9 +23,6 @@ namespace Plum
 	class KeyEventObserver : public Observer
 	{
 	public:
-		KeyEventObserver();
-		~KeyEventObserver();
-
 		virtual void OnKeyEvent(const KeyEvent& keyevent) = 0;
 
 	private:

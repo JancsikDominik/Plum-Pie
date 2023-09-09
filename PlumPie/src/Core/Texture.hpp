@@ -58,7 +58,7 @@ namespace Plum
         }
 
         virtual ~Texture() = default;
-        virtual bool Bind() = 0;
+        virtual void Bind() = 0;
         virtual void SetData(const Image& img) = 0;
        
         virtual void SetMinFilter(TextureFilter filter) = 0;

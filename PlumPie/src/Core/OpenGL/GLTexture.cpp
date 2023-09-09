@@ -3,10 +3,9 @@
 
 namespace Plum
 {
-    bool GLTexture::Bind()
+    void GLTexture::Bind()
     {
-        GL_CALL(glBindTexture(GetOpenGLTextureTarget(), m_textureID));
-        return true;
+        GL_CALL(glBindTexture(GL_TEXTURE_2D, m_textureID));
     }
 
     void GLTexture::Unbind()
@@ -48,7 +47,7 @@ namespace Plum
         : Texture(t)
     {
         SetFormat(format);
-        Image image(pathToTexture);
+        Image image(pathToTexture, 4);
         CreateTexture();
         Bind();
         GL_CALL(glTexImage2D(GetOpenGLTextureTarget(),
@@ -61,11 +60,6 @@ namespace Plum
                              GL_UNSIGNED_BYTE,
                              image.GetRawData()));
         Unbind();
-    }
-
-    GLTexture::GLTexture()
-    {
-        CreateTexture();
     }
 
     GLTexture::~GLTexture()

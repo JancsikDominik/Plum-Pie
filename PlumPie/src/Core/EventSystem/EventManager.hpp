@@ -4,12 +4,11 @@
 #include <vector>
 #include <typeindex>
 
-#include "Event.hpp"
-
 namespace Plum
 {
+	class Observer;
 
-    class EventManager 
+	class EventManager 
     {
     public:
         static EventManager& GetInstance() 
@@ -49,7 +48,7 @@ namespace Plum
         void RemoveObserverImpl(Observer* observer) 
         {
             auto& observerList = observers[typeid(EventType)];
-            auto it = std::find(observerList.begin(), observerList.end(), observer);
+            const auto it = std::ranges::find(observerList, observer);
             if (it != observerList.end()) 
             {
                 observerList.erase(it);
@@ -59,7 +58,7 @@ namespace Plum
         template <typename EventType>
         void NotifyObserversImpl(const EventType* event) 
         {
-            auto& observerList = observers[typeid(EventType)];
+	        const auto& observerList = observers[typeid(EventType)];
             for (Observer* observer : observerList) 
             {
                 observer->OnNotify(event);

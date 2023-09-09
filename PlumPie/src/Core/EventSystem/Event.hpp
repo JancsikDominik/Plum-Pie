@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 
+#include "EventManager.hpp"
+
 namespace Plum
 {
     class Observer;
@@ -18,7 +20,16 @@ namespace Plum
     public:
         using Ref = std::shared_ptr<Observer>;
 
-        virtual ~Observer() = default;
+        Observer()
+        {
+            EventManager::AddObserver<decltype(this)>(this);
+        }
+
+        virtual ~Observer()
+        {
+            EventManager::RemoveObserver<decltype(this)>(this);
+        }
+
         virtual void OnNotify(const Event* event) = 0;
     };
 

@@ -6,6 +6,7 @@
 
 namespace Plum
 {
+	// rgba: 0-1
 	struct Color
 	{
 		Color(float r = 0, float g = 0, float b = 0, float a = 1.f)
@@ -15,7 +16,6 @@ namespace Plum
 
 		// TODO: to HSL
 		// TODO: to rgba (0-255)
-		// TODO: to rgba (0-1)
 
 		float r, g, b, a;
 	};
