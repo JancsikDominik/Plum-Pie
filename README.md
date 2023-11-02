@@ -14,4 +14,4 @@ GLEW , GLFW, GLM, (ImGui in the future)
 
 ## Usage
 
-Clone/download the repo, and you should be good to go. You can compile it using Visual studio. Dependencies are included in the `./ext` folder, so It should just compile when you download it. You should keep your shaders in the `src/Shaders` folder, there is a post-compile step, which copies the contents of the Shader folder next to the .exe (e.g. `bin/x64/Debug/Shaders`), so you can access your shaders in the code with a relative path.
+TODO...
