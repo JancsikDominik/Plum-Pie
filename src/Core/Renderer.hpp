@@ -18,7 +18,6 @@ namespace Plum
 		virtual void SetCullFace(bool enable) = 0;
 		virtual void SetDepthTest(bool enable) = 0;
 		virtual void SetProgram(ShaderProgram& program) = 0;
-		virtual void StopUsingCurrentProgram() = 0;
 		virtual void SetUniformData(const std::string& name, const std::any& value) = 0;
 
 		// TODO: Textures
