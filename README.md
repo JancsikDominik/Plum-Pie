@@ -10,7 +10,7 @@ Beware the project is WORK IN PROGRESS, and very bare bones right now.
 
 ## Dependencies
 
-GLEW , GLFW, GLM, (ImGui in the future)
+glfw, glm, stb_images, ImGui 
 
 ## Usage
 
