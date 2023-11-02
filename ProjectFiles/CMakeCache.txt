@@ -294,6 +294,15 @@ PlumPie_SOURCE_DIR:STATIC=D:/dev/Plum-Pie
 //Use MSVC runtime library DLL
 USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=ON
 
+//Value Computed by CMake
+glm_BINARY_DIR:STATIC=D:/dev/Plum-Pie/ProjectFiles/ext/glm
+
+//Value Computed by CMake
+glm_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+glm_SOURCE_DIR:STATIC=D:/dev/Plum-Pie/ext/glm
+
 
 ########################
 # INTERNAL cache entries

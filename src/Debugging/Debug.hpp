@@ -23,11 +23,12 @@
 	#define PLUM_ASSERT(x) ;
 #else
 	#define PLUM_ASSERT(expr) if (!(expr))																														\
-						   {																																    \
-						       printf("Assertion failed (%s): \nfunction %s \nfile %s \nline %d.\n", STR(x), __PRETTY_FUNCTION__, __FILE__, __LINE__);			\
-							   __debugbreak();																													\
-						   }
+							   {																																    \
+								   printf("Assertion failed (%s): \nfunction %s \nfile %s \nline %d.\n", STR(x), __PRETTY_FUNCTION__, __FILE__, __LINE__);			\
+								   __debugbreak();																													\
+							   }
 #endif
+
 
 namespace Plum::Debug::Opengl
 {

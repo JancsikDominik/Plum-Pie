@@ -11,6 +11,5 @@ C:/Program Files/CMake/share/cmake-3.27/Modules/FindThreads.cmake
 C:/Program Files/CMake/share/cmake-3.27/Modules/GNUInstallDirs.cmake
 C:/Program Files/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake
 C:/Program Files/CMake/share/cmake-3.27/Modules/WriteBasicConfigVersionFile.cmake
-D:/dev/Plum-Pie/ext/glfw/CMake/cmake_uninstall.cmake.in
 D:/dev/Plum-Pie/ext/glfw/CMake/glfw3Config.cmake.in
 D:/dev/Plum-Pie/ext/glfw/CMakeLists.txt

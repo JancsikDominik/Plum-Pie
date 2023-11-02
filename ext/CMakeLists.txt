@@ -7,4 +7,4 @@ target_include_directories(PlumPie PUBLIC glfw/include)
 target_link_directories(PlumPie PUBLIC glfw/src)
 
 target_link_libraries(PlumPie glm)
-target_include_directories(PlumPie PUBLIC glfw/include)
+target_include_directories(PlumPie PUBLIC glm)

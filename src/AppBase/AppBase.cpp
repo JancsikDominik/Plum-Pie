@@ -1,10 +1,8 @@
-#include <glew.h>
 #include <iostream>
 #include <thread>
 
 #include "AppBase.hpp"
 #include "GLFWWrappers/Window.hpp"
-#include "Core/OpenGL/OpenGLRenderer.hpp"
 
 Plum::AppBase::AppBase()
     : KeyEventObserver()
@@ -26,7 +24,8 @@ Plum::AppBase::AppBase()
 
 Plum::AppBase::~AppBase()
 {
-    delete m_renderer;
+    // TODO: uncomment when got vulkan renderer
+    //delete m_renderer;
     delete m_window;
     glfwTerminate();
     glfwSetErrorCallback(nullptr);
@@ -52,7 +51,7 @@ void Plum::AppBase::Run()
         while (!m_window->ShouldClose())
         {
             Update(m_window->GetTime());
-            m_renderer->Render();
+            //m_renderer->Render();
             m_window->SwapBuffers();
         }
 
@@ -76,11 +75,7 @@ void Plum::AppBase::SetBackendApi(BackendApi api)
 {
 	switch (api)
 	{
-	case BackendApi::OpenGL:
-        m_renderer = new GL::OpenGLRenderer();
-        m_renderingAPI = BackendApi::OpenGL;
-        break;
-	// case BackendApi::Vulkan:
+	case BackendApi::Vulkan:
         //m_renderer = new Vulkan::VKRenderer();
         //break;
 	default:
@@ -94,26 +89,23 @@ void Plum::AppBase::SetBackendApi(BackendApi api)
 
 void Plum::AppBase::InitGlew() const
 {
-	const GLenum err = glewInit();
-    if (GLEW_OK != err)
-    {
-        Debug::Console::LogError("glew error: %s", glewGetErrorString(err));
-        glfwTerminate();
-        throw std::runtime_error("failed to initialize glew");
-    }
+	//const GLenum err = glewInit();
+ //   if (GLEW_OK != err)
+ //   {
+ //       Debug::Console::LogError("glew error: %s", glewGetErrorString(err));
+ //       glfwTerminate();
+ //       throw std::runtime_error("failed to initialize glew");
+ //   }
 }
 
 void Plum::AppBase::PrintRenderingAPIVersion() const
 {
     switch (m_renderingAPI)
     {
-    case BackendApi::OpenGL:
-        Debug::Console::LogInfo("OpenGL version: %s", glGetString(GL_VERSION));
-        break;
-    // case BackendApi::Vulkan:
+    case BackendApi::Vulkan:
     case BackendApi::Unknown:
     default:
-        Debug::Console::LogError("Please set the rendering api in the program's StartUp() method");
+        Debug::Console::LogError("Set the rendering api in the program's StartUp() method");
         break;
     }
 }

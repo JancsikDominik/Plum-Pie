@@ -195,7 +195,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\dev\Plum-Pie\ProjectFiles\ALL_BUILD.vcxproj">
+    <ProjectReference Include="D:\dev\Plum-Pie\ProjectFiles\ext\glm\ALL_BUILD.vcxproj">
       <Project>{A4870265-6E83-32BB-AFE0-24D4375649C2}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

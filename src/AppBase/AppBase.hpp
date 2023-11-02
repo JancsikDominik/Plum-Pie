@@ -22,8 +22,7 @@ public:
 	enum class BackendApi
 	{
 		Unknown,
-		OpenGL,
-		// Vulkan // MAYBE? or DirectX12
+		Vulkan
 	};
 
 	AppBase();

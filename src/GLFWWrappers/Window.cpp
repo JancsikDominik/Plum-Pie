@@ -90,7 +90,8 @@ namespace Plum::GLFW
 
 		void Window::Resize(int newWidth, int newHeight)
 		{
-			glViewport(0, 0, newWidth, newHeight);
+			// TODO: Vulkan resize
+			//glViewport(0, 0, newWidth, newHeight);
 		}
 
 		void Window::SetCurrentContext(bool thisThread) const

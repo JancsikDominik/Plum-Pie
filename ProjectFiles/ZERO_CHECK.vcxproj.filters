@@ -9,9 +9,6 @@
     <None Include="D:\dev\Plum-Pie\ext\CMakeLists.txt">
       <Filter>Buildsystem Input Files\ext</Filter>
     </None>
-    <None Include="D:\dev\Plum-Pie\ext\glfw\CMake\cmake_uninstall.cmake.in">
-      <Filter>Buildsystem Input Files\ext\glfw\CMake</Filter>
-    </None>
     <None Include="D:\dev\Plum-Pie\ext\glfw\CMake\glfw3.pc.in">
       <Filter>Buildsystem Input Files\ext\glfw\CMake</Filter>
     </None>
@@ -26,6 +23,9 @@
     </None>
     <None Include="D:\dev\Plum-Pie\ext\glm\CMakeLists.txt">
       <Filter>Buildsystem Input Files\ext\glm</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glm\cmake\cmake_uninstall.cmake.in">
+      <Filter>Buildsystem Input Files\ext\glm\cmake</Filter>
     </None>
     <None Include="D:\dev\Plum-Pie\ext\glm\glm\CMakeLists.txt">
       <Filter>Buildsystem Input Files\ext\glm\glm</Filter>
@@ -79,6 +79,9 @@
     </Filter>
     <Filter Include="Buildsystem Input Files\ext\glm">
       <UniqueIdentifier>{F5DCE543-16A7-30D8-98A1-29250CBB8E70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\glm\cmake">
+      <UniqueIdentifier>{08BEE4DD-1F3C-31A5-AEFE-F2EFE38557BC}</UniqueIdentifier>
     </Filter>
     <Filter Include="Buildsystem Input Files\ext\glm\glm">
       <UniqueIdentifier>{2CF76CBF-B09F-3449-92F6-A19A97B3E502}</UniqueIdentifier>
