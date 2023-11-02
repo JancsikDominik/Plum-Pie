@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Plum-Pie\ProjectFiles\CMakeFiles\4c29a9083fc138e8b8318b64cdf1b7cd\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\dev\Plum-Pie\ext\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glfw\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext\glfw</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glfw\lib-vc2022\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext\glfw\lib-vc2022</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glm\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext\glm</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glm\glm\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext\glm\glm</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\stb\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext\stb</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\AppBase\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\AppBase</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\Core\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\Core</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\Core\EventSystem\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\Core\EventSystem</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\Debugging\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\Debugging</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\GLFWWrappers\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\GLFWWrappers</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\Graphics\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\Graphics</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\src\STBWrappers\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\src\STBWrappers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{68960337-8628-329D-9A7A-D0C2F927FB85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext">
+      <UniqueIdentifier>{F3795598-2950-3986-BEC1-9BB5596CCFF1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\glfw">
+      <UniqueIdentifier>{59385563-1CD1-34E0-9890-4B9484470DB7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\glfw\lib-vc2022">
+      <UniqueIdentifier>{32F1F155-41C3-3F94-99D7-93A1489CBDD8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\glm">
+      <UniqueIdentifier>{F5DCE543-16A7-30D8-98A1-29250CBB8E70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\glm\glm">
+      <UniqueIdentifier>{2CF76CBF-B09F-3449-92F6-A19A97B3E502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\stb">
+      <UniqueIdentifier>{975DA4AF-40D4-39E1-9239-7E535950C333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src">
+      <UniqueIdentifier>{B897658B-098B-366A-911B-6ABC82C198E0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\AppBase">
+      <UniqueIdentifier>{7ECC133E-F3D0-38FF-B3FB-D9BF14972AF4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\Core">
+      <UniqueIdentifier>{96A7BC94-8143-3D26-B0DE-D26A94637B13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\Core\EventSystem">
+      <UniqueIdentifier>{06433A18-4585-3239-A6EC-37CF50AD77EE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\Debugging">
+      <UniqueIdentifier>{29AA481A-3033-3280-B9FD-1E0A3791160C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\GLFWWrappers">
+      <UniqueIdentifier>{5118979F-95FF-32F8-A490-48B98D9E4F26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\Graphics">
+      <UniqueIdentifier>{C9A6C1E5-35BB-31AA-B5E3-46945F188476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\src\STBWrappers">
+      <UniqueIdentifier>{8283D5E3-6B5F-3758-8136-54F04434435E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

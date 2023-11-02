@@ -1,0 +1,1 @@
+target_include_directories(PlumPie PUBLIC include)

@@ -1,0 +1,1 @@
+target_sources(PlumPie PRIVATE Image.cpp Image.hpp stb.cpp)
