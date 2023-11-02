@@ -9,11 +9,20 @@
     <None Include="D:\dev\Plum-Pie\ext\CMakeLists.txt">
       <Filter>Buildsystem Input Files\ext</Filter>
     </None>
+    <None Include="D:\dev\Plum-Pie\ext\glfw\CMake\cmake_uninstall.cmake.in">
+      <Filter>Buildsystem Input Files\ext\glfw\CMake</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glfw\CMake\glfw3.pc.in">
+      <Filter>Buildsystem Input Files\ext\glfw\CMake</Filter>
+    </None>
+    <None Include="D:\dev\Plum-Pie\ext\glfw\CMake\glfw3Config.cmake.in">
+      <Filter>Buildsystem Input Files\ext\glfw\CMake</Filter>
+    </None>
     <None Include="D:\dev\Plum-Pie\ext\glfw\CMakeLists.txt">
       <Filter>Buildsystem Input Files\ext\glfw</Filter>
     </None>
-    <None Include="D:\dev\Plum-Pie\ext\glfw\lib-vc2022\CMakeLists.txt">
-      <Filter>Buildsystem Input Files\ext\glfw\lib-vc2022</Filter>
+    <None Include="D:\dev\Plum-Pie\ext\glfw\src\CMakeLists.txt">
+      <Filter>Buildsystem Input Files\ext\glfw\src</Filter>
     </None>
     <None Include="D:\dev\Plum-Pie\ext\glm\CMakeLists.txt">
       <Filter>Buildsystem Input Files\ext\glm</Filter>
@@ -53,14 +62,20 @@
     <Filter Include="CMake Rules">
       <UniqueIdentifier>{68960337-8628-329D-9A7A-D0C2F927FB85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{F94026F3-DF8B-3EC7-9D8B-78AAA3EE113C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Buildsystem Input Files\ext">
       <UniqueIdentifier>{F3795598-2950-3986-BEC1-9BB5596CCFF1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Buildsystem Input Files\ext\glfw">
       <UniqueIdentifier>{59385563-1CD1-34E0-9890-4B9484470DB7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Buildsystem Input Files\ext\glfw\lib-vc2022">
-      <UniqueIdentifier>{32F1F155-41C3-3F94-99D7-93A1489CBDD8}</UniqueIdentifier>
+    <Filter Include="Buildsystem Input Files\ext\glfw\CMake">
+      <UniqueIdentifier>{D4800344-44EA-3411-8D72-2B8A57670243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buildsystem Input Files\ext\glfw\src">
+      <UniqueIdentifier>{B3958AE0-9915-3C26-BD1A-A4AF050AF0E4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Buildsystem Input Files\ext\glm">
       <UniqueIdentifier>{F5DCE543-16A7-30D8-98A1-29250CBB8E70}</UniqueIdentifier>

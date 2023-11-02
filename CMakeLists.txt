@@ -48,8 +48,9 @@ get_target_property(target_source_dir PlumPie SOURCE_DIR)
 get_target_property(target_sources_ PlumPie SOURCES)
 source_group(TREE ./ FILES ${target_sources_} PREFIX "")
 
-find_package(glfw3 3.3 REQUIRED)
-target_link_libraries(PlumPie glfw)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 
 #=============================================

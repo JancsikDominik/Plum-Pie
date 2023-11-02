@@ -1,7 +1,7 @@
 #ifndef GLFW_WINDOW_WRAPPER_HPP
 #define GLFW_WINDOW_WRAPPER_HPP
 
-#include <GLFW/glfw3.h>
+#include <glfw/glfw3.h>
 #include <glm/vec2.hpp>
 #include <string>
 

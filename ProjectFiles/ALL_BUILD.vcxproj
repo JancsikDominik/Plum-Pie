@@ -177,6 +177,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{E2D4B4EB-C7D6-3291-B69C-65FEDA1FF3A6}</Project>
       <Name>PlumPie</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\dev\Plum-Pie\ProjectFiles\ext\glfw\src\glfw.vcxproj">
+      <Project>{02E95BAD-A399-3121-AAE3-3A5043964904}</Project>
+      <Name>glfw</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
