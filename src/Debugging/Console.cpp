@@ -23,6 +23,12 @@ namespace Plum::Debug
 
 	void Console::Init()
 	{
+		// basically like a singleton but worse lol
+		if (m_isInstantiated)
+			return;
+
+		m_isInstantiated = true;
+
 		// WINDOWS ONLY!
 		AllocConsole();
 
@@ -42,6 +48,10 @@ namespace Plum::Debug
 
 	void Console::Release()
 	{
+		PLUM_ASSERT(m_isInstantiated);
+
+		m_isInstantiated = false;
+
 		// closing opened channels
 		fclose(m_inStream);
 		fclose(m_outStream);

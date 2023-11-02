@@ -72,5 +72,7 @@ namespace Plum::Debug
 		inline static FILE* m_errStream = nullptr;
 
 		inline static void* m_consoleHandle = nullptr;
+
+		inline static bool m_isInstantiated = false;
 	};
 }

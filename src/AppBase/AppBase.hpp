@@ -61,6 +61,7 @@ namespace Plum
 	private:
 		void PrintVulkanVersion() const;
 
+		// tying the lifetime of the console to the lifetime of the application
 		Debug::Console m_console;
 	};
 	
