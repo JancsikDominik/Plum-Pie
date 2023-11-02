@@ -54,6 +54,7 @@ namespace Plum
 		 */
 		virtual void OnResize(uint32_t width, uint32_t height) = 0;
 
+	protected:
 		Renderer* m_renderer;
 		GLFW::Window* m_window;
 
