@@ -48,10 +48,15 @@ get_target_property(target_source_dir PlumPie SOURCE_DIR)
 get_target_property(target_sources_ PlumPie SOURCES)
 source_group(TREE ./ FILES ${target_sources_} PREFIX "")
 
+# GLFW stuff
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
+# Vulkan stuff
+find_package(Vulkan REQUIRED)
+target_link_libraries(PlumPie PRIVATE Vulkan::Vulkan)
+target_include_directories(PlumPie PRIVATE ${Vulkan_INCLUDE_DIRS}) 
 
 #=============================================
 #			Preprocessor definitions

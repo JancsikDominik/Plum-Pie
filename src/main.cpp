@@ -1,6 +1,6 @@
 /****************************************************************************
-		THIS FILE IS USED FOR TESTING PURPOSES THE ENGINE IS NOT FINISHED,
-					THERE IS NO PROPER "ENTRY POINT" YET
+		THIS FILE IS USED FOR TESTING PURPOSES THE FRAMEWORK IS NOT FINISHED,
+			  SO I COMPILE IT AS AN EXE FOR NOW, FOR EASIER TESTING
 *****************************************************************************/
 
 #include <glm/glm.hpp>
