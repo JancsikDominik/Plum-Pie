@@ -1,3 +1,5 @@
+CURRENTLY REPLACING OPENGL WITH VULKAN, SO ALL OPENGL STUFF WILL BE DEPRICATED
+
 # PlumPie
 
 PlumPie is a 64 bit rendering framework using OpenGL made by a rookie. My first ever 'big' rendering project.
