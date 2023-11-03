@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_IMAGE_HPP
+#define PLUMPIE_IMAGE_HPP
 
 #include <filesystem>
 #include <functional>
@@ -37,3 +38,4 @@ namespace Plum
 }
 
 
+#endif
