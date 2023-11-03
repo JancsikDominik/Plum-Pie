@@ -11,11 +11,13 @@ namespace Plum::GLFW
 {
 		Window::Window(const std::string& name, unsigned sizeX, unsigned sizeY)
 		{
+			Debug::Console::LogInfo("Creating window...");
 			InitGLFW();
 			CreateWindow(sizeX, sizeY, name);
 			SetVsync(false);
 			SetCurrentContext(true);
 			SetCallbacks();
+			Debug::Console::LogSuccess("Window created");
 		}
 
 		Window::~Window()
@@ -123,22 +125,18 @@ namespace Plum::GLFW
 		}
 
 		void Window::InitGLFW() const
-		{
-			Debug::Console::LogInfo("Initializing glfw...");
-			
+		{	
 			if (!glfwInit()) 
 			{
 				Debug::Console::LogError("failed to initialize GLFW");
 				abort();
 			}
 
-			Debug::Console::LogSuccess("Initialized glfw!");
+			Debug::Console::LogSuccess("Initialized glfw");
 		}
 
 		void Window::CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name)
 		{
-			Debug::Console::LogInfo("Creating window...");
-
 			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
 			// TODO: u can do better
@@ -152,8 +150,6 @@ namespace Plum::GLFW
 				glfwTerminate();
 				abort();
 			}
-
-			Debug::Console::LogSuccess("Window created!");
 		}
 
 		void Window::SetWindowSizeCallback() const

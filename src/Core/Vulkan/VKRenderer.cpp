@@ -1,6 +1,7 @@
 #include "VKRenderer.hpp"
 
 #include "Debugging/Console.hpp"
+#include <Debugging/Debug.hpp>
 
 
 namespace Plum::VK
@@ -61,18 +62,16 @@ namespace Plum::VK
 		Debug::Console::LogInfo("Initializing Vulkan...");
 		
 		CreateVulkanInstance(appName, externalExtensions);
-		GetPhysicalDevice();
+		PickGPU();
 		CreateVulkanDevice();
 		CreateSwapChain();
 
-		Debug::Console::LogSuccess("Initialized Vulkan.");
+		Debug::Console::LogSuccess("Initialized Vulkan");
 	}
 
 
 	void Renderer::CreateVulkanInstance(const std::string& appName, std::vector<const char*> externalExtensions)
 	{
-		Debug::Console::LogInfo("Creating Vulkan instance...");
-
 		uint32_t version;
 		vkEnumerateInstanceVersion(&version);
 
@@ -113,12 +112,37 @@ namespace Plum::VK
 			Debug::Console::LogError("Failed to create Vulkan instance.");
 			abort();
 		}
+
+		Debug::Console::LogSuccess("Vulkan instance created");
 	}
 
 
-	void Renderer::GetPhysicalDevice()
+	void Renderer::PickGPU()
 	{
+		uint32_t deviceCount = 0;
+		vkEnumeratePhysicalDevices(m_vulkanInstance, &deviceCount, nullptr);
 
+		if (deviceCount == 0)
+		{
+			Debug::Console::LogError("Failed to find GPUs with Vulkan support");
+			abort();
+		}
+
+		std::vector<VkPhysicalDevice> devices(deviceCount);
+		vkEnumeratePhysicalDevices(m_vulkanInstance, &deviceCount, devices.data());
+
+		// TODO: better way to do this, maybe user could select it somehow
+		m_chosenGPU = devices[0];
+
+		if (m_chosenGPU == nullptr)
+		{
+			Debug::Console::LogError("Failed to find suitible GPU");
+			abort();
+		}
+
+		vk::PhysicalDeviceProperties gpuProperties = m_chosenGPU.getProperties();
+
+		Debug::Console::LogSuccess("Picked GPU for rendering: %s", gpuProperties.deviceName);
 	}
 
 
@@ -135,6 +159,8 @@ namespace Plum::VK
 	void Renderer::CleanUpVulkan()
 	{
 		vkDestroyInstance(m_vulkanInstance, nullptr);
+
+		Debug::Console::LogSuccess("Vulkan destroyed");
 	}
 }
 

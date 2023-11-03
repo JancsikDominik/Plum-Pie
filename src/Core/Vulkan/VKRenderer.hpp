@@ -38,7 +38,7 @@ namespace Plum::VK
 	private:
 		// To initialize vulkan
 		void CreateVulkanInstance(const std::string& appName, std::vector<const char*> externalExtensions);
-		void GetPhysicalDevice();
+		void PickGPU();
 		void CreateVulkanDevice();
 		void CreateSwapChain();
 
