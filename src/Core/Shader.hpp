@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_SHADER_HPP
+#define PLUMPIE_SHADER_HPP
 
 #include <string>
 
@@ -25,3 +26,5 @@ namespace Plum
 		virtual void Release() = 0;
 	};
 }
+
+#endif

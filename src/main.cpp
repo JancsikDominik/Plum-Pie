@@ -15,6 +15,11 @@ namespace Plum
 	class App final : public AppBase
 	{
 	public:
+		App() 
+			: AppBase("Test")
+		{
+		}
+
 		void StartUp() override;
 		void Update(double currTimeStamp) override;
 

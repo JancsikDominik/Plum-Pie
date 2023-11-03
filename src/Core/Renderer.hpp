@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_RENDERER_HPP
+#define PLUMPIE_RENDERER_HPP
 
 #include <any>
 #include <unordered_map>
@@ -30,3 +31,5 @@ namespace Plum
 		std::unordered_map<std::string, std::any> m_uniformData;
 	};
 }
+
+#endif

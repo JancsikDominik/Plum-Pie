@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_TEXTURE_HPP
+#define PLUMPIE_TEXTURE_HPP
 
 #include "Graphics/Vertex.hpp"
 #include "STBWrappers/Image.hpp"
@@ -86,3 +87,5 @@ namespace Plum
         TextureTarget m_textureTarget = TextureTarget::Tex2D;
     };
 }
+
+#endif

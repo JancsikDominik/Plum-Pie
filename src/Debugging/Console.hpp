@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLUMPIE_DEBUG_CONSOLE
+#define PLUMPIE_DEBUG_CONSOLE
+
 #include <cassert>
 #include <string>
 
@@ -38,27 +40,49 @@ namespace Plum::Debug
 		}
 
 		template <typename ... Args>
+		static void LogNoNewLine(char const* const format, Args const& ... args)
+		{
+		#ifdef PLUM_DEBUG
+			// have to initialize console before using it
+			assert(m_inStream != nullptr && m_outStream != nullptr && m_errStream != nullptr);
+			printf(format, args ...);
+		#endif
+		}
+
+		template <typename ... Args>
 		static void LogInfo(char const* const format, Args const& ... args)
 		{
 			SetConsoleColor(ConsoleColor::Yellow);
-			Log((std::string("[INFO] ") + format).c_str(), args ...);
+			LogNoNewLine("[INFO]\t");
 			SetConsoleColor(ConsoleColor::White);
+			Log(format, args ...);
 		}
 
 		template <typename ... Args>
 		static void LogError(char const* const format, Args const& ... args)
 		{
 			SetConsoleColor(ConsoleColor::Red);
-			Log((std::string("[ERROR] ") + format).c_str(), args ...);
+			LogNoNewLine("[ERROR]\t", args ...);
 			SetConsoleColor(ConsoleColor::White);
+			Log(format, args ...);
 		}
 
 		template <typename ... Args>
 		static void LogGLError(char const* const format, Args const& ... args)
 		{
 			SetConsoleColor(ConsoleColor::Red);
-			Log((std::string("[OpenGL ERROR] ") + format).c_str(), args ...);
+			LogNoNewLine("[OpenGL ERROR]");
 			SetConsoleColor(ConsoleColor::White);
+			Log(format, args ...);
+		}
+
+		template <typename ... Args>
+		static void LogSuccess(char const* const format, Args const& ... args)
+		{
+			SetConsoleColor(ConsoleColor::Green);
+			LogNoNewLine("[OK]\t");
+			SetConsoleColor(ConsoleColor::White);
+			Log(format, args ...);
 		}
 
 		static void SetConsoleColor(ConsoleColor color);
@@ -76,3 +100,5 @@ namespace Plum::Debug
 		inline static bool m_isInstantiated = false;
 	};
 }
+
+#endif

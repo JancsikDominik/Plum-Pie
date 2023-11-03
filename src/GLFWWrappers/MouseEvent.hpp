@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_MOUSE_EVENT
+#define PLUMPIE_MOUSE_EVENT
 
 #include <glm/vec2.hpp>
 
@@ -48,3 +49,4 @@ namespace Plum
 }
 
 
+#endif

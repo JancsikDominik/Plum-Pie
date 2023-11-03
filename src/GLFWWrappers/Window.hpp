@@ -1,9 +1,12 @@
 #ifndef GLFW_WINDOW_WRAPPER_HPP
 #define GLFW_WINDOW_WRAPPER_HPP
 
+#include <string>
+#include <vector>
+
+#define GLFW_INCLUDE_VULKAN
 #include <glfw/glfw3.h>
 #include <glm/vec2.hpp>
-#include <string>
 
 #include "Keyboard.hpp"
 
@@ -21,7 +24,7 @@ namespace Plum::GLFW
 			Window& operator=(Window& other) = delete;
 			Window& operator=(Window&& other) noexcept;
 
-			[[nodiscard]] const char** GetRequiredExtensions() const;
+			[[nodiscard]] std::vector<const char*> GetRequiredExtensions() const;
 			[[nodiscard]] bool ShouldClose() const;
 			void SetFullscreen();
 			void SwapBuffers() const;

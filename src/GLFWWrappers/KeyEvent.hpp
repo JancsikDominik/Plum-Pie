@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_KEYEVENT
+#define PLUMPIE_KEYEVENT
 
 #include "Core/EventSystem/Event.hpp"
 #include "Core/EventSystem/EventManager.hpp"
@@ -29,3 +30,5 @@ namespace Plum
 		void OnNotify(const Event* e) override;
 	};
 }
+
+#endif

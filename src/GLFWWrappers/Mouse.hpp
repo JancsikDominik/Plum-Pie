@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_MOUSE
+#define PLUMPIE_MOUSE
 
 namespace Plum::Mouse
 {
@@ -32,3 +33,5 @@ namespace Plum::Mouse
 	};
 
 }
+
+#endif

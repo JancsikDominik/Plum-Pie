@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_SHADER_PROGRAM_HPP
+#define PLUMPIE_SHADER_PROGRAM_HPP
 
 #include <vector>
 
@@ -18,3 +19,5 @@ namespace Plum
 		virtual void StopUsing() const = 0;
 	};
 }
+
+#endif

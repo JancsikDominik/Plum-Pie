@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_EVENT_MANAGER_HPP
+#define PLUMPIE_EVENT_MANAGER_HPP
 
 #include <unordered_map>
 #include <vector>
@@ -65,8 +66,7 @@ namespace Plum
             }
         }
     };
-
-
 }
 
 
+#endif

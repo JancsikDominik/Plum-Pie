@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLUMPIE_RESIZE_EVENT
+#define PLUMPIE_RESIZE_EVENT
 
 #include "Core/EventSystem/Event.hpp"
 #include "Core/EventSystem/EventManager.hpp"
@@ -33,3 +34,5 @@ namespace Plum
 		}
 	};
 }
+
+#endif

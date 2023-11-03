@@ -45,11 +45,12 @@ namespace Plum::GLFW
 			return *this;
 		}
 
-		const char** Window::GetRequiredExtensions() const
+		std::vector<const char*> Window::GetRequiredExtensions() const
 		{
-			uint32_t count;
-			const char** extensions = glfwGetRequiredInstanceExtensions(&count);
-			return extensions;
+			uint32_t extensionCount = 0;
+			const char** extensions = glfwGetRequiredInstanceExtensions(&extensionCount);
+
+			return std::vector<const char*>(extensions, extensions + extensionCount);
 		}
 
 		void Window::SetFullscreen()
@@ -123,16 +124,27 @@ namespace Plum::GLFW
 
 		void Window::InitGLFW() const
 		{
+			Debug::Console::LogInfo("Initializing glfw...");
+			
 			if (!glfwInit()) 
 			{
 				Debug::Console::LogError("failed to initialize GLFW");
-				throw std::runtime_error("Failed to initialize GLFW!");
+				abort();
 			}
+
+			Debug::Console::LogSuccess("Initialized glfw!");
 		}
 
 		void Window::CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name)
 		{
-			m_glfwWindowPtr = glfwCreateWindow(sizeX, sizeY, name.c_str(), NULL, NULL);
+			Debug::Console::LogInfo("Creating window...");
+
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+			// TODO: u can do better
+			glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+			m_glfwWindowPtr = glfwCreateWindow(sizeX, sizeY, name.c_str(), nullptr, nullptr);
 
 			if (!m_glfwWindowPtr)
 			{
@@ -140,6 +152,8 @@ namespace Plum::GLFW
 				glfwTerminate();
 				abort();
 			}
+
+			Debug::Console::LogSuccess("Window created!");
 		}
 
 		void Window::SetWindowSizeCallback() const

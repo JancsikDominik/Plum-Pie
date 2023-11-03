@@ -10,7 +10,7 @@
 namespace Plum
 {
 
-    AppBase::AppBase()
+    AppBase::AppBase(const std::string& appName)
         : KeyEventObserver()
         , ResizeEventObserver()
         , MouseEventObserver()
@@ -18,8 +18,8 @@ namespace Plum
     {
         try
         {
-            m_window = new GLFW::Window("sandbox");
-            m_renderer = new VK::Renderer();
+            m_window = new GLFW::Window(appName);
+            m_renderer = new VK::Renderer(appName, m_window->GetRequiredExtensions());
         }
         catch (...)
         {
@@ -31,7 +31,7 @@ namespace Plum
     AppBase::~AppBase()
     {
         // TODO: uncomment when got vulkan renderer
-        //delete m_renderer;
+        delete m_renderer;
         delete m_window;
         glfwTerminate();
         glfwSetErrorCallback(nullptr);
@@ -51,9 +51,6 @@ namespace Plum
 
             StartUp();
 
-            // call it after start up, so we don't get Unknown (hopefully)
-            PrintVulkanVersion();
-
             while (!m_window->ShouldClose())
             {
                 Update(m_window->GetTime());
@@ -63,7 +60,7 @@ namespace Plum
 
             m_window->SetCurrentContext(false);
             Debug::Console::LogInfo("rendering stopped");
-            });
+        });
 
         // we are seperating the rendering to a different thread, so we can keep drawing when for e.g we resize the window
         while (!m_window->ShouldClose())
@@ -76,11 +73,4 @@ namespace Plum
         // ugly, but have to get context back, so we can clean things up in the destructor
         m_window->SetCurrentContext(true);
     }
-
-
-    void AppBase::PrintVulkanVersion() const
-    {
-        // TODO
-    }
-
 }

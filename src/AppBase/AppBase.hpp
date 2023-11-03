@@ -1,5 +1,5 @@
-#ifndef PLUMPIE_HPP
-#define PLUMPIE_HPP
+#ifndef PLUMPIE_APPBASE_HPP
+#define PLUMPIE_APPBASE_HPP
 
 #include "GLFWWrappers/KeyEvent.hpp"
 #include "GLFWWrappers/ResizeEvent.hpp"
@@ -17,7 +17,7 @@ namespace Plum
 					public MouseEventObserver
 	{
 	public:
-		AppBase();
+		AppBase(const std::string& appName);
 		virtual ~AppBase();
 
 		/**
@@ -54,12 +54,11 @@ namespace Plum
 		 */
 		virtual void OnResize(uint32_t width, uint32_t height) = 0;
 
-	protected:
+
 		Renderer* m_renderer;
 		GLFW::Window* m_window;
 
 	private:
-		void PrintVulkanVersion() const;
 
 		// tying the lifetime of the console to the lifetime of the application
 		Debug::Console m_console;

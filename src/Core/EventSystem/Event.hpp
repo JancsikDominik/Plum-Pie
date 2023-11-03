@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLUMPIE_EVENT_HPP
+#define PLUMPIE_EVENT_HPP
+
 #include <memory>
 
 #include "EventManager.hpp"
@@ -37,3 +39,5 @@ namespace Plum
     };
 
 }
+
+#endif
