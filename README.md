@@ -10,7 +10,7 @@ Beware the project is WORK IN PROGRESS, and very bare bones right now.
 
 ## Dependencies
 
-glfw, glm, stb_images, ImGui 
+Vulkan, glfw, glm, stb_images, ImGui 
 
 ## Usage
 
