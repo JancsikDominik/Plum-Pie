@@ -3,6 +3,7 @@
 
 #include "Window.hpp"
 #include "Debugging/Console.hpp"
+#include "Debugging/Debug.hpp"
 #include "KeyEvent.hpp"
 #include "ResizeEvent.hpp"
 #include "MouseEvent.hpp"
@@ -80,6 +81,11 @@ namespace Plum::GLFW
 			return glfwWindowShouldClose(m_glfwWindowPtr);
 		}
 
+		bool Window::IsVsync() const 
+		{ 
+			return m_isVsyncOn; 
+		}
+
 		void Window::SwapBuffers() const
 		{
 			glfwSwapBuffers(m_glfwWindowPtr);
@@ -113,6 +119,25 @@ namespace Plum::GLFW
 		double Window::GetTime() const
 		{
 			return glfwGetTime();
+		}
+
+		const std::string& Window::GetWindowTitle() const
+		{
+			return m_windowTitle;
+		}
+
+		vk::SurfaceKHR Window::CreateWindowSurface(const vk::Instance& instance) const
+		{
+			VkSurfaceKHR rawSurface;
+			PLUM_ASSERT(glfwCreateWindowSurface(instance, m_glfwWindowPtr, nullptr, &rawSurface) == VK_SUCCESS);
+
+			if (rawSurface != nullptr)
+			{
+				Debug::Console::LogSuccess("Window surface created");
+
+				// implicit conversion to the cpp version
+				return rawSurface;
+			}
 		}
 
 		void Window::SetCallbacks()
@@ -150,6 +175,8 @@ namespace Plum::GLFW
 				glfwTerminate();
 				abort();
 			}
+
+			m_windowTitle = name;
 		}
 
 		void Window::SetWindowSizeCallback() const

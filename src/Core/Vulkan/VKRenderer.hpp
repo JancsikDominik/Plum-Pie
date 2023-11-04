@@ -6,6 +6,7 @@
 #include <vulkan/vulkan.hpp>
 
 #include "Core/Renderer.hpp"
+#include "GLFWWrappers/Window.hpp"
 
 namespace Plum::VK
 {
@@ -26,6 +27,7 @@ namespace Plum::VK
 		using QueueFamilyIndices = std::unordered_map<DeviceQueue, std::optional<uint32_t>>;
 
 		Renderer(const std::string& appName, std::vector<const char*> externalExtensions);
+		Renderer(const GLFW::Window* windowToRenderTo);
 
 		virtual ~Renderer() override;
 
@@ -40,7 +42,7 @@ namespace Plum::VK
 		virtual void Render() override;
 
 	protected:
-		void InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions);
+		void InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const GLFW::Window* window = nullptr);
 		void CleanUpVulkan();
 
 		vk::Instance m_vulkanInstance = nullptr;
@@ -59,7 +61,6 @@ namespace Plum::VK
 		bool IsDeviceSuitable(const vk::PhysicalDevice& device) const;
 		void CreateVulkanDevice();
 		void GetDeviceQueueHandles();
-		void CreateWindowSurface();
 		void CreateSwapChain();
 
 		// TODO: validation layers

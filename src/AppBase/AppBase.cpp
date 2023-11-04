@@ -19,7 +19,7 @@ namespace Plum
         try
         {
             m_window = new GLFW::Window(appName);
-            m_renderer = new VK::Renderer(appName, m_window->GetRequiredExtensions());
+            m_renderer = new VK::Renderer(m_window);
         }
         catch (...)
         {

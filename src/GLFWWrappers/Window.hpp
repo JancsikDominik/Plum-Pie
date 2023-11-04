@@ -7,6 +7,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <glfw/glfw3.h>
 #include <glm/vec2.hpp>
+#include <vulkan/vulkan.hpp>
 
 #include "Keyboard.hpp"
 
@@ -24,20 +25,20 @@ namespace Plum::GLFW
 			Window& operator=(Window& other) = delete;
 			Window& operator=(Window&& other) noexcept;
 
-			[[nodiscard]] std::vector<const char*> GetRequiredExtensions() const;
-			[[nodiscard]] bool ShouldClose() const;
 			void SetFullscreen();
+			void SetCurrentContext(bool thisThread) const;
 			void SwapBuffers() const;
-
 			void SetVsync(const bool isEnabled);
-			[[nodiscard]] bool IsVsync() const { return m_isVsyncOn; }
-
 			void Resize(int newWidth, int newHeight);
 
-			void SetCurrentContext(bool thisThread) const;
-
 			void PollEvents() const;
+
+			[[nodiscard]] std::vector<const char*> GetRequiredExtensions() const;
+			[[nodiscard]] bool ShouldClose() const;
+			[[nodiscard]] bool IsVsync() const;
 			[[nodiscard]] double GetTime() const;
+			[[nodiscard]] const std::string& GetWindowTitle() const;
+			[[nodiscard]] vk::SurfaceKHR CreateWindowSurface(const vk::Instance& instance) const;
 
 		private:
 			void SetCallbacks();
@@ -70,6 +71,7 @@ namespace Plum::GLFW
 			GLFWmonitor* m_monitor = nullptr;
 			bool m_isFullscreen = false;
 			bool m_isVsyncOn = true;
+			std::string m_windowTitle;
 		};
 }
 

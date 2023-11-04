@@ -42,6 +42,22 @@ namespace Plum::VK
 		InitVulkan(appName, externalExtensions);
 	}
 
+
+	Renderer::Renderer(const GLFW::Window* windowToRenderTo)
+	{
+		m_queueFamilyIndicies = {
+			{ DeviceQueue::Graphics,	{} },
+			{ DeviceQueue::Compute,		{} },
+			{ DeviceQueue::Transfer,	{} },
+			{ DeviceQueue::Sparse,		{} },
+			{ DeviceQueue::VideoDecode,	{} },
+			{ DeviceQueue::OpticalFlow,	{} }
+		};
+
+		InitVulkan(windowToRenderTo->GetWindowTitle(), windowToRenderTo->GetRequiredExtensions(), windowToRenderTo);
+	}
+
+
 	Renderer::~Renderer()
 	{
 		CleanUpVulkan();
@@ -88,11 +104,16 @@ namespace Plum::VK
 	}
 
 
-	void Renderer::InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions)
+	void Renderer::InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const GLFW::Window* window)
 	{
 		Debug::Console::LogInfo("Initializing Vulkan...");
 		
 		CreateVulkanInstance(appName, externalExtensions);
+
+		// allowing to render without a window for off-screen rendering
+		if (window != nullptr)
+			m_surface = window->CreateWindowSurface(m_vulkanInstance);
+
 		PickGPU();
 		CreateVulkanDevice();
 		GetDeviceQueueHandles();
@@ -274,11 +295,6 @@ namespace Plum::VK
 				Debug::Console::LogInfo("Got %s device queue handle", DeviceQueueToString(key).c_str());
 			}
 		}
-	}
-
-
-	void Renderer::CreateWindowSurface()
-	{
 	}
 
 
