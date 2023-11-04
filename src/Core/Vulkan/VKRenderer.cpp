@@ -1,13 +1,44 @@
 #include "VKRenderer.hpp"
 
 #include "Debugging/Console.hpp"
-#include <Debugging/Debug.hpp>
+#include "Debugging/Debug.hpp"
 
 
 namespace Plum::VK
 {
+	std::string DeviceQueueToString(DeviceQueue q)
+	{
+		switch (q)
+		{
+		case DeviceQueue::Graphics:
+			return "Graphics";
+		case DeviceQueue::Compute:
+			return "Compute";
+		case DeviceQueue::Transfer:
+			return "Transfer";
+		case DeviceQueue::Sparse:
+			return "Sparse";
+		case DeviceQueue::VideoDecode:
+			return "VideoDecode";
+		case DeviceQueue::OpticalFlow:
+			return "OpticalFlow";
+		default:
+			PLUM_ASSERT(false);
+			return "";
+		}
+	}
+
 	Renderer::Renderer(const std::string& appName, std::vector<const char*> externalExtensions)
 	{
+		m_queueFamilyIndicies = {
+			{ DeviceQueue::Graphics,	{} },
+			{ DeviceQueue::Compute,		{} },
+			{ DeviceQueue::Transfer,	{} },
+			{ DeviceQueue::Sparse,		{} },
+			{ DeviceQueue::VideoDecode,	{} },
+			{ DeviceQueue::OpticalFlow,	{} }
+		};
+
 		InitVulkan(appName, externalExtensions);
 	}
 
@@ -64,6 +95,7 @@ namespace Plum::VK
 		CreateVulkanInstance(appName, externalExtensions);
 		PickGPU();
 		CreateVulkanDevice();
+		GetDeviceQueueHandles();
 		CreateSwapChain();
 
 		Debug::Console::LogSuccess("Initialized Vulkan");
@@ -131,8 +163,14 @@ namespace Plum::VK
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(m_vulkanInstance, &deviceCount, devices.data());
 
-		// TODO: better way to do this, maybe user could select it somehow
-		m_chosenGPU = devices[0];
+		for (const auto& device : devices)
+		{
+			if (IsDeviceSuitable(device))
+			{
+				m_chosenGPU = device;
+				m_queueFamilyIndicies = FindQueueFamilies(m_chosenGPU);
+			}
+		}
 
 		if (m_chosenGPU == nullptr)
 		{
@@ -146,7 +184,100 @@ namespace Plum::VK
 	}
 
 
+	Renderer::QueueFamilyIndices Renderer::FindQueueFamilies(const vk::PhysicalDevice& device) const
+	{
+		QueueFamilyIndices indices;
+
+		std::vector<vk::QueueFamilyProperties> queueFamilies;
+		queueFamilies = device.getQueueFamilyProperties();
+
+		for (int i = 0; i < queueFamilies.size(); i++)
+		{
+			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eGraphics)
+			{
+				indices[DeviceQueue::Graphics] = i;
+			}
+			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eCompute)
+			{
+				indices[DeviceQueue::Compute] = i;
+			}
+			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eTransfer)
+			{
+				indices[DeviceQueue::Transfer] = i;
+			}
+			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eSparseBinding)
+			{
+				indices[DeviceQueue::Sparse] = i;
+			}
+			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eVideoDecodeKHR)
+			{
+				indices[DeviceQueue::VideoDecode] = i;
+			}
+			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eOpticalFlowNV)
+			{
+				indices[DeviceQueue::OpticalFlow] = i;
+			}
+		}
+
+		return indices;
+	}
+
+
+	bool Renderer::IsDeviceSuitable(const vk::PhysicalDevice& device) const
+	{
+		const auto& indices = FindQueueFamilies(device);
+		return indices.at(DeviceQueue::Graphics).has_value();
+	}
+
+
 	void Renderer::CreateVulkanDevice()
+	{
+		float queuePriority = 1.0f;
+
+		vk::DeviceQueueCreateInfo queueCreateInfo {
+			{},
+			m_queueFamilyIndicies[DeviceQueue::Graphics].value(),
+			1,
+			&queuePriority
+		};
+
+		vk::PhysicalDeviceFeatures deviceFeatures;
+
+		vk::DeviceCreateInfo createInfo;
+		createInfo.pQueueCreateInfos = &queueCreateInfo;
+		createInfo.queueCreateInfoCount = 1;
+		createInfo.pEnabledFeatures = &deviceFeatures;
+		createInfo.enabledExtensionCount = 0;
+
+		// TODO: validation layers
+		//if (enableValidationLayers) {
+		//	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+		//	createInfo.ppEnabledLayerNames = validationLayers.data();
+		//}
+		//else {
+			createInfo.enabledLayerCount = 0;
+		//}
+
+		m_device = m_chosenGPU.createDevice(createInfo);
+
+		Debug::Console::LogSuccess("Logical device created");
+	}
+
+
+	void Renderer::GetDeviceQueueHandles()
+	{
+		for (auto const& [key, val] : m_queueFamilyIndicies)
+		{
+			if (val.has_value())
+			{
+				m_deviceQueues[key] = m_device.getQueue(m_queueFamilyIndicies[key].value(), 0);
+				Debug::Console::LogInfo("Got %s device queue handle", DeviceQueueToString(key).c_str());
+			}
+		}
+	}
+
+
+	void Renderer::CreateWindowSurface()
 	{
 	}
 
@@ -158,7 +289,8 @@ namespace Plum::VK
 
 	void Renderer::CleanUpVulkan()
 	{
-		vkDestroyInstance(m_vulkanInstance, nullptr);
+		m_device.destroy();
+		m_vulkanInstance.destroy();
 
 		Debug::Console::LogSuccess("Vulkan destroyed");
 	}
