@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "Window.hpp"
+#include "GLFWWindow.hpp"
 #include "Debugging/Console.hpp"
 #include "Debugging/Debug.hpp"
 #include "KeyEvent.hpp"
@@ -13,10 +13,8 @@ namespace Plum::GLFW
 		Window::Window(const std::string& name, unsigned sizeX, unsigned sizeY)
 		{
 			Debug::Console::LogInfo("Creating window...");
-			InitGLFW();
 			CreateWindow(sizeX, sizeY, name);
 			SetVsync(false);
-			SetCurrentContext(true);
 			SetCallbacks();
 			Debug::Console::LogSuccess("Window created");
 		}
@@ -86,11 +84,6 @@ namespace Plum::GLFW
 			return m_isVsyncOn; 
 		}
 
-		void Window::SwapBuffers() const
-		{
-			glfwSwapBuffers(m_glfwWindowPtr);
-		}
-
 		void Window::SetVsync(const bool isEnabled)
 		{
 			m_isVsyncOn = isEnabled;
@@ -101,14 +94,6 @@ namespace Plum::GLFW
 		{
 			// TODO: Vulkan resize
 			//glViewport(0, 0, newWidth, newHeight);
-		}
-
-		void Window::SetCurrentContext(bool thisThread) const
-		{
-			if (thisThread)
-				glfwMakeContextCurrent(m_glfwWindowPtr);
-			else
-				glfwMakeContextCurrent(nullptr);
 		}
 
 		void Window::PollEvents() const
@@ -147,17 +132,6 @@ namespace Plum::GLFW
 			SetCursorPosCallback();
 			SetMouseButtonCallback();
 			SetMouseScrollCallback();
-		}
-
-		void Window::InitGLFW() const
-		{	
-			if (!glfwInit()) 
-			{
-				Debug::Console::LogError("failed to initialize GLFW");
-				abort();
-			}
-
-			Debug::Console::LogSuccess("Initialized glfw");
 		}
 
 		void Window::CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name)

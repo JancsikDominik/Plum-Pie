@@ -7,6 +7,9 @@ target_sources(PlumPie PRIVATE
 	MouseEvent.hpp 
 	ResizeEvent.cpp 
 	ResizeEvent.hpp 
-	Window.cpp 
+	GLFWWindow.cpp 
+	GLFWWindow.hpp
+	AppBase.cpp
+	AppBase.hpp
 	Window.hpp
 )

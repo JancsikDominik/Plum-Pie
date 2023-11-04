@@ -2,9 +2,10 @@
 #include <thread>
 
 #include "AppBase.hpp"
+#include "GLFWWindow.hpp"
+
 #include "Debugging/Debug.hpp"
 #include "Debugging/Console.hpp"
-#include "GLFWWrappers/Window.hpp"
 #include "Core/Vulkan/VKRenderer.hpp"
 
 namespace Plum
@@ -16,49 +17,32 @@ namespace Plum
         , MouseEventObserver()
         , m_renderer{ nullptr }
     {
-        try
-        {
-            m_window = new GLFW::Window(appName);
-            m_renderer = new VK::Renderer(m_window);
-        }
-        catch (...)
-        {
-            glfwTerminate();
-            return;
-        }
+        InitGLFW();
+        m_window = new GLFW::Window(appName);
+        m_renderer = new VK::Renderer(m_window);
     }
 
     AppBase::~AppBase()
     {
-        // TODO: uncomment when got vulkan renderer
+        CleanUpGLFW();
         delete m_renderer;
         delete m_window;
-        glfwTerminate();
-        glfwSetErrorCallback(nullptr);
     }
 
     void AppBase::Run()
     {
-        // SetCurrentContext is called in the constructor of the GLFW window, but 
-        // when moving a context between threads, we must make it non-current on the old thread before making it current on the new one.
-        // so by setting SetCurrentContext to false on this thread, we can set the context to true on the other thread
-        m_window->SetCurrentContext(false);
-
         // starting rendering thread
         std::thread renderingThread([&]() {
-
-            m_window->SetCurrentContext(true);
 
             StartUp();
 
             while (!m_window->ShouldClose())
             {
                 Update(m_window->GetTime());
-                //m_renderer->Render();
-                m_window->SwapBuffers();
+                // m_renderer->Render();
+                //m_renderer->SwapBuffers();
             }
 
-            m_window->SetCurrentContext(false);
             Debug::Console::LogInfo("rendering stopped");
         });
 
@@ -69,8 +53,23 @@ namespace Plum
         }
 
         renderingThread.join();
+    }
 
-        // ugly, but have to get context back, so we can clean things up in the destructor
-        m_window->SetCurrentContext(true);
+    void AppBase::InitGLFW() const
+    {
+        if (!glfwInit())
+        {
+            Debug::Console::LogError("failed to initialize GLFW");
+            abort();
+        }
+
+        Debug::Console::LogSuccess("Initialized glfw");
+    }
+
+    void AppBase::CleanUpGLFW() const
+    {
+        glfwTerminate();
+        glfwSetErrorCallback(nullptr);
+        Debug::Console::LogSuccess("GLFW terminated");
     }
 }

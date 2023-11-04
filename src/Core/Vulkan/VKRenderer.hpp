@@ -6,7 +6,7 @@
 #include <vulkan/vulkan.hpp>
 
 #include "Core/Renderer.hpp"
-#include "GLFWWrappers/Window.hpp"
+#include "App/Window.hpp"
 
 namespace Plum::VK
 {
@@ -17,7 +17,8 @@ namespace Plum::VK
 		Transfer,
 		Sparse,
 		VideoDecode,
-		OpticalFlow
+		OpticalFlow,
+		Present
 	};
 
 
@@ -27,7 +28,7 @@ namespace Plum::VK
 		using QueueFamilyIndices = std::unordered_map<DeviceQueue, std::optional<uint32_t>>;
 
 		Renderer(const std::string& appName, std::vector<const char*> externalExtensions);
-		Renderer(const GLFW::Window* windowToRenderTo);
+		Renderer(const App::Window* windowToRenderTo);
 
 		virtual ~Renderer() override;
 
@@ -42,7 +43,7 @@ namespace Plum::VK
 		virtual void Render() override;
 
 	protected:
-		void InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const GLFW::Window* window = nullptr);
+		void InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const App::Window* window = nullptr);
 		void CleanUpVulkan();
 
 		vk::Instance m_vulkanInstance = nullptr;
@@ -56,9 +57,9 @@ namespace Plum::VK
 	private:
 		// To initialize vulkan
 		void CreateVulkanInstance(const std::string& appName, std::vector<const char*> externalExtensions);
-		void PickGPU();
+		void PickGPU(bool renderToSurface);
 		QueueFamilyIndices FindQueueFamilies(const vk::PhysicalDevice& device) const;
-		bool IsDeviceSuitable(const vk::PhysicalDevice& device) const;
+		bool IsDeviceSuitable(const vk::PhysicalDevice& device, bool renderToSurface) const;
 		void CreateVulkanDevice();
 		void GetDeviceQueueHandles();
 		void CreateSwapChain();

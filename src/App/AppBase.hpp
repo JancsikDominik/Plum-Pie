@@ -1,9 +1,9 @@
 #ifndef PLUMPIE_APPBASE_HPP
 #define PLUMPIE_APPBASE_HPP
 
-#include "GLFWWrappers/KeyEvent.hpp"
-#include "GLFWWrappers/ResizeEvent.hpp"
-#include "GLFWWrappers/MouseEvent.hpp"
+#include "App/KeyEvent.hpp"
+#include "App/ResizeEvent.hpp"
+#include "App/MouseEvent.hpp"
 
 namespace Plum::GLFW { class Window; }
 namespace Plum::Debug { class Console; }
@@ -59,6 +59,9 @@ namespace Plum
 		GLFW::Window* m_window;
 
 	private:
+
+		void InitGLFW() const;
+		void CleanUpGLFW() const;
 
 		// tying the lifetime of the console to the lifetime of the application
 		Debug::Console m_console;

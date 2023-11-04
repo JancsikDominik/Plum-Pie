@@ -10,40 +10,37 @@
 #include <vulkan/vulkan.hpp>
 
 #include "Keyboard.hpp"
+#include "Window.hpp"
 
 namespace Plum::GLFW
 {
 		// raii class for glfw window
-		class Window
+		class Window : public App::Window
 		{
 		public:
 			Window(const std::string& name, unsigned sizeX = 1280, unsigned sizeY = 960);
 			Window(Window& other) = delete;
 			Window(Window&& other) noexcept;
-			~Window();
+			virtual ~Window() override;
 
 			Window& operator=(Window& other) = delete;
 			Window& operator=(Window&& other) noexcept;
 
-			void SetFullscreen();
-			void SetCurrentContext(bool thisThread) const;
-			void SwapBuffers() const;
-			void SetVsync(const bool isEnabled);
-			void Resize(int newWidth, int newHeight);
+			virtual void SetFullscreen() override;
+			virtual void SetVsync(const bool isEnabled) override;
+			virtual void Resize(int newWidth, int newHeight) override;
 
 			void PollEvents() const;
 
-			[[nodiscard]] std::vector<const char*> GetRequiredExtensions() const;
-			[[nodiscard]] bool ShouldClose() const;
-			[[nodiscard]] bool IsVsync() const;
-			[[nodiscard]] double GetTime() const;
-			[[nodiscard]] const std::string& GetWindowTitle() const;
-			[[nodiscard]] vk::SurfaceKHR CreateWindowSurface(const vk::Instance& instance) const;
+			[[nodiscard]] virtual std::vector<const char*> GetRequiredExtensions() const override;
+			[[nodiscard]] virtual bool ShouldClose() const override;
+			[[nodiscard]] virtual bool IsVsync() const override;
+			[[nodiscard]] virtual double GetTime() const override;
+			[[nodiscard]] virtual const std::string& GetWindowTitle() const override;
+			[[nodiscard]] virtual vk::SurfaceKHR CreateWindowSurface(const vk::Instance& instance) const override;
 
 		private:
 			void SetCallbacks();
-
-			void InitGLFW() const;
 			void CreateWindow(unsigned sizeX, unsigned sizeY, const std::string& name);
 
 			void SetWindowSizeCallback() const;

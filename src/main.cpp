@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "AppBase/AppBase.hpp"
+#include "App/AppBase.hpp"
 #include "Graphics/Camera.hpp"
 
 namespace Plum

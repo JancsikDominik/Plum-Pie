@@ -1,5 +1,7 @@
 #include "VKRenderer.hpp"
 
+#include <set>
+
 #include "Debugging/Console.hpp"
 #include "Debugging/Debug.hpp"
 
@@ -22,6 +24,8 @@ namespace Plum::VK
 			return "VideoDecode";
 		case DeviceQueue::OpticalFlow:
 			return "OpticalFlow";
+		case DeviceQueue::Present:
+			return "Present";
 		default:
 			PLUM_ASSERT(false);
 			return "";
@@ -31,27 +35,29 @@ namespace Plum::VK
 	Renderer::Renderer(const std::string& appName, std::vector<const char*> externalExtensions)
 	{
 		m_queueFamilyIndicies = {
-			{ DeviceQueue::Graphics,	{} },
-			{ DeviceQueue::Compute,		{} },
-			{ DeviceQueue::Transfer,	{} },
-			{ DeviceQueue::Sparse,		{} },
-			{ DeviceQueue::VideoDecode,	{} },
-			{ DeviceQueue::OpticalFlow,	{} }
+			{ DeviceQueue::Graphics,		{} },
+			{ DeviceQueue::Compute,			{} },
+			{ DeviceQueue::Transfer,		{} },
+			{ DeviceQueue::Sparse,			{} },
+			{ DeviceQueue::VideoDecode,		{} },
+			{ DeviceQueue::OpticalFlow,		{} },
+			{ DeviceQueue::Present,	{} }
 		};
 
 		InitVulkan(appName, externalExtensions);
 	}
 
 
-	Renderer::Renderer(const GLFW::Window* windowToRenderTo)
+	Renderer::Renderer(const App::Window* windowToRenderTo)
 	{
 		m_queueFamilyIndicies = {
-			{ DeviceQueue::Graphics,	{} },
-			{ DeviceQueue::Compute,		{} },
-			{ DeviceQueue::Transfer,	{} },
-			{ DeviceQueue::Sparse,		{} },
-			{ DeviceQueue::VideoDecode,	{} },
-			{ DeviceQueue::OpticalFlow,	{} }
+			{ DeviceQueue::Graphics,		{} },
+			{ DeviceQueue::Compute,			{} },
+			{ DeviceQueue::Transfer,		{} },
+			{ DeviceQueue::Sparse,			{} },
+			{ DeviceQueue::VideoDecode,		{} },
+			{ DeviceQueue::OpticalFlow,		{} },
+			{ DeviceQueue::Present,	{} }
 		};
 
 		InitVulkan(windowToRenderTo->GetWindowTitle(), windowToRenderTo->GetRequiredExtensions(), windowToRenderTo);
@@ -104,7 +110,7 @@ namespace Plum::VK
 	}
 
 
-	void Renderer::InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const GLFW::Window* window)
+	void Renderer::InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const App::Window* window)
 	{
 		Debug::Console::LogInfo("Initializing Vulkan...");
 		
@@ -114,7 +120,7 @@ namespace Plum::VK
 		if (window != nullptr)
 			m_surface = window->CreateWindowSurface(m_vulkanInstance);
 
-		PickGPU();
+		PickGPU(window != nullptr);
 		CreateVulkanDevice();
 		GetDeviceQueueHandles();
 		CreateSwapChain();
@@ -170,7 +176,7 @@ namespace Plum::VK
 	}
 
 
-	void Renderer::PickGPU()
+	void Renderer::PickGPU(bool renderToSurface)
 	{
 		uint32_t deviceCount = 0;
 		vkEnumeratePhysicalDevices(m_vulkanInstance, &deviceCount, nullptr);
@@ -186,7 +192,7 @@ namespace Plum::VK
 
 		for (const auto& device : devices)
 		{
-			if (IsDeviceSuitable(device))
+			if (IsDeviceSuitable(device, renderToSurface))
 			{
 				m_chosenGPU = device;
 				m_queueFamilyIndicies = FindQueueFamilies(m_chosenGPU);
@@ -218,55 +224,75 @@ namespace Plum::VK
 			{
 				indices[DeviceQueue::Graphics] = i;
 			}
-			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eCompute)
+			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eCompute)
 			{
 				indices[DeviceQueue::Compute] = i;
 			}
-			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eTransfer)
+			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eTransfer)
 			{
 				indices[DeviceQueue::Transfer] = i;
 			}
-			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eSparseBinding)
+			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eSparseBinding)
 			{
 				indices[DeviceQueue::Sparse] = i;
 			}
-			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eVideoDecodeKHR)
+			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eVideoDecodeKHR)
 			{
 				indices[DeviceQueue::VideoDecode] = i;
 			}
-			else if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eOpticalFlowNV)
+			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eOpticalFlowNV)
 			{
 				indices[DeviceQueue::OpticalFlow] = i;
 			}
+
+			// checking if it can render to surface
+			if (device.getSurfaceSupportKHR(i, m_surface)) 
+			{
+				indices[DeviceQueue::Present] = i;
+			}
+
 		}
 
 		return indices;
 	}
 
 
-	bool Renderer::IsDeviceSuitable(const vk::PhysicalDevice& device) const
+	bool Renderer::IsDeviceSuitable(const vk::PhysicalDevice& device, bool renderToSurface) const
 	{
 		const auto& indices = FindQueueFamilies(device);
-		return indices.at(DeviceQueue::Graphics).has_value();
+
+		if (renderToSurface)
+			return indices.at(DeviceQueue::Graphics).has_value() && indices.at(DeviceQueue::Present).has_value();
+		else
+			return indices.at(DeviceQueue::Graphics).has_value();
 	}
 
 
 	void Renderer::CreateVulkanDevice()
 	{
-		float queuePriority = 1.0f;
-
-		vk::DeviceQueueCreateInfo queueCreateInfo {
-			{},
+		std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
+		std::set<uint32_t> uniqueQueueFamilies = { 
 			m_queueFamilyIndicies[DeviceQueue::Graphics].value(),
-			1,
-			&queuePriority
+			m_queueFamilyIndicies[DeviceQueue::Present].value(),
+			m_queueFamilyIndicies[DeviceQueue::Compute].value()
 		};
+
+		float queuePriority = 1.0f;
+		for (uint32_t queueFamily : uniqueQueueFamilies) {
+			vk::DeviceQueueCreateInfo queueCreateInfo {
+				{},
+				queueFamily,
+				1,
+				&queuePriority
+			};
+			queueCreateInfos.push_back(queueCreateInfo);
+		}
 
 		vk::PhysicalDeviceFeatures deviceFeatures;
 
 		vk::DeviceCreateInfo createInfo;
-		createInfo.pQueueCreateInfos = &queueCreateInfo;
-		createInfo.queueCreateInfoCount = 1;
+		createInfo.pQueueCreateInfos = queueCreateInfos.data();
+		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pEnabledFeatures = &deviceFeatures;
 		createInfo.enabledExtensionCount = 0;
 
@@ -291,8 +317,13 @@ namespace Plum::VK
 		{
 			if (val.has_value())
 			{
-				m_deviceQueues[key] = m_device.getQueue(m_queueFamilyIndicies[key].value(), 0);
-				Debug::Console::LogInfo("Got %s device queue handle", DeviceQueueToString(key).c_str());
+				vk::Queue q = m_device.getQueue(m_queueFamilyIndicies[key].value(), 0);
+
+				if (q)
+				{
+					m_deviceQueues[key] = q;
+					Debug::Console::LogInfo("Got %s device queue handle", DeviceQueueToString(key).c_str());
+				}
 			}
 		}
 	}
@@ -306,6 +337,7 @@ namespace Plum::VK
 	void Renderer::CleanUpVulkan()
 	{
 		m_device.destroy();
+		m_vulkanInstance.destroySurfaceKHR(m_surface);
 		m_vulkanInstance.destroy();
 
 		Debug::Console::LogSuccess("Vulkan destroyed");
