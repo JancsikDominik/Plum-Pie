@@ -34,100 +34,82 @@ namespace Plum::VK
 
 	Renderer::Renderer(const std::string& appName, std::vector<const char*> externalExtensions)
 	{
-		m_queueFamilyIndicies = {
-			{ DeviceQueue::Graphics,		{} },
-			{ DeviceQueue::Compute,			{} },
-			{ DeviceQueue::Transfer,		{} },
-			{ DeviceQueue::Sparse,			{} },
-			{ DeviceQueue::VideoDecode,		{} },
-			{ DeviceQueue::OpticalFlow,		{} },
-			{ DeviceQueue::Present,	{} }
-		};
-
 		InitVulkan(appName, externalExtensions);
 	}
 
-
 	Renderer::Renderer(const App::Window* windowToRenderTo)
 	{
-		m_queueFamilyIndicies = {
-			{ DeviceQueue::Graphics,		{} },
-			{ DeviceQueue::Compute,			{} },
-			{ DeviceQueue::Transfer,		{} },
-			{ DeviceQueue::Sparse,			{} },
-			{ DeviceQueue::VideoDecode,		{} },
-			{ DeviceQueue::OpticalFlow,		{} },
-			{ DeviceQueue::Present,	{} }
-		};
-
 		InitVulkan(windowToRenderTo->GetWindowTitle(), windowToRenderTo->GetRequiredExtensions(), windowToRenderTo);
 	}
-
 
 	Renderer::~Renderer()
 	{
 		CleanUpVulkan();
 	}
 
-
 	void Renderer::SetViewport(int x, int y, int width, int height)
 	{
 	}
-
 	
 	void Renderer::SetClearColor(Color clearColor)
 	{
 	}
-
 	
 	void Renderer::SetCullFace(bool enable)
 	{
 	}
-
 	
 	void Renderer::SetDepthTest(bool enable)
 	{
 	}
-
 	
 	void Renderer::SetProgram(ShaderProgram& program)
 	{
 	}
-
 	
 	void Renderer::SetUniformData(const std::string& name, const std::any& value)
 	{
 	}
-
 	
 	void Renderer::Clear()
 	{
 	}
-
 	
 	void Renderer::Render()
 	{
 	}
 
-
 	void Renderer::InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const App::Window* window)
 	{
+		m_queueFamilyIndicies = {
+			{ DeviceQueue::Graphics,		{} },
+			{ DeviceQueue::Compute,			{} },
+			{ DeviceQueue::Transfer,		{} },
+			{ DeviceQueue::Sparse,			{} },
+			{ DeviceQueue::VideoDecode,		{} },
+			{ DeviceQueue::OpticalFlow,		{} },
+			{ DeviceQueue::Present,			{} }
+		};
+
 		Debug::Console::LogInfo("Initializing Vulkan...");
 		
 		CreateVulkanInstance(appName, externalExtensions);
 
+		bool renderToSurface = window != nullptr;
 		// allowing to render without a window for off-screen rendering
-		if (window != nullptr)
+		if (renderToSurface) 
+		{
+			m_deviceExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 			m_surface = window->CreateWindowSurface(m_vulkanInstance);
+		}
 
-		PickGPU(window != nullptr);
+		PickGPU(renderToSurface);
 		CreateVulkanDevice();
 		GetDeviceQueueHandles();
-		CreateSwapChain();
+		CreateSwapchain(window);
 
 		Debug::Console::LogSuccess("Initialized Vulkan");
 	}
-
 
 	void Renderer::CreateVulkanInstance(const std::string& appName, std::vector<const char*> externalExtensions)
 	{
@@ -175,7 +157,6 @@ namespace Plum::VK
 		Debug::Console::LogSuccess("Vulkan instance created");
 	}
 
-
 	void Renderer::PickGPU(bool renderToSurface)
 	{
 		uint32_t deviceCount = 0;
@@ -209,7 +190,6 @@ namespace Plum::VK
 
 		Debug::Console::LogSuccess("Picked GPU for rendering: %s", gpuProperties.deviceName);
 	}
-
 
 	Renderer::QueueFamilyIndices Renderer::FindQueueFamilies(const vk::PhysicalDevice& device) const
 	{
@@ -256,8 +236,36 @@ namespace Plum::VK
 		return indices;
 	}
 
-
 	bool Renderer::IsDeviceSuitable(const vk::PhysicalDevice& device, bool renderToSurface) const
+	{
+		bool swapChainAdequate = false;
+		if (CheckDeviceExtensionSupport(device))
+		{
+			SwapChainSupportDetails swapChainSupport = QuerySwapchainSupport(device);
+			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+		}
+
+		return CheckDeviceQueueSupport(device, renderToSurface) && swapChainAdequate;
+	}
+
+	bool Renderer::CheckDeviceExtensionSupport(const vk::PhysicalDevice& device) const
+	{
+		uint32_t extensionCount;
+		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+		std::vector<vk::ExtensionProperties> availableExtensions = device.enumerateDeviceExtensionProperties();
+
+		std::set<std::string> requiredExtensions(m_deviceExtensions.begin(), m_deviceExtensions.end());
+
+		for (const auto& extension : availableExtensions) 
+		{
+			requiredExtensions.erase(extension.extensionName);
+		}
+
+		return requiredExtensions.empty();
+	}
+
+	bool Renderer::CheckDeviceQueueSupport(const vk::PhysicalDevice& device, bool renderToSurface) const
 	{
 		const auto& indices = FindQueueFamilies(device);
 
@@ -266,7 +274,6 @@ namespace Plum::VK
 		else
 			return indices.at(DeviceQueue::Graphics).has_value();
 	}
-
 
 	void Renderer::CreateVulkanDevice()
 	{
@@ -294,7 +301,8 @@ namespace Plum::VK
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pEnabledFeatures = &deviceFeatures;
-		createInfo.enabledExtensionCount = 0;
+		createInfo.enabledExtensionCount = m_deviceExtensions.size();
+		createInfo.ppEnabledExtensionNames = m_deviceExtensions.data();
 
 		// TODO: validation layers
 		//if (enableValidationLayers) {
@@ -309,7 +317,6 @@ namespace Plum::VK
 
 		Debug::Console::LogSuccess("Logical device created");
 	}
-
 
 	void Renderer::GetDeviceQueueHandles()
 	{
@@ -328,14 +335,129 @@ namespace Plum::VK
 		}
 	}
 
+	void Renderer::CreateSwapchain(const App::Window* window)
+	{
+		SwapChainSupportDetails swapChainSupport = QuerySwapchainSupport(m_chosenGPU);
 
-	void Renderer::CreateSwapChain()
+		vk::SurfaceFormatKHR surfaceFormat = ChooseSwapchainSurfaceFormat(swapChainSupport.formats);
+		vk::PresentModeKHR presentMode = ChooseSwapchainPresentMode(swapChainSupport.presentModes);
+		vk::Extent2D extent = ChooseSwapchainExtent(swapChainSupport.capabilities, window);
+
+		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+		
+		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) 
+		{
+			imageCount = swapChainSupport.capabilities.maxImageCount;
+		}
+
+		vk::SwapchainCreateInfoKHR createInfo;
+		createInfo.surface = m_surface;
+		createInfo.minImageCount = imageCount;
+		createInfo.imageFormat = surfaceFormat.format;
+		createInfo.imageColorSpace = surfaceFormat.colorSpace;
+		createInfo.imageExtent = extent;
+		createInfo.imageArrayLayers = 1;
+		createInfo.imageUsage = vk::ImageUsageFlagBits::eColorAttachment;
+
+		if (m_queueFamilyIndicies[DeviceQueue::Graphics] != m_queueFamilyIndicies[DeviceQueue::Present]) 
+		{
+			uint32_t queueFamilyIndices[] = { 
+				m_queueFamilyIndicies[DeviceQueue::Graphics].value(), 
+				m_queueFamilyIndicies[DeviceQueue::Present].value()
+			};
+
+			// TODO: exclusive?
+			createInfo.imageSharingMode = vk::SharingMode::eConcurrent;
+			createInfo.queueFamilyIndexCount = 2;
+			createInfo.pQueueFamilyIndices = queueFamilyIndices;
+		}
+		else 
+		{
+			createInfo.imageSharingMode = vk::SharingMode::eExclusive;
+			createInfo.queueFamilyIndexCount = 0;
+			createInfo.pQueueFamilyIndices = nullptr;
+		}
+
+		createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+		createInfo.compositeAlpha = vk::CompositeAlphaFlagBitsKHR::eOpaque;
+		createInfo.presentMode = presentMode;
+		createInfo.clipped = VK_TRUE;
+		createInfo.oldSwapchain = VK_NULL_HANDLE;
+
+		m_swapchain = m_device.createSwapchainKHR(createInfo);
+		m_swapchainImages = m_device.getSwapchainImagesKHR(m_swapchain);
+		m_swapchainImageFormat = surfaceFormat.format;
+		m_swapchainExtent = extent;
+
+		Debug::Console::LogSuccess("Swapchain created");
+	}
+
+	SwapChainSupportDetails Renderer::QuerySwapchainSupport(const vk::PhysicalDevice& device) const
+	{
+		SwapChainSupportDetails details {
+			device.getSurfaceCapabilitiesKHR(m_surface),
+			device.getSurfaceFormatsKHR(m_surface),
+			device.getSurfacePresentModesKHR(m_surface)
+		};
+
+		return details;
+	}
+
+	vk::SurfaceFormatKHR Renderer::ChooseSwapchainSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats) const
+	{
+		for (const auto& availableFormat : availableFormats) 
+		{
+			if (availableFormat.format == vk::Format::eR8G8B8A8Srgb && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear) 
+			{
+				return availableFormat;
+			}
+		}
+
+		return availableFormats[0];
+	}
+
+	vk::PresentModeKHR Renderer::ChooseSwapchainPresentMode(const std::vector<vk::PresentModeKHR>& availablePresentModes) const
+	{
+		for (const auto& availablePresentMode : availablePresentModes) 
+		{
+			if (availablePresentMode == vk::PresentModeKHR::eMailbox) 
+			{
+				return availablePresentMode;
+			}
+		}
+
+		return vk::PresentModeKHR::eFifo;
+	}
+
+	vk::Extent2D Renderer::ChooseSwapchainExtent(const vk::SurfaceCapabilitiesKHR& capabilities, const App::Window* window) const
+	{
+		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) 
+		{
+			return capabilities.currentExtent;
+		}
+		else 
+		{
+			const auto& size = window->GetSize();
+
+			VkExtent2D extent = {
+				static_cast<uint32_t>(size.width),
+				static_cast<uint32_t>(size.height)
+			};
+
+			extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+			extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+
+			return extent;
+		}
+	}
+
+	void Renderer::CreateImageViews()
 	{
 	}
 
-
 	void Renderer::CleanUpVulkan()
 	{
+		m_device.destroySwapchainKHR(m_swapchain);
 		m_device.destroy();
 		m_vulkanInstance.destroySurfaceKHR(m_surface);
 		m_vulkanInstance.destroy();

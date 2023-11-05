@@ -10,6 +10,11 @@ namespace Plum::App
 	class Window
 	{
 	public:
+		struct Size
+		{
+			int32_t width, height;
+		};
+
 		virtual ~Window() {};
 
 		virtual void SetFullscreen() = 0;
@@ -18,6 +23,7 @@ namespace Plum::App
 
 		virtual void PollEvents() const = 0;
 
+		[[nodiscard]] virtual Size GetSize() const = 0;
 		[[nodiscard]] virtual std::vector<const char*> GetRequiredExtensions() const = 0;
 		[[nodiscard]] virtual bool ShouldClose() const = 0;
 		[[nodiscard]] virtual bool IsVsync() const = 0;

@@ -125,6 +125,13 @@ namespace Plum::GLFW
 			}
 		}
 
+		Window::Size Window::GetSize() const
+		{
+			int width, height;
+			glfwGetFramebufferSize(m_glfwWindowPtr, &width, &height);
+			return { width, height };
+		}
+
 		void Window::SetCallbacks()
 		{
 			SetWindowSizeCallback();

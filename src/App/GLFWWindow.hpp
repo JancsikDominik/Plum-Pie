@@ -38,6 +38,7 @@ namespace Plum::GLFW
 			[[nodiscard]] virtual double GetTime() const override;
 			[[nodiscard]] virtual const std::string& GetWindowTitle() const override;
 			[[nodiscard]] virtual vk::SurfaceKHR CreateWindowSurface(const vk::Instance& instance) const override;
+			[[nodiscard]] virtual Size GetSize() const override;
 
 		private:
 			void SetCallbacks();
