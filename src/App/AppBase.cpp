@@ -43,7 +43,7 @@ namespace Plum
                 //m_renderer->SwapBuffers();
             }
 
-            Debug::Console::LogInfo("rendering stopped");
+            Debug::Console::LogInfo("Rendering stopped");
         });
 
         // we are seperating the rendering to a different thread, so we can keep drawing when for e.g we resize the window

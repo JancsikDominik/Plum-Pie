@@ -81,32 +81,21 @@ namespace Plum::VK
 
 	void Renderer::InitVulkan(const std::string& appName, std::vector<const char*> externalExtensions, const App::Window* window)
 	{
-		m_queueFamilyIndicies = {
-			{ DeviceQueue::Graphics,		{} },
-			{ DeviceQueue::Compute,			{} },
-			{ DeviceQueue::Transfer,		{} },
-			{ DeviceQueue::Sparse,			{} },
-			{ DeviceQueue::VideoDecode,		{} },
-			{ DeviceQueue::OpticalFlow,		{} },
-			{ DeviceQueue::Present,			{} }
-		};
-
 		Debug::Console::LogInfo("Initializing Vulkan...");
 		
 		CreateVulkanInstance(appName, externalExtensions);
 
-		bool renderToSurface = window != nullptr;
 		// allowing to render without a window for off-screen rendering
-		if (renderToSurface) 
+		if (window != nullptr)
 		{
-			m_deviceExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 			m_surface = window->CreateWindowSurface(m_vulkanInstance);
 		}
 
-		PickGPU(renderToSurface);
-		CreateVulkanDevice();
-		GetDeviceQueueHandles();
-		CreateSwapchain(window);
+		// explicit lifetime control, cuz we have to destroy it before the instance gets destroyed
+		m_device = new Device(m_vulkanInstance, m_surface);
+
+		m_device->CreateSwapchain(window, m_surface);
+		m_device->CreateImageViews();
 
 		Debug::Console::LogSuccess("Initialized Vulkan");
 	}
@@ -148,317 +137,22 @@ namespace Plum::VK
 			for (const auto& extName : externalExtensions)
 				Debug::Console::Log("\t    %s", extName);
 		}
-		catch (vk::SystemError err) 
+		catch (const vk::SystemError& e)
 		{
-			Debug::Console::LogError("Failed to create Vulkan instance.");
-			abort();
+			Debug::Console::LogError("Failed to create Vulkan instance: %s", e.what());
 		}
 
 		Debug::Console::LogSuccess("Vulkan instance created");
 	}
 
-	void Renderer::PickGPU(bool renderToSurface)
-	{
-		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(m_vulkanInstance, &deviceCount, nullptr);
-
-		if (deviceCount == 0)
-		{
-			Debug::Console::LogError("Failed to find GPUs with Vulkan support");
-			abort();
-		}
-
-		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(m_vulkanInstance, &deviceCount, devices.data());
-
-		for (const auto& device : devices)
-		{
-			if (IsDeviceSuitable(device, renderToSurface))
-			{
-				m_chosenGPU = device;
-				m_queueFamilyIndicies = FindQueueFamilies(m_chosenGPU);
-			}
-		}
-
-		if (m_chosenGPU == nullptr)
-		{
-			Debug::Console::LogError("Failed to find suitible GPU");
-			abort();
-		}
-
-		vk::PhysicalDeviceProperties gpuProperties = m_chosenGPU.getProperties();
-
-		Debug::Console::LogSuccess("Picked GPU for rendering: %s", gpuProperties.deviceName);
-	}
-
-	Renderer::QueueFamilyIndices Renderer::FindQueueFamilies(const vk::PhysicalDevice& device) const
-	{
-		QueueFamilyIndices indices;
-
-		std::vector<vk::QueueFamilyProperties> queueFamilies;
-		queueFamilies = device.getQueueFamilyProperties();
-
-		for (int i = 0; i < queueFamilies.size(); i++)
-		{
-			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eGraphics)
-			{
-				indices[DeviceQueue::Graphics] = i;
-			}
-			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eCompute)
-			{
-				indices[DeviceQueue::Compute] = i;
-			}
-			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eTransfer)
-			{
-				indices[DeviceQueue::Transfer] = i;
-			}
-			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eSparseBinding)
-			{
-				indices[DeviceQueue::Sparse] = i;
-			}
-			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eVideoDecodeKHR)
-			{
-				indices[DeviceQueue::VideoDecode] = i;
-			}
-			if (queueFamilies[i].queueFlags & vk::QueueFlagBits::eOpticalFlowNV)
-			{
-				indices[DeviceQueue::OpticalFlow] = i;
-			}
-
-			// checking if it can render to surface
-			if (device.getSurfaceSupportKHR(i, m_surface)) 
-			{
-				indices[DeviceQueue::Present] = i;
-			}
-
-		}
-
-		return indices;
-	}
-
-	bool Renderer::IsDeviceSuitable(const vk::PhysicalDevice& device, bool renderToSurface) const
-	{
-		bool swapChainAdequate = false;
-		if (CheckDeviceExtensionSupport(device))
-		{
-			SwapChainSupportDetails swapChainSupport = QuerySwapchainSupport(device);
-			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
-		}
-
-		return CheckDeviceQueueSupport(device, renderToSurface) && swapChainAdequate;
-	}
-
-	bool Renderer::CheckDeviceExtensionSupport(const vk::PhysicalDevice& device) const
-	{
-		uint32_t extensionCount;
-		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
-
-		std::vector<vk::ExtensionProperties> availableExtensions = device.enumerateDeviceExtensionProperties();
-
-		std::set<std::string> requiredExtensions(m_deviceExtensions.begin(), m_deviceExtensions.end());
-
-		for (const auto& extension : availableExtensions) 
-		{
-			requiredExtensions.erase(extension.extensionName);
-		}
-
-		return requiredExtensions.empty();
-	}
-
-	bool Renderer::CheckDeviceQueueSupport(const vk::PhysicalDevice& device, bool renderToSurface) const
-	{
-		const auto& indices = FindQueueFamilies(device);
-
-		if (renderToSurface)
-			return indices.at(DeviceQueue::Graphics).has_value() && indices.at(DeviceQueue::Present).has_value();
-		else
-			return indices.at(DeviceQueue::Graphics).has_value();
-	}
-
-	void Renderer::CreateVulkanDevice()
-	{
-		std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
-		std::set<uint32_t> uniqueQueueFamilies = { 
-			m_queueFamilyIndicies[DeviceQueue::Graphics].value(),
-			m_queueFamilyIndicies[DeviceQueue::Present].value(),
-			m_queueFamilyIndicies[DeviceQueue::Compute].value()
-		};
-
-		float queuePriority = 1.0f;
-		for (uint32_t queueFamily : uniqueQueueFamilies) {
-			vk::DeviceQueueCreateInfo queueCreateInfo {
-				{},
-				queueFamily,
-				1,
-				&queuePriority
-			};
-			queueCreateInfos.push_back(queueCreateInfo);
-		}
-
-		vk::PhysicalDeviceFeatures deviceFeatures;
-
-		vk::DeviceCreateInfo createInfo;
-		createInfo.pQueueCreateInfos = queueCreateInfos.data();
-		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-		createInfo.pEnabledFeatures = &deviceFeatures;
-		createInfo.enabledExtensionCount = m_deviceExtensions.size();
-		createInfo.ppEnabledExtensionNames = m_deviceExtensions.data();
-
-		// TODO: validation layers
-		//if (enableValidationLayers) {
-		//	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		//	createInfo.ppEnabledLayerNames = validationLayers.data();
-		//}
-		//else {
-			createInfo.enabledLayerCount = 0;
-		//}
-
-		m_device = m_chosenGPU.createDevice(createInfo);
-
-		Debug::Console::LogSuccess("Logical device created");
-	}
-
-	void Renderer::GetDeviceQueueHandles()
-	{
-		for (auto const& [key, val] : m_queueFamilyIndicies)
-		{
-			if (val.has_value())
-			{
-				vk::Queue q = m_device.getQueue(m_queueFamilyIndicies[key].value(), 0);
-
-				if (q)
-				{
-					m_deviceQueues[key] = q;
-					Debug::Console::LogInfo("Got %s device queue handle", DeviceQueueToString(key).c_str());
-				}
-			}
-		}
-	}
-
-	void Renderer::CreateSwapchain(const App::Window* window)
-	{
-		SwapChainSupportDetails swapChainSupport = QuerySwapchainSupport(m_chosenGPU);
-
-		vk::SurfaceFormatKHR surfaceFormat = ChooseSwapchainSurfaceFormat(swapChainSupport.formats);
-		vk::PresentModeKHR presentMode = ChooseSwapchainPresentMode(swapChainSupport.presentModes);
-		vk::Extent2D extent = ChooseSwapchainExtent(swapChainSupport.capabilities, window);
-
-		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
-		
-		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) 
-		{
-			imageCount = swapChainSupport.capabilities.maxImageCount;
-		}
-
-		vk::SwapchainCreateInfoKHR createInfo;
-		createInfo.surface = m_surface;
-		createInfo.minImageCount = imageCount;
-		createInfo.imageFormat = surfaceFormat.format;
-		createInfo.imageColorSpace = surfaceFormat.colorSpace;
-		createInfo.imageExtent = extent;
-		createInfo.imageArrayLayers = 1;
-		createInfo.imageUsage = vk::ImageUsageFlagBits::eColorAttachment;
-
-		if (m_queueFamilyIndicies[DeviceQueue::Graphics] != m_queueFamilyIndicies[DeviceQueue::Present]) 
-		{
-			uint32_t queueFamilyIndices[] = { 
-				m_queueFamilyIndicies[DeviceQueue::Graphics].value(), 
-				m_queueFamilyIndicies[DeviceQueue::Present].value()
-			};
-
-			// TODO: exclusive?
-			createInfo.imageSharingMode = vk::SharingMode::eConcurrent;
-			createInfo.queueFamilyIndexCount = 2;
-			createInfo.pQueueFamilyIndices = queueFamilyIndices;
-		}
-		else 
-		{
-			createInfo.imageSharingMode = vk::SharingMode::eExclusive;
-			createInfo.queueFamilyIndexCount = 0;
-			createInfo.pQueueFamilyIndices = nullptr;
-		}
-
-		createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
-		createInfo.compositeAlpha = vk::CompositeAlphaFlagBitsKHR::eOpaque;
-		createInfo.presentMode = presentMode;
-		createInfo.clipped = VK_TRUE;
-		createInfo.oldSwapchain = VK_NULL_HANDLE;
-
-		m_swapchain = m_device.createSwapchainKHR(createInfo);
-		m_swapchainImages = m_device.getSwapchainImagesKHR(m_swapchain);
-		m_swapchainImageFormat = surfaceFormat.format;
-		m_swapchainExtent = extent;
-
-		Debug::Console::LogSuccess("Swapchain created");
-	}
-
-	SwapChainSupportDetails Renderer::QuerySwapchainSupport(const vk::PhysicalDevice& device) const
-	{
-		SwapChainSupportDetails details {
-			device.getSurfaceCapabilitiesKHR(m_surface),
-			device.getSurfaceFormatsKHR(m_surface),
-			device.getSurfacePresentModesKHR(m_surface)
-		};
-
-		return details;
-	}
-
-	vk::SurfaceFormatKHR Renderer::ChooseSwapchainSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats) const
-	{
-		for (const auto& availableFormat : availableFormats) 
-		{
-			if (availableFormat.format == vk::Format::eR8G8B8A8Srgb && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear) 
-			{
-				return availableFormat;
-			}
-		}
-
-		return availableFormats[0];
-	}
-
-	vk::PresentModeKHR Renderer::ChooseSwapchainPresentMode(const std::vector<vk::PresentModeKHR>& availablePresentModes) const
-	{
-		for (const auto& availablePresentMode : availablePresentModes) 
-		{
-			if (availablePresentMode == vk::PresentModeKHR::eMailbox) 
-			{
-				return availablePresentMode;
-			}
-		}
-
-		return vk::PresentModeKHR::eFifo;
-	}
-
-	vk::Extent2D Renderer::ChooseSwapchainExtent(const vk::SurfaceCapabilitiesKHR& capabilities, const App::Window* window) const
-	{
-		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) 
-		{
-			return capabilities.currentExtent;
-		}
-		else 
-		{
-			const auto& size = window->GetSize();
-
-			VkExtent2D extent = {
-				static_cast<uint32_t>(size.width),
-				static_cast<uint32_t>(size.height)
-			};
-
-			extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-			extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
-
-			return extent;
-		}
-	}
-
-	void Renderer::CreateImageViews()
+	void Renderer::CreatePipeline()
 	{
 	}
 
 	void Renderer::CleanUpVulkan()
 	{
-		m_device.destroySwapchainKHR(m_swapchain);
-		m_device.destroy();
+		delete m_device;
+
 		m_vulkanInstance.destroySurfaceKHR(m_surface);
 		m_vulkanInstance.destroy();
 
