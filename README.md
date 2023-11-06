@@ -1,4 +1,4 @@
-I'm currently rewriting everything, as I want to use Vulkan instead of opengl. Also I'll make the project use cmake.
+CURRENTLY REPLACING OPENGL WITH VULKAN, SO ALL OPENGL STUFF WILL BE DEPRICATED (see: branch Vulkan)
 
 # PlumPie
 
