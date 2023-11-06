@@ -1,0 +1,1 @@
+target_sources(PlumPie PRIVATE Camera.cpp Camera.hpp Mesh.cpp Mesh.hpp Vertex.hpp)
