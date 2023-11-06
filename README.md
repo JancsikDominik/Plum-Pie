@@ -1,4 +1,4 @@
-CURRENTLY REPLACING OPENGL WITH VULKAN, SO ALL OPENGL STUFF WILL BE DEPRICATED (see: branch Vulkan)
+CURRENTLY REPLACING OPENGL WITH VULKAN (see: branch Vulkan)
 
 # PlumPie
 
@@ -14,4 +14,6 @@ Vulkan, glfw, glm, stb_images, ImGui
 
 ## Usage
 
-TODO...
+Feel free to fiddle around, its not really useful for anything as of right now. I use cmake as a build system, only tested stuff on windows with visual studio 2022. To generate the project files just run the GenerateProjectFile.bat file. The only thing you have to have installed is Vulkan, every other dependency is built with the framework.
+
+To install Vulkan go to this [website](https://vulkan.lunarg.com/).
