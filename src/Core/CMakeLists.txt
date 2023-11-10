@@ -7,4 +7,5 @@ target_sources(PlumPie PRIVATE
 	ShaderProgram.hpp
 	Texture.hpp
 	Formats.hpp
+	Memory.hpp
 )

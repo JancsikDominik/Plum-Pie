@@ -92,10 +92,10 @@ namespace Plum::VK
 		}
 
 		// explicit lifetime control, cuz we have to destroy it before the instance gets destroyed
-		m_device = new Device(m_vulkanInstance, m_surface);
+		m_device = Ptr::MakeOwned<Device>(m_vulkanInstance, m_surface);
 
-		m_device->CreateSwapchain(window, m_surface);
-		m_device->CreateImageViews();
+		m_swapchain = m_device->CreateSwapchain(window, m_surface);
+		m_device->CreateImageViews(m_swapchain);
 
 		Debug::Console::LogSuccess("Initialized Vulkan");
 	}
@@ -151,7 +151,8 @@ namespace Plum::VK
 
 	void Renderer::CleanUpVulkan()
 	{
-		delete m_device;
+		m_device->DestroySwapchain(m_swapchain);
+		m_device.reset();
 
 		m_vulkanInstance.destroySurfaceKHR(m_surface);
 		m_vulkanInstance.destroy();
