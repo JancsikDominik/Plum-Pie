@@ -7,20 +7,21 @@
 #include <vulkan/vulkan.hpp>
 
 #include "App/Window.hpp"
+#include "Core/Memory.hpp"
+#include "VKSwapchain.hpp"
 
 namespace Plum::VK
 {
-
-	struct SwapChainSupportDetails
-	{
-		vk::SurfaceCapabilitiesKHR capabilities;
-		std::vector<vk::SurfaceFormatKHR> formats;
-		std::vector<vk::PresentModeKHR> presentModes;
-	};
-
 	class Device
 	{
 	public:
+		struct SwapChainSupportDetails
+		{
+			vk::SurfaceCapabilitiesKHR capabilities;
+			std::vector<vk::SurfaceFormatKHR> formats;
+			std::vector<vk::PresentModeKHR> presentModes;
+		};
+
 		enum class QueueType
 		{
 			Graphics,
@@ -32,13 +33,22 @@ namespace Plum::VK
 			Present
 		};
 
+		using QueueMap = std::unordered_map<QueueType, vk::Queue>;
 		using QueueFamilyIndices = std::unordered_map<QueueType, std::optional<uint32_t>>;
 
 		Device(const vk::Instance& instance, const vk::SurfaceKHR& surface = nullptr);
 		~Device();
 
-		void CreateSwapchain(const App::Window* window, const vk::SurfaceKHR& surface = nullptr);
-		void CreateImageViews();
+		void DestroySwapchain(Owned<Swapchain>& swapchain);
+		void CreateImageViews(const Owned<Swapchain>& swapchain);
+
+		[[nodiscard]] Owned<Swapchain> CreateSwapchain(const App::Window* window, const vk::SurfaceKHR& surface = nullptr);
+
+		[[nodiscard]] SwapChainSupportDetails QuerySwapchainSupport(const vk::PhysicalDevice& phDevice, const vk::SurfaceKHR& surface) const;
+		[[nodiscard]] const QueueFamilyIndices& GetQueueFamilyIndices() const;
+		[[nodiscard]] const vk::PhysicalDevice& GetPhysicalDevice() const;
+		[[nodiscard]] const vk::Device& GetLogicalDevice() const;
+		[[nodiscard]] const QueueMap& GetDeviceQueues() const;
 
 	private:
 		void CreateLogicalDevice();
@@ -51,23 +61,11 @@ namespace Plum::VK
 		bool IsDeviceSuitable(const vk::PhysicalDevice& device, const vk::SurfaceKHR& surface) const;
 		void GetDeviceQueueHandles();
 
-		SwapChainSupportDetails QuerySwapchainSupport(const vk::PhysicalDevice& device, const vk::SurfaceKHR& surface) const;
-		vk::SurfaceFormatKHR ChooseSwapchainSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats) const;
-		vk::PresentModeKHR ChooseSwapchainPresentMode(const std::vector<vk::PresentModeKHR>& availablePresentModes) const;
-		vk::Extent2D ChooseSwapchainExtent(const vk::SurfaceCapabilitiesKHR& capabilities, const App::Window* window) const;
-
 		vk::PhysicalDevice m_chosenGPU = nullptr;
 		vk::Device m_device = nullptr;
 		QueueFamilyIndices m_queueFamilyIndicies;
-		std::unordered_map<QueueType, vk::Queue> m_deviceQueues;
+		QueueMap m_deviceQueues;
 		std::vector<const char*> m_deviceExtensions;
-
-		// TODO: swapchain class
-		vk::SwapchainKHR m_swapchain = nullptr;
-		std::vector<vk::Image> m_swapchainImages;
-		vk::Format m_swapchainImageFormat;
-		vk::Extent2D m_swapchainExtent;
-
 		std::vector<vk::ImageView> m_swapchainImageViews;
 	};
 

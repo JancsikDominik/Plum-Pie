@@ -3,4 +3,6 @@ target_sources(PlumPie PRIVATE
 	VKDevice.hpp
 	VKRenderer.cpp 
 	VKRenderer.hpp
+	VKSwapchain.cpp
+	VKSwapchain.hpp
 )

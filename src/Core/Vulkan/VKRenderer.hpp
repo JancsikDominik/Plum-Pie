@@ -48,8 +48,10 @@ namespace Plum::VK
 		void CleanUpVulkan();
 
 		vk::Instance m_vulkanInstance = nullptr;
-		Device* m_device;
 		vk::SurfaceKHR m_surface = nullptr;
+
+		Owned<Device> m_device;
+		Owned<Swapchain> m_swapchain = nullptr;
 
 	private:
 		void CreateVulkanInstance(const std::string& appName, std::vector<const char*> externalExtensions);

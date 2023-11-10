@@ -5,6 +5,7 @@
 #include <functional>
 
 #include "Graphics/Vertex.hpp"
+#include "Core/Memory.hpp"
 
 namespace Plum
 {
@@ -30,7 +31,7 @@ namespace Plum
         // TODO: save image
 
 	private:
-		std::unique_ptr<unsigned char, std::function<void(unsigned char*)>> m_data = nullptr;
+		Owned<unsigned char, std::function<void(unsigned char*)>> m_data = nullptr;
 		int m_width = 0;
 		int m_height = 0;
 		int m_channels = 0;
